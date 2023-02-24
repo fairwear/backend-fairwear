@@ -9,3 +9,34 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+model User{
+  id          Int      @unique @default(autoincrement()) @db.Integer
+  username    String   @unique
+  password    String 
+  email       String   @unique
+  role        UserRole @default(User)
+  name        String
+  surname     String
+  filesReport Report[]
+  @@map("user")  
+}
+enum UserRole{
+  User
+  Admin 
+  @@map("userrole")
+}
+model Report{
+  id           Int @unique @default(autoincrement()) @db.Integer
+  createdAt    DateTime @default(now())
+  author       User @relation(fields: [authorId], references: [id])
+  authorId     Int @unique
+  reportReason String
+  comment      String
+  status       Status @default(Submited)
+}
+enum Status{
+  Submited
+  Seen
+  Resolved
+  @@map("status")
+}
