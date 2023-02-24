@@ -9,3 +9,54 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Topic {
+  id        Int           @id @default(autoincrement()) @db.Integer
+  name      String        @unique
+  subtopics Subtopic[]
+  items     ItemToTopic[]
+  TopicToBrand TopicToBrand[]
+}
+
+model Subtopic {
+  id      Int    @id @default(autoincrement()) @db.Integer
+  name    String @unique
+  topic   Topic  @relation(fields: [topicId], references: [id])
+  topicId Int    @map("topic_id")
+}
+
+model Item {
+  id    Int    @id @default(autoincrement()) @db.Integer
+  name  String @unique
+  score String
+  brandId Int @map("brand_id")
+  brand Brand @relation(fields: [brandId], references: [id])
+  topics ItemToTopic[]
+}
+
+model ItemToTopic {
+  item    Item  @relation(fields: [itemId], references: [id])
+  itemId  Int   @map("item_id")
+  topic   Topic @relation(fields: [topicId], references: [id])
+  topicId Int   @map("topic_id")
+
+  @@unique([itemId, topicId])
+  @@map("item_to_topic")
+}
+
+model Brand {
+  id     Int            @id @default(autoincrement()) @db.Integer
+  name   String         @unique
+  topics TopicToBrand[]
+  items Item[]
+}
+
+model TopicToBrand {
+  topic   Topic @relation(fields: [topicId], references: [id])
+  topicId Int   @map("topic_id")
+  brand   Brand @relation(fields: [brandId], references: [id])
+  brandId Int   @map("brand_id")
+
+  @@unique([topicId, brandId])
+  @@map("topic_to_brand")
+}
