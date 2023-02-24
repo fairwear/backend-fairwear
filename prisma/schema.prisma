@@ -33,6 +33,7 @@ model Report{
   reportReason String
   comment      String
   status       Status @default(Submited)
+  @@map("report")
 }
 enum Status{
   Submited
