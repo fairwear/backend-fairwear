@@ -27,10 +27,10 @@ enum UserRole{
 }
 model Report{
   id           Int @unique @default(autoincrement()) @db.Integer
-  createdAt    DateTime @default(now())
+  createdAt    DateTime @default(now()) @map("created_at")
   author       User @relation(fields: [authorId], references: [id])
-  authorId     Int @unique
-  reportReason String
+  authorId     Int @unique @map("author_id")
+  reportReason String @map("report_reason")
   comment      String
   status       Status @default(Submited)
   @@map("report")
