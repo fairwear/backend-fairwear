@@ -49,6 +49,7 @@ model Brand {
   name   String         @unique
   topics TopicToBrand[]
   items Item[]
+  //reports Report[]
 }
 
 model TopicToBrand {
@@ -60,3 +61,17 @@ model TopicToBrand {
   @@unique([topicId, brandId])
   @@map("topic_to_brand")
 }
+
+// model UserToItem {
+//   user User @relation(fields: [userId], references: [id])
+//   userId @map("user_id")
+//   item    Item  @relation(fields: [itemId], references: [id])
+//   itemId  Int   @map("item_id")
+// }
+
+// model UserToTopic {
+//   user User @relation(fields: [userId], references: [id])
+//   userId @map("user_id")
+//   topic   Topic @relation(fields: [topicId], references: [id])
+//   topicId Int   @map("topic_id")
+// }
