@@ -69,7 +69,7 @@ model UserToItem {
   userId   Int    @map("user_id")
   item     Item   @relation(fields: [itemId], references: [id])
   itemId   Int    @map("item_id")
-  listName String @unique
+  listName String @unique @map("list_name")
 
   @@unique([userId, itemId])
   @@map("user_to_item")
