@@ -11,8 +11,8 @@ datasource db {
 }
 
 generator prismaClassGenerator {
-    provider = "prisma-class-generator"
-    output = "./generated/prisma-class-generator"
+  provider = "prisma-class-generator"
+  output   = "./generated/prisma-class-generator"
 }
 
 generator docs {
@@ -53,8 +53,8 @@ model EmailTemplate {
 
 model Email {
   id        Int       @id @default(autoincrement()) @db.Integer
-  // user        User      @relation(fields: [userId], references: [id])
-  // userId      Int
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
   subject   String
   body      String
   status    String
@@ -63,7 +63,6 @@ model Email {
 
   @@map("email")
 }
-
 
 model Topic {
   id           Int            @id @default(autoincrement()) @db.Integer
@@ -151,10 +150,10 @@ model User {
   filesReport Report[]
   UserToTopic UserToTopic[]
   UserToItem  UserToItem[]
+  Email       Email[]
 
   @@map("user")
 }
-
 
 enum UserRole {
   User
@@ -162,7 +161,6 @@ enum UserRole {
 
   @@map("userrole")
 }
-
 
 model Report {
   id           Int      @unique @default(autoincrement()) @db.Integer
@@ -174,6 +172,7 @@ model Report {
   status       Status   @default(Submited)
   item         Item     @relation(fields: [itemId], references: [id])
   itemId       Int      @unique @map("item_id")
+
   @@map("report")
 }
 
