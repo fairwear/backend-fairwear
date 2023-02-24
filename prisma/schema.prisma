@@ -9,6 +9,7 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+<<<<<<< HEAD
 
 model Topic {
   id        Int           @id @default(autoincrement()) @db.Integer
@@ -76,3 +77,37 @@ model TopicToBrand {
 //   topic   Topic @relation(fields: [topicId], references: [id])
 //   topicId Int   @map("topic_id")
 // }
+=======
+model User{
+  id          Int      @unique @default(autoincrement()) @db.Integer
+  username    String   @unique
+  password    String 
+  email       String   @unique
+  role        UserRole @default(User)
+  name        String
+  surname     String
+  filesReport Report[]
+  @@map("user")  
+}
+enum UserRole{
+  User
+  Admin 
+  @@map("userrole")
+}
+model Report{
+  id           Int @unique @default(autoincrement()) @db.Integer
+  createdAt    DateTime @default(now()) @map("created_at")
+  author       User @relation(fields: [authorId], references: [id])
+  authorId     Int @unique @map("author_id")
+  reportReason String @map("report_reason")
+  comment      String
+  status       Status @default(Submited)
+  @@map("report")
+}
+enum Status{
+  Submited
+  Seen
+  Resolved
+  @@map("status")
+}
+>>>>>>> 066a81f3025c13c16d3533dcb33997f0b3710a01
