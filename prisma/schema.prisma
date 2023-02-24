@@ -67,6 +67,7 @@ model TopicToBrand {
 //   userId @map("user_id")
 //   item    Item  @relation(fields: [itemId], references: [id])
 //   itemId  Int   @map("item_id")
+// listName String @unique
 // }
 
 // model UserToTopic {
