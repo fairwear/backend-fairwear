@@ -25,19 +25,19 @@ generator docs {
 //   theme    = "forest"
 // }
 
-// generator nestjsDto {
-//   provider                        = "prisma-generator-nestjs-dto"
-//   output                          = "../src/generated/nestjs-dto"
-//   outputToNestJsResourceStructure = "false"
-//   exportRelationModifierClasses   = "true"
-//   reExport                        = "false"
-//   createDtoPrefix                 = "Create"
-//   updateDtoPrefix                 = "Update"
-//   dtoSuffix                       = "Dto"
-//   entityPrefix                    = ""
-//   entitySuffix                    = ""
-//   fileNamingStyle                 = "camel"
-// }
+generator nestjsDto {
+  provider                        = "prisma-generator-nestjs-dto"
+  output                          = "./generated/nestjs-dto"
+  outputToNestJsResourceStructure = "false"
+  exportRelationModifierClasses   = "true"
+  reExport                        = "false"
+  createDtoPrefix                 = "create"
+  updateDtoPrefix                 = "update"
+  dtoSuffix                       = "dto"
+  entityPrefix                    = ""
+  entitySuffix                    = ""
+  fileNamingStyle                 = "kebab"
+}
 
 model EmailTemplate {
   id        Int       @id @default(autoincrement()) @db.Integer
