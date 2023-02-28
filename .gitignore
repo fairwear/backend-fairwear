@@ -39,3 +39,4 @@ prisma/generated
 
 # Env files
 .env
+prisma/generated
