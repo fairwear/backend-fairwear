@@ -7,13 +7,13 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { EmailtemplateService } from './emailtemplate.service';
+import { EmailTemplateService } from './emailtemplate.service';
 import { CreateEmailtemplateDto } from './dto/request/create-emailtemplate.dto';
 import { UpdateEmailtemplateDto } from './dto/request/update-emailtemplate.dto';
 
 @Controller('emailtemplate')
 export class EmailtemplateController {
-  constructor(private readonly emailtemplateService: EmailtemplateService) {}
+  constructor(private readonly emailtemplateService: EmailTemplateService) {}
 
   @Post()
   create(@Body() createEmailtemplateDto: CreateEmailtemplateDto) {

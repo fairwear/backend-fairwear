@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EmailtemplateController } from './emailtemplate.controller';
-import { EmailtemplateService } from './emailtemplate.service';
+import { EmailTemplateService } from './emailtemplate.service';
 
 describe('EmailtemplateController', () => {
   let controller: EmailtemplateController;
@@ -8,7 +8,7 @@ describe('EmailtemplateController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [EmailtemplateController],
-      providers: [EmailtemplateService],
+      providers: [EmailTemplateService],
     }).compile();
 
     controller = module.get<EmailtemplateController>(EmailtemplateController);

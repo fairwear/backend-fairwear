@@ -3,7 +3,7 @@ import { CreateEmailtemplateDto } from './dto/request/create-emailtemplate.dto';
 import { UpdateEmailtemplateDto } from './dto/request/update-emailtemplate.dto';
 
 @Injectable()
-export class EmailtemplateService {
+export class EmailTemplateService {
   create(createEmailtemplateDto: CreateEmailtemplateDto) {
     return 'This action adds a new emailtemplate';
   }
@@ -12,7 +12,13 @@ export class EmailtemplateService {
     return `This action returns all emailtemplate`;
   }
 
-  findOne(id: number) {
+  async findById(id: number) {
+    // Get one EmailTemplate
+    // const emailTemplate = await prisma.emailTemplate.findUnique({
+    //   where: {
+    //     // ... provide filter here
+    //   },
+    // });
     return `This action returns a #${id} emailtemplate`;
   }
 
