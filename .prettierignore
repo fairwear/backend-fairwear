@@ -12,3 +12,4 @@ dist
 
 # Ignore all files with these names:
 README.md
+prisma/docs
