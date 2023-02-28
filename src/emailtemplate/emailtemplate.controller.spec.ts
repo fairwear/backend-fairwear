@@ -1,17 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { EmailtemplateController } from './emailtemplate.controller';
+import { EmailTemplateController } from './emailtemplate.controller';
 import { EmailTemplateService } from './emailtemplate.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 describe('EmailtemplateController', () => {
-  let controller: EmailtemplateController;
+  let controller: EmailTemplateController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [EmailtemplateController],
-      providers: [EmailTemplateService],
+      controllers: [EmailTemplateController],
+      providers: [EmailTemplateService, PrismaService],
     }).compile();
 
-    controller = module.get<EmailtemplateController>(EmailtemplateController);
+    controller = module.get<EmailTemplateController>(EmailTemplateController);
   });
 
   it('should be defined', () => {

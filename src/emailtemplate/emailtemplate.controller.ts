@@ -1,45 +1,50 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Post,
+  Put,
 } from '@nestjs/common';
+import { CreateEmailTemplate } from './dto/request/create-emailtemplate.dto';
+import { UpdateEmailTemplate } from './dto/request/update-emailtemplate.dto';
 import { EmailTemplateService } from './emailtemplate.service';
-import { CreateEmailtemplateDto } from './dto/request/create-emailtemplate.dto';
-import { UpdateEmailtemplateDto } from './dto/request/update-emailtemplate.dto';
+import { EmailTemplateMapper } from './mapper/emailtemplate.mapper';
 
 @Controller('emailtemplate')
-export class EmailtemplateController {
+export class EmailTemplateController {
   constructor(private readonly emailtemplateService: EmailTemplateService) {}
 
   @Post()
-  create(@Body() createEmailtemplateDto: CreateEmailtemplateDto) {
-    return this.emailtemplateService.create(createEmailtemplateDto);
+  async create(@Body() request: CreateEmailTemplate) {
+    const entity = EmailTemplateMapper.toEntity(request);
+    const createdEntity = await this.emailtemplateService.create(entity);
+    return EmailTemplateMapper.toResponse(createdEntity);
   }
 
   @Get()
-  findAll() {
-    return this.emailtemplateService.findAll();
+  async findAll() {
+    const entities = await this.emailtemplateService.findAll();
+    return EmailTemplateMapper.toResponseList(entities);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.emailtemplateService.findOne(+id);
+  async findById(@Param('id') id: string) {
+    const entity = await this.emailtemplateService.findById(+id);
+    return EmailTemplateMapper.toResponse(entity);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateEmailtemplateDto: UpdateEmailtemplateDto,
-  ) {
-    return this.emailtemplateService.update(+id, updateEmailtemplateDto);
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() request: UpdateEmailTemplate) {
+    const entity = EmailTemplateMapper.toEntity(request);
+    const updatedEntity = await this.emailtemplateService.update(+id, entity);
+    return EmailTemplateMapper.toResponse(updatedEntity);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.emailtemplateService.remove(+id);
+  async delete(@Param('id') id: string) {
+    const deletedEntity = await this.emailtemplateService.delete(+id);
+    return EmailTemplateMapper.toResponse(deletedEntity);
   }
 }

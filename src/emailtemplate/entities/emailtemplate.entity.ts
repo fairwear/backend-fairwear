@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class EmailTemplate {
+export class EmailTemplateEntity {
   @ApiProperty({ type: Number })
   id: number;
 

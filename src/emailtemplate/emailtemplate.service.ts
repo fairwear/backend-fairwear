@@ -1,32 +1,59 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEmailtemplateDto } from './dto/request/create-emailtemplate.dto';
-import { UpdateEmailtemplateDto } from './dto/request/update-emailtemplate.dto';
+import { PrismaService } from '../prisma/prisma.service';
+import { EmailTemplateEntity } from './entities/emailtemplate.entity';
 
 @Injectable()
 export class EmailTemplateService {
-  create(createEmailtemplateDto: CreateEmailtemplateDto) {
-    return 'This action adds a new emailtemplate';
+  constructor(private prisma: PrismaService) {}
+  create(entity: EmailTemplateEntity) {
+    const emailTemplate = this.prisma.emailTemplate.create({
+      data: {
+        name: entity.name,
+        subject: entity.subject,
+        body: entity.body,
+        createdAt: entity.createdAt,
+      },
+    });
+    return emailTemplate;
   }
 
   findAll() {
-    return `This action returns all emailtemplate`;
+    const emailTemplates = this.prisma.emailTemplate.findMany();
+    return emailTemplates;
   }
 
   async findById(id: number) {
-    // Get one EmailTemplate
-    // const emailTemplate = await prisma.emailTemplate.findUnique({
-    //   where: {
-    //     // ... provide filter here
-    //   },
-    // });
-    return `This action returns a #${id} emailtemplate`;
+    const emailTemplate = await this.prisma.emailTemplate.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    return emailTemplate;
   }
 
-  update(id: number, updateEmailtemplateDto: UpdateEmailtemplateDto) {
-    return `This action updates a #${id} emailtemplate`;
+  update(id: number, entity: EmailTemplateEntity) {
+    const emailTemplate = this.prisma.emailTemplate.update({
+      where: {
+        id: id,
+      },
+      data: {
+        name: entity.name,
+        subject: entity.subject,
+        body: entity.body,
+        createdAt: entity.createdAt,
+        updatedAt: entity.updatedAt,
+        deletedAt: entity.deletedAt,
+      },
+    });
+    return emailTemplate;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} emailtemplate`;
+  async delete(id: number) {
+    const deletedEntity = await this.prisma.emailTemplate.delete({
+      where: {
+        id: id,
+      },
+    });
+    return deletedEntity;
   }
 }
