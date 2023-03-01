@@ -1,13 +1,15 @@
-import { CreateEmailTemplate } from '../dto/request/create-emailtemplate.dto';
-import { UpdateEmailTemplate } from '../dto/request/update-emailtemplate.dto';
+import { CreateEmailTemplateRequest } from '../dto/request/create-emailtemplate.dto';
+import { UpdateEmailTemplateRequest } from '../dto/request/update-emailtemplate.dto';
 import { EmailTemplateResponse } from '../dto/response/emailtemplate.response.dto';
 import { EmailTemplateEntity } from '../entities/emailtemplate.entity';
 
 export class EmailTemplateMapper {
-  public static toEntity(request: CreateEmailTemplate | UpdateEmailTemplate) {
+  public static toEntity(
+    request: CreateEmailTemplateRequest | UpdateEmailTemplateRequest,
+  ) {
     const entity = new EmailTemplateEntity();
 
-    if (request instanceof UpdateEmailTemplate) {
+    if (request instanceof UpdateEmailTemplateRequest) {
       entity.id = request.id;
       entity.updatedAt = request.updatedAt;
       entity.deletedAt = request.deletedAt;

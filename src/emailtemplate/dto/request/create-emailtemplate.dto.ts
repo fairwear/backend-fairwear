@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateEmailTemplate {
+export class CreateEmailTemplateRequest {
   @ApiProperty({ type: String })
   name: string;
 

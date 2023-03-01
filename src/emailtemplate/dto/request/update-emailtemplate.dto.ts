@@ -1,8 +1,10 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { CreateEmailTemplate } from './create-emailtemplate.dto';
+import { CreateEmailTemplateRequest } from './create-emailtemplate.dto';
 
-export class UpdateEmailTemplate extends PartialType(CreateEmailTemplate) {
+export class UpdateEmailTemplateRequest extends PartialType(
+  CreateEmailTemplateRequest,
+) {
   @ApiProperty({ type: Number })
   id: number;
   @ApiProperty({ type: String })

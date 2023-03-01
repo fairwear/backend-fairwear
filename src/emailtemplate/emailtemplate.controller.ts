@@ -7,8 +7,8 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { CreateEmailTemplate } from './dto/request/create-emailtemplate.dto';
-import { UpdateEmailTemplate } from './dto/request/update-emailtemplate.dto';
+import { CreateEmailTemplateRequest } from './dto/request/create-emailtemplate.dto';
+import { UpdateEmailTemplateRequest } from './dto/request/update-emailtemplate.dto';
 import { EmailTemplateService } from './emailtemplate.service';
 import { EmailTemplateMapper } from './mapper/emailtemplate.mapper';
 
@@ -17,7 +17,7 @@ export class EmailTemplateController {
   constructor(private readonly emailtemplateService: EmailTemplateService) {}
 
   @Post()
-  async create(@Body() request: CreateEmailTemplate) {
+  async create(@Body() request: CreateEmailTemplateRequest) {
     const entity = EmailTemplateMapper.toEntity(request);
     const createdEntity = await this.emailtemplateService.create(entity);
     return EmailTemplateMapper.toResponse(createdEntity);
@@ -36,7 +36,10 @@ export class EmailTemplateController {
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() request: UpdateEmailTemplate) {
+  async update(
+    @Param('id') id: string,
+    @Body() request: UpdateEmailTemplateRequest,
+  ) {
     const entity = EmailTemplateMapper.toEntity(request);
     const updatedEntity = await this.emailtemplateService.update(+id, entity);
     return EmailTemplateMapper.toResponse(updatedEntity);
