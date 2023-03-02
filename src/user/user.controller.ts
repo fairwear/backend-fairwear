@@ -23,7 +23,8 @@ export class UserController {
   }
 
   @Get()
-  findAll() {
+  async findAll() {
+    const entities = await this.userService.findAll();
     return this.userService.findAll();
   }
 
