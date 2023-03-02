@@ -17,8 +17,8 @@ export class EmailTemplateEntity {
   createdAt: Date;
 
   @ApiPropertyOptional({ type: Date })
-  updatedAt?: Date;
+  updatedAt: Date | null;
 
   @ApiPropertyOptional({ type: Date })
-  deletedAt?: Date;
+  deletedAt: Date | null;
 }

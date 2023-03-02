@@ -23,7 +23,7 @@ export class EmailTemplateService {
   }
 
   async findById(id: number) {
-    const emailTemplate = await this.prisma.emailTemplate.findUnique({
+    const emailTemplate = await this.prisma.emailTemplate.findUniqueOrThrow({
       where: {
         id: id,
       },
