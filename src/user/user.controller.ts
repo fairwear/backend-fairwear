@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserRequest } from './dto/request/create-user.dto';
@@ -13,6 +14,7 @@ import { UpdateUserRequest } from './dto/request/update-user.dto';
 import { UserMapper } from '../user/mapper/user.mapper';
 @Controller('user')
 export class UserController {
+  UserService: any;
   constructor(private readonly userService: UserService) {}
 
   @Post()
@@ -25,21 +27,26 @@ export class UserController {
   @Get()
   async findAll() {
     const entities = await this.userService.findAll();
-    return this.userService.findAll();
+    return UserMapper.toResponseList(entities);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  async findById(@Param('id') id: string) {
+    const entity = await this.userService.findById(+id);
+    if (!entity) return null;
+    return UserMapper.toResponse(entity);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserRequest) {
-    return this.userService.update(+id, updateUserDto);
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() request: UpdateUserRequest) {
+    const entity = UserMapper.toEntity(request);
+    const updateEntity = await this.userService.update(+id, entity);
+    return UserMapper.toResponse(updateEntity);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  async delete(@Param('id') id: string) {
+    const deletedEntity = await this.userService.delete(+id);
+    return UserMapper.toResponse(deletedEntity);
   }
 }
