@@ -40,3 +40,4 @@ prisma/docs
 
 # Env files
 .env
+prisma/generated
