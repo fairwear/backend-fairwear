@@ -21,22 +21,22 @@ generator docs {
 
 // generator erd {
 //   provider = "prisma-erd-generator"
-//   output   = "./data/diagram/graffinity_erd.pdf"
+//   output   = "./generated/erd/graffinity_erd.pdf"
 //   theme    = "forest"
 // }
 
 generator nestjsDto {
   provider                        = "prisma-generator-nestjs-dto"
-  output                          = "./generated/nestjs-dto"
+  output                          = ".generated/dto/nestjs-dto"
   outputToNestJsResourceStructure = "false"
   exportRelationModifierClasses   = "true"
   reExport                        = "false"
-  createDtoPrefix                 = "create"
-  updateDtoPrefix                 = "update"
-  dtoSuffix                       = "dto"
+  createDtoPrefix                 = "Create"
+  updateDtoPrefix                 = "Update"
+  dtoSuffix                       = "Dto"
   entityPrefix                    = ""
   entitySuffix                    = ""
-  fileNamingStyle                 = "kebab"
+  fileNamingStyle                 = "camel"
 }
 
 model EmailTemplate {
