@@ -37,7 +37,9 @@ lerna-debug.log*
 # Prisma generated files
 prisma/generated/*
 prisma/generated
+prisma/docs/*
 prisma/docs
+
 
 # Env files
 .env
