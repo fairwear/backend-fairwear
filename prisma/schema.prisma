@@ -75,13 +75,6 @@ model Topic {
   subtopic  Topic[]  @relation("TopicSubtopic")
 }
 
-// model Subtopic {
-//   id      Int    @id @default(autoincrement()) @db.Integer
-//   name    String @unique
-//   topic   Topic  @relation(fields: [topicId], references: [id])
-//   topicId Int    @map("topic_id")
-// }
-
 model Item {
   id         Int           @id @default(autoincrement()) @db.Integer
   name       String        @unique
