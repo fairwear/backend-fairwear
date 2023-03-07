@@ -1,12 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import nodemailer from 'nodemailer';
-import { EmailInterface } from './entity/email-interface';
+import {
+  Transporter,
+  createTestAccount,
+  createTransport,
+  getTestMessageUrl,
+} from 'nodemailer';
+import SMTPConnection from 'nodemailer/lib/smtp-connection';
 import { PrismaService } from '../prisma/prisma.service';
+import { EmailInterface } from './entity/email-interface';
 
 @Injectable()
 export class EmailService {
   private static instance: EmailService;
-  private transporter: nodemailer.Transporter;
+  private transporter: Transporter;
 
   constructor(private prisma: PrismaService) {}
 
@@ -19,8 +25,10 @@ export class EmailService {
   }
 
   async createLocalConnection() {
-    const account = await nodemailer.createTestAccount();
-    this.transporter = nodemailer.createTransport({
+    const account = await createTestAccount();
+    console.log('Account: ', account);
+
+    this.transporter = createTransport({
       host: account.smtp.host,
       port: account.smtp.port,
       secure: account.smtp.secure,
@@ -32,29 +40,33 @@ export class EmailService {
 
     const info = await this.transporter.sendMail({
       from: '"Fred Foo 👻" <foo@example.com>',
-      to: 'bar@example.com, baz@example.com',
+      to: 'arnasvid@gmail.com',
       subject: 'Hello ✔',
-      text: 'Hello world?',
-      html: '<b>Hello world?</b>',
+      text: 'As juokauju jei ka',
+      html: '<b>Pusk</b>',
     });
 
     console.log('Message sent: %s', info.messageId);
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+    console.log('Preview URL: %s', getTestMessageUrl(info));
 
     return this.transporter;
   }
 
-  //   async createConnection() {
-  //     this.transporter = nodemailer.createTransport({
-  //       host: process.env.SMTP_HOST,
-  //       port: process.env.SMTP_PORT,
-  //       secure: process.env.SMTP_TLS === 'yes' ? true : false,
-  //       auth: {
-  //         user: process.env.SMTP_USERNAME,
-  //         pass: process.env.SMTP_PASSWORD,
-  //       },
-  //     });
-  //   }
+  async createConnection() {
+    const port = Number(process.env.SMTP_PORT) || 587;
+
+    const options: SMTPConnection.Options = {
+      host: process.env.SMTP_HOST,
+      port: port,
+      secure: process.env.SMTP_TLS === 'yes' ? true : false,
+      auth: {
+        user: process.env.SMTP_USERNAME,
+        pass: process.env.SMTP_PASSWORD,
+      },
+    };
+
+    this.transporter = createTransport(options);
+  }
 
   async verifyConnection() {
     return this.transporter.verify();
@@ -89,7 +101,7 @@ export class EmailService {
 
     console.log('Message sent: %s', info.messageId);
 
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+    console.log('Preview URL: %s', getTestMessageUrl(info));
 
     return 'This action creates a new email';
   }
@@ -115,7 +127,7 @@ export class EmailService {
         );
         if (process.env.NODE_ENV === 'local') {
           console.log(
-            `${requestId} - Nodemailer ethereal URL: ${nodemailer.getTestMessageUrl(
+            `${requestId} - Nodemailer ethereal URL: ${getTestMessageUrl(
               info,
             )}`,
           );
