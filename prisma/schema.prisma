@@ -27,7 +27,7 @@ generator docs {
 
 generator nestjsDto {
   provider                        = "prisma-generator-nestjs-dto"
-  output                          = "../src/generated/dto/nestjs-dto"
+  output                          = "./generated/dto/nestjs-dto"
   outputToNestJsResourceStructure = "false"
   exportRelationModifierClasses   = "true"
   reExport                        = "false"

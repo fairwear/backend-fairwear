@@ -35,8 +35,11 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 # Prisma generated files
+prisma/generated/*
 prisma/generated
+prisma/docs/*
 prisma/docs
+
 
 # Env files
 .env
