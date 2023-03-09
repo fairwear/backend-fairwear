@@ -70,9 +70,9 @@ model Topic {
   items        ItemToTopic[]
   TopicToBrand TopicToBrand[]
   UserToTopic  UserToTopic[]
-  topicId Int @unique
-  topic   Topic   @relation("TopicSubtopic", fields: [topicId], references: [id])
-  subtopic  Topic[]  @relation("TopicSubtopic")
+  topicId      Int            @unique @map("topic_id")
+  topic        Topic          @relation("TopicSubtopic", fields: [topicId], references: [id])
+  subtopic     Topic[]        @relation("TopicSubtopic")
 }
 
 model Item {
