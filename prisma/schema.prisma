@@ -67,17 +67,12 @@ model Email {
 model Topic {
   id           Int            @id @default(autoincrement()) @db.Integer
   name         String         @unique
-  subtopics    Subtopic[]
   items        ItemToTopic[]
   TopicToBrand TopicToBrand[]
   UserToTopic  UserToTopic[]
-}
-
-model Subtopic {
-  id      Int    @id @default(autoincrement()) @db.Integer
-  name    String @unique
-  topic   Topic  @relation(fields: [topicId], references: [id])
-  topicId Int    @map("topic_id")
+  topicId      Int            @unique @map("topic_id")
+  topic        Topic          @relation("TopicSubtopic", fields: [topicId], references: [id])
+  subtopic     Topic[]        @relation("TopicSubtopic")
 }
 
 model Item {
