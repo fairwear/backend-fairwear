@@ -1,17 +1,16 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Post,
   Put,
 } from '@nestjs/common';
-import { UserService } from './user.service';
+import { UserMapper } from '../user/mapper/user.mapper';
 import { CreateUserRequest } from './dto/request/create-user.dto';
 import { UpdateUserRequest } from './dto/request/update-user.dto';
-import { UserMapper } from '../user/mapper/user.mapper';
+import { UserService } from './user.service';
 @Controller('user')
 export class UserController {
   UserService: any;

@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { UserEntity } from './entities/user.entity';
 import { RoleEnum } from '@prisma/client';
 @Injectable()

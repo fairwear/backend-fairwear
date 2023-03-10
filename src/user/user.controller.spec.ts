@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { UserRoleService } from 'src/user-role/user-role.service';
+import { UserRoleService } from '../user-role/user-role.service';
 describe('UserController', () => {
   let controller: UserController;
 
