@@ -26,4 +26,3 @@ mirror-from-external:
     - git push --prune --tags
   only:
     - branches
-
