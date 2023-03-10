@@ -1,6 +1,8 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
+import { CreateItemDto } from './create-item.dto';
 
-export class ItemEntity {
+export class UpdateItemDto extends PartialType(CreateItemDto){
+    
     @ApiProperty({ type: Number })
     id: number;
     
@@ -21,7 +23,4 @@ export class ItemEntity {
 
     @ApiPropertyOptional({ type: Array<Number> })
     reportIds: number[] | null;
-    updatedAt: any;
-    deletedAt: any;
-
 }

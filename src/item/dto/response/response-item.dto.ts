@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
-export class ItemEntity {
-    @ApiProperty({ type: Number })
+export class ItemResponse {
+@ApiProperty({ type: Number })
     id: number;
     
     @ApiProperty({ type: String })
@@ -21,7 +21,4 @@ export class ItemEntity {
 
     @ApiPropertyOptional({ type: Array<Number> })
     reportIds: number[] | null;
-    updatedAt: any;
-    deletedAt: any;
-
 }
