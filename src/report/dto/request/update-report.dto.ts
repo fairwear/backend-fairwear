@@ -16,7 +16,7 @@ export class UpdateReportRequest extends PartialType(CreateReportRequest) {
   reportReason: string;
 
   @ApiPropertyOptional({ type: String })
-  comment: string | null;
+  comment: string;
 
   @ApiProperty({ type: Number })
   itemId: number;
