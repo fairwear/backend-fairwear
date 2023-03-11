@@ -67,7 +67,7 @@ model Email {
 model Topic {
   id           Int            @id @default(autoincrement()) @db.Integer
   name         String         @unique
-  items        ItemToTopic[]
+  //items        ItemToTopic[]
   TopicToBrand TopicToBrand[]
   UserToTopic  UserToTopic[]
   topicId      Int            @unique @map("topic_id")
@@ -79,28 +79,28 @@ model Item {
   id      Int           @id @default(autoincrement()) @db.Integer
   name    String        @unique
   score   String
-  brandId Int           @map("brand_id")
-  brand   Brand         @relation(fields: [brandId], references: [id])
-  topics  ItemToTopic[]
-  users   UserToItem[]
-  reports Report[]
+  // brandId Int           @map("brand_id")
+  // brand   Brand         @relation(fields: [brandId], references: [id])
+  // topics  ItemToTopic[]
+  // users   UserToItem[]
+  // reports Report[]
 }
 
-model ItemToTopic {
-  item    Item  @relation(fields: [itemId], references: [id])
-  itemId  Int   @map("item_id")
-  topic   Topic @relation(fields: [topicId], references: [id])
-  topicId Int   @map("topic_id")
+// model ItemToTopic {
+//   item    Item  @relation(fields: [itemId], references: [id])
+//   itemId  Int   @map("item_id")
+//   topic   Topic @relation(fields: [topicId], references: [id])
+//   topicId Int   @map("topic_id")
 
-  @@unique([itemId, topicId])
-  @@map("item_to_topic")
-}
+//   @@unique([itemId, topicId])
+//   @@map("item_to_topic")
+// }
 
 model Brand {
   id     Int            @id @default(autoincrement()) @db.Integer
   name   String         @unique
   topics TopicToBrand[]
-  items  Item[]
+  //items  Item[]
 }
 
 model TopicToBrand {
@@ -113,16 +113,16 @@ model TopicToBrand {
   @@map("topic_to_brand")
 }
 
-model UserToItem {
-  user     User   @relation(fields: [userId], references: [id])
-  userId   Int    @map("user_id")
-  item     Item   @relation(fields: [itemId], references: [id])
-  itemId   Int    @map("item_id")
-  listName String @unique @map("list_name")
+// model UserToItem {
+//   user     User   @relation(fields: [userId], references: [id])
+//   userId   Int    @map("user_id")
+//   item     Item   @relation(fields: [itemId], references: [id])
+//   itemId   Int    @map("item_id")
+//   listName String @unique @map("list_name")
 
-  @@unique([userId, itemId])
-  @@map("user_to_item")
-}
+//   @@unique([userId, itemId])
+//   @@map("user_to_item")
+// }
 
 model UserToTopic {
   user    User  @relation(fields: [userId], references: [id])
@@ -144,7 +144,7 @@ model User {
   surname     String
   filesReport Report[]
   UserToTopic UserToTopic[]
-  UserToItem  UserToItem[]
+  //UserToItem  UserToItem[]
   Email       Email[]
 
   @@map("user")
@@ -165,8 +165,8 @@ model Report {
   reportReason String   @map("report_reason")
   comment      String
   status       Status   @default(Submited)
-  item         Item     @relation(fields: [itemId], references: [id])
-  itemId       Int      @unique @map("item_id")
+  //item         Item     @relation(fields: [itemId], references: [id])
+  //itemId       Int      @unique @map("item_id")
 
   @@map("report")
 }

@@ -1,27 +1,24 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class ItemEntity {
-    @ApiProperty({ type: Number })
-    id: number;
-    
-    @ApiProperty({ type: String })
-    name: string;
-    
-    @ApiProperty({ type: String })
-    score: string;
+  @ApiProperty({ type: Number })
+  id: number;
 
-    @ApiProperty({ type: Number })
-    brandId: number;
+  @ApiProperty({ type: String })
+  name: string;
 
-    @ApiPropertyOptional({ type: Array<Number> })
-    topicIds: number[] | null;
+  @ApiProperty({ type: String })
+  score: string;
 
-    @ApiProperty({ type: Array<Number> })
-    userIds: number[];
+  // @ApiProperty({ type: Number })
+  // brandId: number;
 
-    @ApiPropertyOptional({ type: Array<Number> })
-    reportIds: number[] | null;
-    updatedAt: any;
-    deletedAt: any;
+  // @ApiPropertyOptional({ type: Array<Number> })
+  // topicIds: number[] | null;
 
+  // @ApiProperty({ type: Array<Number> })
+  // userIds: number[];
+
+  // @ApiPropertyOptional({ type: Array<Number> })
+  // reportIds: number[] | null;
 }

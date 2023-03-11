@@ -7,16 +7,16 @@ export class CreateItemDto {
     @ApiProperty({ type: String })
     score: string;
 
-    @ApiProperty({ type: Number })
-    brandId: number;
+    // @ApiProperty({ type: Number })
+    // brandId: number;
 
-    @ApiPropertyOptional({ type: Array<Number> })
-    topicIds: number[] | null;
+    // @ApiPropertyOptional({ type: Array<Number> })
+    // topicIds: number[] | null;
 
-    @ApiProperty({ type: Array<Number> })
-    userIds: number[];
+    // @ApiProperty({ type: Array<Number> })
+    // userIds: number[];
 
-    @ApiPropertyOptional({ type: Array<Number> })
-    reportIds: number[] | null;
+    // @ApiPropertyOptional({ type: Array<Number> })
+    // reportIds: number[] | null;
 
 }

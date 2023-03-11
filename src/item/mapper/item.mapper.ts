@@ -14,10 +14,10 @@ export class ItemMapper {
         }
         entity.name = request.name;
         entity.score = request.score;
-        entity.brandId = request.brandId;
-        entity.topicIds = request.topicIds;
-        entity.userIds = request.userIds;
-        entity.reportIds = request.reportIds;
+        // entity.brandId = request.brandId;
+        // entity.topicIds = request.topicIds;
+        // entity.userIds = request.userIds;
+        // entity.reportIds = request.reportIds;
     
         return entity;
       }
@@ -27,10 +27,10 @@ export class ItemMapper {
             response.id = entity.id;
             response.name = entity.name;
             response.score = entity.score;
-            response.brandId = entity.brandId;
-            response.topicIds = entity.topicIds;
-            response.userIds = entity.userIds;
-            response.reportIds = entity.reportIds;
+            // response.brandId = entity.brandId;
+            // response.topicIds = entity.topicIds;
+            // response.userIds = entity.userIds;
+            // response.reportIds = entity.reportIds;
             
             return response;
           }

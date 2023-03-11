@@ -1,26 +1,62 @@
 import { Injectable } from '@nestjs/common';
-import { CreateItemDto } from './dto//request/create-item.dto';
-import { UpdateItemDto } from './dto/request/update-item.dto';
+import { PrismaService } from '../prisma/prisma.service';
+import { ItemEntity } from './entities/item.entity';
 
 @Injectable()
 export class ItemService {
-  create(createItemDto: CreateItemDto) {
-    return 'This action adds a new item';
+
+  constructor(private prisma: PrismaService) {}
+  create(entity: ItemEntity) {
+    const item = this.prisma.item.create({
+      data: {
+        name: entity.name,
+        score: entity.score,
+        //brandId: entity.brandId,
+        // topicIds: entity.topicIds,
+        // userIds: entity.userIds,
+        // reportIds: entity.reportIds,
+      },
+    });
+    return item;
   }
 
   findAll() {
-    return `This action returns all item`;
+    const items = this.prisma.item.findMany();
+    return items;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} item`;
+  async findById(id: number) {
+    const item = await this.prisma.item.findUniqueOrThrow({
+      where: {
+        id: id,
+      },
+    });
+    return item;
   }
 
-  update(id: number, updateItemDto: UpdateItemDto) {
-    return `This action updates a #${id} item`;
+  update(id: number, entity: ItemEntity) {
+    const item = this.prisma.item.update({
+      where: {
+        id: id,
+      },
+      data: {
+        name: entity.name,
+        score: entity.score,
+        // brandId: entity.brandId,
+        // topicIds: entity.topicIds,
+        // userIds: entity.userIds,
+        // reportIds: entity.reportIds,
+      },
+    });
+    return item;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} item`;
+  async delete(id: number) {
+    const deletedEntity = await this.prisma.item.delete({
+      where: {
+        id: id,
+      },
+    });
+    return deletedEntity;
   }
 }
