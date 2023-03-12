@@ -43,6 +43,14 @@ export class UserController {
     return UserMapper.toResponse(updateEntity);
   }
 
+  // prie authorization reiks sito ----->> @Public()
+  @Get('/exists/usernameOrEmail/:usernameOrEmail')
+  async existsByUsernameOrEmail(
+    @Param('usernameOrEmail') usernameOrEmail: string,
+  ) {
+    return await this.userService.usernameOrEmailExists(usernameOrEmail);
+  }
+
   @Delete(':id')
   async delete(@Param('id') id: string) {
     const deletedEntity = await this.userService.delete(+id);

@@ -12,6 +12,7 @@ export class PrismaService
   implements OnModuleInit, OnModuleDestroy
 {
   userRole: any;
+  reportStatus: any;
   constructor() {
     super({
       log: ['error', 'info'],

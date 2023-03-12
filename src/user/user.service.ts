@@ -77,6 +77,25 @@ export class UserService {
     return isUserAdmin;
   }
 
+  async usernameOrEmailExists(usernameOrEmail?: string): Promise<boolean> {
+    const res = await this.prisma.user.findFirst({
+      where: {
+        OR: [
+          {
+            username: usernameOrEmail,
+          },
+          {
+            email: usernameOrEmail,
+          },
+        ],
+      },
+    });
+    if (res !== null && res !== undefined && res) {
+      return true;
+    }
+    return false;
+  }
+
   async findByUsername(username: string) {
     return await this.prisma.user.findFirstOrThrow({
       where: {

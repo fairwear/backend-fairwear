@@ -181,17 +181,34 @@ model Report {
   authorId     Int      @unique @map("author_id")
   reportReason String   @map("report_reason")
   comment      String
-  status       Status   @default(Submited)
+  status       StatusToReport[] 
   item         Item     @relation(fields: [itemId], references: [id])
   itemId       Int      @unique @map("item_id")
 
   @@map("report")
 }
+model StatusToReport{
+  report   Report @relation(fields: [reportId], references: [id])
+  reportId Int    @map("report_id")
+  status   ReportToStatus @relation(fields: [statusId], references: [id])
+  statusId Int    @map("status_id")
 
-enum Status {
-  Submited
-  Seen
-  Resolved
+    @@unique([statusId, reportId])
+    @@map("status_to_report")
+  }
 
-  @@map("status")
+model ReportToStatus{
+  id      Int    @id @default(autoincrement()) @db.Integer
+  status  StatusEnum @unique @default(SUBMITTED)
+  reports StatusToReport[]  
+
+  @@map("report_to_status")
+}
+
+enum  StatusEnum {
+  SUBMITTED
+  PENDING
+  RESOLVED
+
+  @@map("status_enum")
 }
