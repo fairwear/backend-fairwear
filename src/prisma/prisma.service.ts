@@ -13,6 +13,7 @@ export class PrismaService
 {
   userRole: any;
   reportStatus: any;
+  static user: any;
   constructor() {
     super({
       log: ['error', 'info'],

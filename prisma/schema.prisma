@@ -167,7 +167,7 @@ model UserToRole{
 model RoleToUser{
   user   User @relation(fields: [userId], references: [id])
   userId Int  @map("user_id")
-  role   UserToRole @relation(fields: [roleId], references: [id])
+  roles   UserToRole @relation(fields: [roleId], references: [id])
   roleId Int  @map("role_id")
 
   @@unique([userId, roleId])

@@ -2,12 +2,17 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserEntity } from './entities/user.entity';
 import { RoleEnum } from '@prisma/client';
+import { UserRoleService } from '../user-role/user-role.service';
+
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
-  create(entity: UserEntity) {
+  constructor(
+    private prisma: PrismaService,
+    private userRoleService: UserRoleService,
+  ) {}
+  async create(entity: UserEntity) {
     const basicUserRole = this.prisma.userRole.findByName(RoleEnum.USER);
-    const user = this.prisma.user.create({
+    const response = await this.prisma.user.create({
       data: {
         id: entity.id,
         username: entity.username,
@@ -17,17 +22,44 @@ export class UserService {
         surname: entity.surname,
         roles: {
           create: {
-            role: basicUserRole.role?.id || 0,
+            roles: basicUserRole.roles?.id || 0,
           },
         },
       },
+      include: {
+        roles: true,
+      },
     });
+
+    const user: UserEntity = {
+      id: response.id,
+      username: response.username,
+      password: response.password,
+      email: response.email,
+      name: response.name,
+      surname: response.surname,
+      roles: response.roles,
+    };
     return user;
   }
 
-  findAll() {
-    const user = this.prisma.user.findMany();
-    return user;
+  async findAll() {
+    const response = await this.prisma.user.findMany({
+      include: { roles: true },
+    });
+
+    const users: UserEntity[] = response.map((user) => {
+      return {
+        id: user.id,
+        username: user.username,
+        password: user.password,
+        email: user.email,
+        name: user.name,
+        surname: user.surname,
+        roles: user.roles,
+      };
+    });
+    return users;
   }
 
   async findById(id: number) {
@@ -103,9 +135,15 @@ export class UserService {
       },
     });
   }
-
-  update(id: number, entity: UserEntity) {
-    const user = this.prisma.user.update({
+  async findByEmail(email: string) {
+    return await this.prisma.user.findFirstOrThrow({
+      where: {
+        email: email,
+      },
+    });
+  }
+  async update(id: number, entity: UserEntity) {
+    const user = await this.prisma.user.update({
       where: {
         id: id,
       },
@@ -116,6 +154,9 @@ export class UserService {
         name: entity.name,
         surname: entity.surname,
       },
+      include: {
+        roles: true,
+      },
     });
     return user;
   }
@@ -124,6 +165,9 @@ export class UserService {
     const deleteEntity = await this.prisma.user.delete({
       where: {
         id: id,
+      },
+      include: {
+        roles: true,
       },
     });
     return deleteEntity;
