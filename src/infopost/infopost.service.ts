@@ -1,28 +1,46 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateInfoPostDto } from './dto/request/create-infopost.dto';
-import { UpdateInfoPostDto } from './dto/request/update-infopost.dto';
+import { InfoPostEntity } from './entities/infopost.entity';
 
 @Injectable()
 export class InfoPostService {
   constructor(private prisma: PrismaService) {}
-  async create(request: CreateInfoPostDto) {
-    return 'This action adds a new infopost';
+  async create(entity: InfoPostEntity) {
+    // const infoPost = await this.prisma.infoPost.create({
+    //   data: entity
+    // });
+    // return infoPost
   }
 
   async findAll() {
-    return `This action returns all infopost`;
+    return await this.prisma.infoPost.findMany();
   }
 
   async findById(id: number) {
-    return `This action returns a #${id} infopost`;
+    const infoPost = await this.prisma.infoPost.findUniqueOrThrow({
+      where: {
+        id: id,
+      },
+    });
+
+    return infoPost;
   }
 
-  async update(id: number, request: UpdateInfoPostDto) {
-    return `This action updates a #${id} infopost`;
+  async update(id: number, entity: InfoPostEntity) {
+    // const infoPost = await this.prisma.infoPost.update({
+    //   where: {
+    //     id: id,
+    //   },
+    //   data: entity,
+    // });
+    // return infoPost;
   }
 
   async delete(id: number) {
-    return `This action removes a #${id} infopost`;
+    return await this.prisma.infoPost.delete({
+      where: {
+        id: id,
+      },
+    });
   }
 }

@@ -10,6 +10,7 @@ import {
 import { CreateInfoPostDto } from './dto/request/create-infopost.dto';
 import { UpdateInfoPostDto } from './dto/request/update-infopost.dto';
 import { InfoPostService } from './infopost.service';
+import { InfoPostMapper } from './mapper/infopost.mapper';
 
 @Controller('api/v1/infopost')
 export class InfoPostController {
@@ -17,7 +18,8 @@ export class InfoPostController {
 
   @Post()
   async create(@Body() createInfopostDto: CreateInfoPostDto) {
-    return this.infoPostService.create(createInfopostDto);
+    const entity = InfoPostMapper.toEntity(createInfopostDto);
+    return this.infoPostService.create(entity);
   }
 
   @Get()
@@ -35,7 +37,8 @@ export class InfoPostController {
     @Param('id') id: string,
     @Body() updateInfopostDto: UpdateInfoPostDto,
   ) {
-    return this.infoPostService.update(+id, updateInfopostDto);
+    const entity = InfoPostMapper.toEntity(updateInfopostDto);
+    return this.infoPostService.update(+id, entity);
   }
 
   @Delete(':id')
