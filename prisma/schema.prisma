@@ -207,6 +207,7 @@ model InfoPostToTopic {
 }
 
 model InfoPostVote {
+  id         Int      @unique @default(autoincrement()) @db.Integer
   vote       VoteEnum
   user       User     @relation(fields: [userId], references: [id])
   userId     Int      @unique @map("user_id")
