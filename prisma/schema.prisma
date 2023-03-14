@@ -220,8 +220,8 @@ model InfoPostVote {
 }
 
 enum VoteEnum {
-  upvote
-  downvote
+  UPVOTE
+  DONWVOTE
 
   @@map("vote_enum")
 }
