@@ -1,26 +1,28 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateInfoPostDto } from './dto/request/create-infopost.dto';
 import { UpdateInfoPostDto } from './dto/request/update-infopost.dto';
 
 @Injectable()
 export class InfoPostService {
-  create(createInfopostDto: CreateInfoPostDto) {
+  constructor(private prisma: PrismaService) {}
+  async create(request: CreateInfoPostDto) {
     return 'This action adds a new infopost';
   }
 
-  findAll() {
+  async findAll() {
     return `This action returns all infopost`;
   }
 
-  findOne(id: number) {
+  async findById(id: number) {
     return `This action returns a #${id} infopost`;
   }
 
-  update(id: number, updateInfopostDto: UpdateInfoPostDto) {
+  async update(id: number, request: UpdateInfoPostDto) {
     return `This action updates a #${id} infopost`;
   }
 
-  remove(id: number) {
+  async delete(id: number) {
     return `This action removes a #${id} infopost`;
   }
 }

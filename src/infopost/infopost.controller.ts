@@ -11,35 +11,35 @@ import { CreateInfoPostDto } from './dto/request/create-infopost.dto';
 import { UpdateInfoPostDto } from './dto/request/update-infopost.dto';
 import { InfoPostService } from './infopost.service';
 
-@Controller('infopost')
+@Controller('api/v1/infopost')
 export class InfoPostController {
-  constructor(private readonly infopostService: InfoPostService) {}
+  constructor(private readonly infoPostService: InfoPostService) {}
 
   @Post()
-  create(@Body() createInfopostDto: CreateInfoPostDto) {
-    return this.infopostService.create(createInfopostDto);
+  async create(@Body() createInfopostDto: CreateInfoPostDto) {
+    return this.infoPostService.create(createInfopostDto);
   }
 
   @Get()
-  findAll() {
-    return this.infopostService.findAll();
+  async findAll() {
+    return this.infoPostService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.infopostService.findOne(+id);
+  async findById(@Param('id') id: string) {
+    return this.infoPostService.findById(+id);
   }
 
   @Put(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateInfopostDto: UpdateInfoPostDto,
   ) {
-    return this.infopostService.update(+id, updateInfopostDto);
+    return this.infoPostService.update(+id, updateInfopostDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.infopostService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return this.infoPostService.delete(+id);
   }
 }
