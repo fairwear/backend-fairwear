@@ -65,14 +65,15 @@ model Email {
 }
 
 model Topic {
-  id           Int            @id @default(autoincrement()) @db.Integer
-  name         String         @unique
-  items        ItemToTopic[]
-  TopicToBrand TopicToBrand[]
-  UserToTopic  UserToTopic[]
-  topicId      Int            @unique @map("topic_id")
-  topic        Topic          @relation("TopicSubtopic", fields: [topicId], references: [id])
-  subtopic     Topic[]        @relation("TopicSubtopic")
+  id              Int               @id @default(autoincrement()) @db.Integer
+  name            String            @unique
+  items           ItemToTopic[]
+  TopicToBrand    TopicToBrand[]
+  UserToTopic     UserToTopic[]
+  topicId         Int               @unique @map("topic_id")
+  topic           Topic             @relation("TopicSubtopic", fields: [topicId], references: [id])
+  subtopic        Topic[]           @relation("TopicSubtopic")
+  InfoPostToTopic InfoPostToTopic[]
 }
 
 model Item {
@@ -84,6 +85,7 @@ model Item {
   topics     ItemToTopic[]
   UserToItem UserToItem[]
   reports    Report[]
+  InfoPost   InfoPost?
 }
 
 model ItemToTopic {
@@ -135,17 +137,19 @@ model UserToTopic {
 }
 
 model User {
-  id          Int           @unique @default(autoincrement()) @db.Integer
-  username    String        @unique
-  password    String
-  email       String        @unique
-  role        UserRole      @default(User)
-  name        String
-  surname     String
-  filesReport Report[]
-  UserToTopic UserToTopic[]
-  UserToItem  UserToItem[]
-  Email       Email[]
+  id           Int           @unique @default(autoincrement()) @db.Integer
+  username     String        @unique
+  password     String
+  email        String        @unique
+  role         UserRole      @default(User)
+  name         String
+  surname      String
+  filesReport  Report[]
+  UserToTopic  UserToTopic[]
+  UserToItem   UserToItem[]
+  Email        Email[]
+  InfoPost     InfoPost?
+  InfoPostVote InfoPostVote?
 
   @@map("user")
 }
@@ -177,4 +181,46 @@ enum Status {
   Resolved
 
   @@map("status")
+}
+
+model InfoPost {
+  id              Int               @unique @default(autoincrement()) @db.Integer
+  author          User              @relation(fields: [authorId], references: [id])
+  authorId        Int               @unique @map("author_id")
+  item            Item              @relation(fields: [itemId], references: [id])
+  itemId          Int               @unique @map("item_id")
+  votes           InfoPostVote[]
+  createdAt       DateTime          @default(now()) @map("created_at")
+  InfoPostToTopic InfoPostToTopic[]
+
+  @@map("info_post")
+}
+
+model InfoPostToTopic {
+  infoPost   InfoPost @relation(fields: [infoPostId], references: [id])
+  infoPostId Int      @map("info_post_id")
+  topic      Topic    @relation(fields: [topicId], references: [id])
+  topicId    Int      @map("topic_id")
+
+  @@unique([infoPostId, topicId])
+  @@map("info_post_to_topic")
+}
+
+model InfoPostVote {
+  vote       VoteEnum
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int      @unique @map("user_id")
+  infoPost   InfoPost @relation(fields: [infoPostId], references: [id])
+  infoPostId Int      @unique @map("info_post_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@unique([userId, infoPostId])
+  @@map("info_post_vote")
+}
+
+enum VoteEnum {
+  upvote
+  downvote
+
+  @@map("vote_enum")
 }
