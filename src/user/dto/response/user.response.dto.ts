@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { RoleToUser } from '@prisma/client';
 
 export class UserResponse {
   @ApiProperty({ type: Number })
@@ -18,4 +19,7 @@ export class UserResponse {
 
   @ApiProperty({ type: String })
   surname: string;
+
+  @ApiProperty({ type: Array<RoleToUser> })
+  roles: RoleToUser[];
 }

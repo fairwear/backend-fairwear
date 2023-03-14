@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ReportStatusEnum } from '@prisma/client';
 
 export class ReportResponse {
   @ApiProperty({ type: Number })
@@ -18,4 +19,7 @@ export class ReportResponse {
 
   @ApiProperty({ type: Number })
   authorId: number;
+
+  @ApiProperty({ type: String })
+  status: ReportStatusEnum;
 }

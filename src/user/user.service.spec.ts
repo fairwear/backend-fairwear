@@ -1,13 +1,12 @@
+import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { DeepMockProxy } from 'jest-mock-extended';
 import { PrismaClient } from '@prisma/client';
+import { DeepMockProxy } from 'jest-mock-extended';
+import { DataFactory } from '../../prisma/data/DataFactory';
 import { createMockContext, MockContext } from '../prisma/context';
 import { PrismaService } from '../prisma/prisma.service';
-import { UserService } from './user.service';
-import { DataFactory } from '../../prisma/data/DataFactory';
-import { ConfigModule } from '@nestjs/config';
 import { UserRoleService } from '../user-role/user-role.service';
-import { UserToRole } from '@prisma/client';
+import { UserService } from './user.service';
 
 describe('UserService', () => {
   let service: UserService;
@@ -36,24 +35,21 @@ describe('UserService', () => {
     expect(prismaService).toBeDefined();
   });
 
-  // it('should successfully create a user', async () => {
-  //   const user = dataFactory.getValidUser();
-  //   const roles: UserToRole[] = [];
-  //   prismaService.user.create.mockResolvedValueOnce(user & roles);
-  //   const result = await service.create(user);
-  //   expect(prismaService.user.create).toHaveBeenCalledTimes(1);
-  //   expect(result).toBeDefined();
-  //   expect(result).toEqual(user);
-  // });
+  it('should successfully create a user', async () => {
+    const user = dataFactory.getValidUser();
+    prismaService.user.create.mockResolvedValueOnce(user);
+    const result = await service.create(user);
+    expect(prismaService.user.create).toHaveBeenCalledTimes(1);
+    expect(result).toBeDefined();
+    expect(result).toEqual(user);
+  });
 
-  // it('should fail to create a user', async () => {
-  //   const user = dataFactory.getValidUser();
-  //   prismaService.user.create.mockRejectedValueOnce(new Error('error'));
-  //   await expect(service.create(user)).rejects.toThrowError(
-  //     "Cannot read properties of undefined (reading 'roles')",
-  //   );
-  //   expect(prismaService.user.create).toHaveBeenCalledTimes(1);
-  // });
+  it('should fail to create a user', async () => {
+    const user = dataFactory.getValidUser();
+    prismaService.user.create.mockRejectedValueOnce(new Error('error'));
+    await expect(service.create(user)).rejects.toThrowError('error');
+    expect(prismaService.user.create).toHaveBeenCalledTimes(1);
+  });
 
   it('should successfully find all users', async () => {
     const user = dataFactory.getValidUser();

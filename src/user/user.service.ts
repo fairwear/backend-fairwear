@@ -1,8 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { UserEntity } from './entities/user.entity';
-import { RoleEnum } from '@prisma/client';
 import { UserRoleService } from '../user-role/user-role.service';
+import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
@@ -11,7 +10,6 @@ export class UserService {
     private userRoleService: UserRoleService,
   ) {}
   async create(entity: UserEntity) {
-    const basicUserRole = this.prisma.userRole.findByName(RoleEnum.USER);
     const response = await this.prisma.user.create({
       data: {
         id: entity.id,
@@ -21,8 +19,12 @@ export class UserService {
         name: entity.name,
         surname: entity.surname,
         roles: {
-          create: {
-            roles: basicUserRole.roles?.id || 0,
+          createMany: {
+            data: entity.roles.map((role) => {
+              return {
+                roleId: role.roleId,
+              };
+            }),
           },
         },
       },

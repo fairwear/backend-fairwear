@@ -11,9 +11,6 @@ export class PrismaService
   extends PrismaClient
   implements OnModuleInit, OnModuleDestroy
 {
-  userRole: any;
-  reportStatus: any;
-  static user: any;
   constructor() {
     super({
       log: ['error', 'info'],

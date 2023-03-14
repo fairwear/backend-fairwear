@@ -1,3 +1,6 @@
+import { RoleToUser } from '@prisma/client';
+import { UserRole } from '@prisma/client';
+import { ReportEntity } from '../../src/report/entities/report.entity';
 import { EmailTemplateEntity } from '../../src/emailtemplate/entities/emailtemplate.entity';
 import { UserEntity } from '../../src/user/entities/user.entity';
 
@@ -59,6 +62,7 @@ export class DataFactory {
 
   // ------------User Template Test Data--------------------
   public getValidUser() {
+    const roleToUser = this.getValidRoleToUser();
     const user: UserEntity = new UserEntity();
     user.username = 'Test username 1';
     user.password = 'Test password 1';
@@ -66,7 +70,8 @@ export class DataFactory {
     user.name = 'Test name 1';
     user.surname = 'Test surname 1';
     user.password = 'Test password 1';
-    user.roles = [];
+    user.roles = [roleToUser];
+
     return user;
   }
 
@@ -97,5 +102,63 @@ export class DataFactory {
     userList.push(user3);
 
     return userList;
+  }
+
+  // ------------User Role Test Data--------------------
+  public getValidUserRole() {
+    const userRole: UserRole = {
+      id: 1,
+      name: 'USER',
+    };
+
+    return userRole;
+  }
+
+  public getValidRoleToUser() {
+    const roleToUser: RoleToUser = {
+      userId: 1,
+      roleId: 1,
+    };
+
+    return roleToUser;
+  }
+  // -------------Report Test Data-------------------
+  public getValidReport() {
+    const report: ReportEntity = new ReportEntity();
+    report.createdAt = new Date('2021-01-01T00:00:00.000Z');
+    report.authorId = 1;
+    report.reportReason = 'Test report reason 1';
+    report.comment = 'Test comment 1';
+    report.itemId = 1;
+    report.status = 'SUBMITTED';
+
+    return report;
+  }
+  public getReportList() {
+    const reportList: ReportEntity[] = [];
+
+    const report1: ReportEntity = this.getValidReport();
+
+    const report2: ReportEntity = new ReportEntity();
+    report2.createdAt = new Date('2021-02-01T00:00:00.000Z');
+    report2.authorId = 2;
+    report2.reportReason = 'Test report reason 2';
+    report2.comment = 'Test comment 2';
+    report2.itemId = 2;
+    report2.status = 'SUBMITTED';
+
+    const report3: ReportEntity = new ReportEntity();
+    report3.createdAt = new Date('2021-03-01T00:00:00.000Z');
+    report3.authorId = 3;
+    report3.reportReason = 'Test report reason 3';
+    report3.comment = 'Test comment 3';
+    report3.itemId = 3;
+    report3.status = 'SUBMITTED';
+
+    reportList.push(report1);
+    reportList.push(report2);
+    reportList.push(report3);
+
+    return reportList;
   }
 }

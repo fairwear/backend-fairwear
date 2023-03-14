@@ -11,33 +11,20 @@ export class UserRoleService {
   }
 
   async findById(id: number) {
-    return await this.prisma.userRole.findUnique({
+    return await this.prisma.userRole.findUniqueOrThrow({
       where: {
         id: id,
       },
     });
   }
 
-  async findByRole(role: RoleEnum) {
-    return await this.prisma.userRole.findUnique({
+  async findByName(name: RoleEnum) {
+    const role = await this.prisma.userRole.findUniqueOrThrow({
       where: {
-        role: role,
+        name: name,
       },
     });
-  }
-  async findByName(name: string) {
-    if (name == 'User') {
-      return await this.prisma.userRole.findUnique({
-        where: {
-          name: RoleEnum.USER,
-        },
-      });
-    } else if (name == 'Admin') {
-      return await this.prisma.userRole.findUnique({
-        where: {
-          name: RoleEnum.ADMIN,
-        },
-      });
-    }
+
+    return role;
   }
 }

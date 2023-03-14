@@ -15,4 +15,7 @@ export class CreateUserRequest {
 
   @ApiProperty({ type: String })
   surname: string;
+
+  @ApiProperty({ type: Array<number> })
+  roleIds: number[];
 }

@@ -1,6 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { UserRoleService } from './user-role.service';
-import { RoleEnum } from '@prisma/client';
 
 @Controller('user-role')
 export class UserRoleController {
@@ -16,13 +15,13 @@ export class UserRoleController {
     return await this.userRoleService.findById(id);
   }
 
-  @Get(':/role')
-  async findByRole(@Param('role') role: RoleEnum) {
-    return await this.userRoleService.findByRole(role);
-  }
+  // @Get(':/role')
+  // async findByRole(@Param('role') role: RoleEnum) {
+  //   return await this.userRoleService.findByRole(role);
+  // }
 
-  @Get(':/name')
-  async findByName(@Param('name') name: string) {
-    return await this.userRoleService.findByName(name);
-  }
+  // @Get(':/name')
+  // async findByName(@Param('name') name: string) {
+  //   return await this.userRoleService.findByName(name);
+  // }
 }

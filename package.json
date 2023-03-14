@@ -32,6 +32,7 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.2.1",
     "dotenv": "^16.0.3",
+    "nest": "^0.1.6",
     "prisma-class-generator": "^0.2.5",
     "prisma-docs-generator": "^0.6.0",
     "reflect-metadata": "^0.1.13",

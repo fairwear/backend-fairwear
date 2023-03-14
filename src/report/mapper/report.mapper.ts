@@ -14,7 +14,10 @@ export class ReportMapper {
     entity.reportReason = request.reportReason;
     entity.itemId = request.itemId;
     entity.createdAt = request.createdAt;
-
+    entity.status = request.status;
+    if (request.comment) {
+      entity.comment = request.comment;
+    }
     return entity;
   }
 
@@ -26,7 +29,7 @@ export class ReportMapper {
     response.itemId = entity.itemId;
     response.createdAt = entity.createdAt;
     response.comment = entity.comment;
-
+    response.status = entity.status;
     return response;
   }
   public static toResponseList(entities: ReportEntity[]) {

@@ -20,4 +20,7 @@ export class UpdateUserRequest extends PartialType(CreateUserRequest) {
 
   @ApiProperty({ type: String })
   surname: string;
+
+  @ApiProperty({ type: Array<number> })
+  roleIds: number[];
 }

@@ -150,62 +150,64 @@ model User {
   @@map("user")
 }
 
-enum  RoleEnum {
+enum RoleEnum {
   USER
   ADMIN
 
   @@map("role_enum")
 }
 
-model UserToRole{
-  id    Int @id @default(autoincrement()) @db.Integer
-  name  RoleEnum @unique @default(USER)
+model UserRole {
+  id    Int          @id @default(autoincrement()) @db.Integer
+  name  RoleEnum     @unique @default(USER)
   users RoleToUser[]
+
   @@map("user_to_role")
 }
 
-model RoleToUser{
-  user   User @relation(fields: [userId], references: [id])
-  userId Int  @map("user_id")
-  roles   UserToRole @relation(fields: [roleId], references: [id])
-  roleId Int  @map("role_id")
+model RoleToUser {
+  user   User     @relation(fields: [userId], references: [id])
+  userId Int      @map("user_id")
+  roles  UserRole @relation(fields: [roleId], references: [id])
+  roleId Int      @map("role_id")
 
   @@unique([userId, roleId])
   @@map("role_to_user")
 }
 
 model Report {
-  id           Int      @unique @default(autoincrement()) @db.Integer
-  createdAt    DateTime @default(now()) @map("created_at")
-  author       User     @relation(fields: [authorId], references: [id])
-  authorId     Int      @unique @map("author_id")
-  reportReason String   @map("report_reason")
+  id           Int              @unique @default(autoincrement()) @db.Integer
+  createdAt    DateTime         @default(now()) @map("created_at")
+  author       User             @relation(fields: [authorId], references: [id])
+  authorId     Int              @unique @map("author_id")
+  reportReason String           @map("report_reason")
   comment      String
-  status       StatusToReport[] 
-  item         Item     @relation(fields: [itemId], references: [id])
-  itemId       Int      @unique @map("item_id")
+  status       ReportStatusEnum @default(SUBMITTED)
+  item         Item             @relation(fields: [itemId], references: [id])
+  itemId       Int              @unique @map("item_id")
 
   @@map("report")
 }
-model StatusToReport{
-  report   Report @relation(fields: [reportId], references: [id])
-  reportId Int    @map("report_id")
+
+model StatusToReport {
+  // report   Report @relation(fields: [reportId], references: [id])
+  reportId Int            @map("report_id")
   status   ReportToStatus @relation(fields: [statusId], references: [id])
-  statusId Int    @map("status_id")
+  statusId Int            @map("status_id")
 
-    @@unique([statusId, reportId])
-    @@map("status_to_report")
-  }
+  @@unique([statusId, reportId])
+  @@map("status_to_report")
+}
 
-model ReportToStatus{
-  id      Int    @id @default(autoincrement()) @db.Integer
-  status  StatusEnum @unique @default(SUBMITTED)
-  reports StatusToReport[]  
+model ReportToStatus {
+  id      Int              @id @default(autoincrement()) @db.Integer
+  status  ReportStatusEnum @unique @default(SUBMITTED)
+  reports StatusToReport[]
 
   @@map("report_to_status")
 }
 
-enum  StatusEnum {
+enum ReportStatusEnum {
   SUBMITTED
   PENDING
   RESOLVED

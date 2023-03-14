@@ -20,6 +20,12 @@ export class UserController {
   ) {}
   @Post()
   async create(@Body() request: CreateUserRequest) {
+    const userRoles = request.roleIds.map(async (roleId) => {
+      const userRole = await this.userRoleService.findById(roleId);
+      if (!userRole) return null;
+      return userRole;
+    });
+    await Promise.all(userRoles);
     const entity = UserMapper.toEntity(request);
     const createdEntity = await this.userService.create(entity);
     return UserMapper.toResponse(createdEntity);
