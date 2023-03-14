@@ -68,17 +68,17 @@ describe('ItemService', () => {
 
   it('should successfuly find one item by id', async () => {
     const item = dataFactory.getValidItem();
-    prismaService.item.findUnique.mockResolvedValueOnce(item);
+    prismaService.item.findUniqueOrThrow.mockResolvedValueOnce(item);
     const result = await service.findById(item.id);
-    expect(prismaService.item.findUnique).toHaveBeenCalledTimes(1);
+    expect(prismaService.item.findUniqueOrThrow).toHaveBeenCalledTimes(1);
     expect(result).toBeDefined();
     expect(result).toEqual(item);
   });
 
   it('should fail to find one item by id', async () => {
-    prismaService.item.findUnique.mockRejectedValueOnce(new Error('error'));
+    prismaService.item.findUniqueOrThrow.mockRejectedValueOnce(new Error('error'));
     await expect(service.findById(1)).rejects.toThrowError('error');
-    expect(prismaService.item.findUnique).toHaveBeenCalledTimes(1);
+    expect(prismaService.item.findUniqueOrThrow).toHaveBeenCalledTimes(1);
   });
 
   it('should successfuly update an item', async () => {
