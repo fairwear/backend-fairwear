@@ -1,1 +1,1 @@
-export class CreateInfopostDto {}
+export class CreateInfoPostDto {}

@@ -1,1 +1,1 @@
-export class InfopostEntity {}
+export class InfoPostEntity {}

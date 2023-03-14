@@ -7,16 +7,16 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { CreateInfopostDto } from './dto/request/create-infopost.dto';
-import { UpdateInfopostDto } from './dto/request/update-infopost.dto';
-import { InfopostService } from './infopost.service';
+import { CreateInfoPostDto } from './dto/request/create-infopost.dto';
+import { UpdateInfoPostDto } from './dto/request/update-infopost.dto';
+import { InfoPostService } from './infopost.service';
 
 @Controller('infopost')
-export class InfopostController {
-  constructor(private readonly infopostService: InfopostService) {}
+export class InfoPostController {
+  constructor(private readonly infopostService: InfoPostService) {}
 
   @Post()
-  create(@Body() createInfopostDto: CreateInfopostDto) {
+  create(@Body() createInfopostDto: CreateInfoPostDto) {
     return this.infopostService.create(createInfopostDto);
   }
 
@@ -33,7 +33,7 @@ export class InfopostController {
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() updateInfopostDto: UpdateInfopostDto,
+    @Body() updateInfopostDto: UpdateInfoPostDto,
   ) {
     return this.infopostService.update(+id, updateInfopostDto);
   }
