@@ -20,9 +20,12 @@ export class ResponseInfoPostDto {
   @ApiProperty({ type: Date })
   createdAt: Date;
 
-  @ApiProperty({ type: Date })
-  updatedAt: Date;
+  @ApiProperty({ type: Date || null })
+  updatedAt: Date | null;
 
-  @ApiProperty({ type: Date })
-  deletedAt: Date;
+  @ApiProperty({ type: Boolean, default: false })
+  isDeleted: boolean;
+
+  @ApiProperty({ type: Date || null })
+  deletedAt: Date | null;
 }
