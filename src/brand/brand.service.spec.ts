@@ -89,6 +89,23 @@ describe('BrandService', () => {
     expect(prismaService.brand.findUniqueOrThrow).toHaveBeenCalledTimes(1);
   });
 
+  it('should successfuly find a brand by name', async () => {
+    const brand = dataFactory.getValidBrand();
+    prismaService.brand.findUniqueOrThrow.mockResolvedValueOnce(brand);
+    const result = await service.findByName(brand.name);
+    expect(prismaService.brand.findUniqueOrThrow).toHaveBeenCalledTimes(1);
+    expect(result).toBeDefined();
+    expect(result).toEqual(brand);
+  });
+
+  it('should fail to find a brand by name', async () => {
+    prismaService.brand.findUniqueOrThrow.mockRejectedValueOnce(
+      new Error('error'),
+    );
+    await expect(service.findByName('name')).rejects.toThrowError('error');
+    expect(prismaService.brand.findUniqueOrThrow).toHaveBeenCalledTimes(1);
+  });
+
   it('should successfuly update a brand', async () => {
     const brand = dataFactory.getValidBrand();
     prismaService.brand.update.mockResolvedValueOnce(brand);

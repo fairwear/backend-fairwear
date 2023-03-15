@@ -7,8 +7,8 @@ import { BrandEntity } from './entities/brand.entity';
 @Injectable()
 export class BrandService {
   constructor(private prisma: PrismaService) {}
-  create(entity: BrandEntity) {
-    const brand = this.prisma.brand.create({
+  async create(entity: BrandEntity) {
+    const brand = await this.prisma.brand.create({
       data: {
         name: entity.name,
         // topicIds: entity.topicIds,
@@ -18,8 +18,8 @@ export class BrandService {
     return brand;
   }
 
-  findAll() {
-    const brands = this.prisma.brand.findMany();
+  async findAll() {
+    const brands = await this.prisma.brand.findMany();
     return brands;
   }
 
@@ -32,8 +32,17 @@ export class BrandService {
     return brand;
   }
 
-  update(id: number, entity: UpdateBrandDto) {
-    const brand = this.prisma.brand.update({
+  async findByName(name: string) {
+    const brand = await this.prisma.brand.findUniqueOrThrow({
+      where: {
+        name: name,
+      },
+    });
+    return brand;
+  }
+
+  async update(id: number, entity: UpdateBrandDto) {
+    const brand = await this.prisma.brand.update({
       where: {
         id: id,
       },
