@@ -4,10 +4,9 @@ import { ItemEntity } from './entities/item.entity';
 
 @Injectable()
 export class ItemService {
-
   constructor(private prisma: PrismaService) {}
-  create(entity: ItemEntity) {
-    const item = this.prisma.item.create({
+  async create(entity: ItemEntity) {
+    const item = await this.prisma.item.create({
       data: {
         name: entity.name,
         score: entity.score,
@@ -20,8 +19,8 @@ export class ItemService {
     return item;
   }
 
-  findAll() {
-    const items = this.prisma.item.findMany();
+  async findAll() {
+    const items = await this.prisma.item.findMany();
     return items;
   }
 
@@ -34,8 +33,17 @@ export class ItemService {
     return item;
   }
 
-  update(id: number, entity: ItemEntity) {
-    const item = this.prisma.item.update({
+  async findByName(name: string) {
+    const item = await this.prisma.item.findUniqueOrThrow({
+      where: {
+        name: name,
+      },
+    });
+    return item;
+  }
+
+  async update(id: number, entity: ItemEntity) {
+    const item = await this.prisma.item.update({
       where: {
         id: id,
       },

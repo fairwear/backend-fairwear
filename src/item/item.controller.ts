@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+} from '@nestjs/common';
 import { ItemService } from './item.service';
 import { CreateItemDto } from './dto/request/create-item.dto';
 import { UpdateItemDto } from './dto/request/update-item.dto';
@@ -25,14 +33,18 @@ export class ItemController {
   async findById(@Param('id') id: string) {
     const entity = await this.itemService.findById(+id);
     if (!entity) return null;
-    return ItemMapper.toResponse(entity); 
+    return ItemMapper.toResponse(entity);
+  }
+
+  @Get(':name')
+  async findByName(@Param('name') name: string) {
+    const entity = await this.itemService.findByName(name);
+    if (!entity) return null;
+    return ItemMapper.toResponse(entity);
   }
 
   @Put(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() request: UpdateItemDto,
-  ) {
+  async update(@Param('id') id: string, @Body() request: UpdateItemDto) {
     const entity = ItemMapper.toEntity(request);
     const updatedEntity = await this.itemService.update(+id, entity);
     return ItemMapper.toResponse(updatedEntity);

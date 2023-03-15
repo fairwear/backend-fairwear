@@ -19,11 +19,11 @@ generator docs {
   provider = "node node_modules/prisma-docs-generator"
 }
 
-generator erd {
-  provider = "prisma-erd-generator"
-  output   = "./fairwear_erd.pdf"
-  theme    = "forest"
-}
+// generator erd {
+//   provider = "prisma-erd-generator"
+//   output   = "./fairwear_erd.pdf"
+//   theme    = "forest"
+// }
 
 generator nestjsDto {
   provider                        = "prisma-generator-nestjs-dto"
@@ -76,9 +76,9 @@ model Topic {
 }
 
 model Item {
-  id      Int           @id @default(autoincrement()) @db.Integer
-  name    String        @unique
-  score   String
+  id    Int    @id @default(autoincrement()) @db.Integer
+  name  String @unique
+  score String
   // brandId Int           @map("brand_id")
   // brand   Brand         @relation(fields: [brandId], references: [id])
   // topics  ItemToTopic[]
@@ -135,17 +135,17 @@ model UserToTopic {
 }
 
 model User {
-  id          Int           @unique @default(autoincrement()) @db.Integer
-  username    String        @unique
-  password    String
-  email       String        @unique
-  role        UserRole      @default(User)
-  name        String
-  surname     String
-  filesReport Report[]
-  UserToTopic UserToTopic[]
+  id       Int           @unique @default(autoincrement()) @db.Integer
+  username String        @unique
+  password String
+  email    String        @unique
+  role     UserRole      @default(User)
+  name     String
+  surname  String
+  reports  Report[]
+  topics   UserToTopic[]
   //UserToItem  UserToItem[]
-  Email       Email[]
+  Email    Email[]
 
   @@map("user")
 }
@@ -154,7 +154,7 @@ enum UserRole {
   User
   Admin
 
-  @@map("userrole")
+  @@map("user_role")
 }
 
 model Report {

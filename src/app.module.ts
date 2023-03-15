@@ -7,7 +7,12 @@ import { ConfigModule } from '@nestjs/config';
 import { ItemModule } from './item/item.module';
 
 @Module({
-  imports: [EmailtemplateModule, PrismaModule, ConfigModule.forRoot(), ItemModule],
+  imports: [
+    EmailtemplateModule,
+    PrismaModule,
+    ConfigModule.forRoot(),
+    ItemModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

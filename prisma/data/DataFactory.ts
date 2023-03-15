@@ -75,7 +75,6 @@ export class DataFactory {
     const item2: ItemEntity = new ItemEntity();
     item2.name = 'Test name 2';
     item2.score = 'Test score 2';
-    
 
     const item3: ItemEntity = new ItemEntity();
     item3.name = 'Test name 3';

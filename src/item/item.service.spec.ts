@@ -76,8 +76,27 @@ describe('ItemService', () => {
   });
 
   it('should fail to find one item by id', async () => {
-    prismaService.item.findUniqueOrThrow.mockRejectedValueOnce(new Error('error'));
+    prismaService.item.findUniqueOrThrow.mockRejectedValueOnce(
+      new Error('error'),
+    );
     await expect(service.findById(1)).rejects.toThrowError('error');
+    expect(prismaService.item.findUniqueOrThrow).toHaveBeenCalledTimes(1);
+  });
+
+  it('should successfuly find one item by name', async () => {
+    const item = dataFactory.getValidItem();
+    prismaService.item.findUniqueOrThrow.mockResolvedValueOnce(item);
+    const result = await service.findByName(item.name);
+    expect(prismaService.item.findUniqueOrThrow).toHaveBeenCalledTimes(1);
+    expect(result).toBeDefined();
+    expect(result).toEqual(item);
+  });
+
+  it('should fail to find one item by name', async () => {
+    prismaService.item.findUniqueOrThrow.mockRejectedValueOnce(
+      new Error('error'),
+    );
+    await expect(service.findByName('name')).rejects.toThrowError('error');
     expect(prismaService.item.findUniqueOrThrow).toHaveBeenCalledTimes(1);
   });
 
