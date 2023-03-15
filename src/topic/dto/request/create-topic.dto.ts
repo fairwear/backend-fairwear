@@ -7,6 +7,6 @@ export class CreateTopicDto {
     // @ApiPropertyOptional({ type: Array<Number> })
     // itemIds: number[] | null;
 
-    @ApiPropertyOptional({ type: Array<Number> })
-    subtopicIds: number[] | null;
+    // @ApiPropertyOptional({ type: Array<Number> })
+    // subtopicIds: number[] | null;
 }

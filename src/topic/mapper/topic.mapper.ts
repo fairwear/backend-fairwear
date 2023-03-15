@@ -15,7 +15,7 @@ export class TopicMapper {
         }
         entity.name = request.name;
         // entity.itemIds = request.brandIds;
-        entity.subtopicIds = request.subtopicIds;
+        //entity.subtopicIds = request.subtopicIds;
         // entity.userIds = request.userIds;
     
         return entity;
@@ -26,7 +26,7 @@ export class TopicMapper {
             response.id = entity.id;
             response.name = entity.name;
             // response.itemIds = entity.brandId;
-            response.subtopicIds = entity.subtopicIds;
+            //response.subtopicIds = entity.subtopicIds;
             // response.userIds = entity.userIds;
             
             return response;

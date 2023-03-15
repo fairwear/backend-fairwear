@@ -13,6 +13,6 @@ export class TopicEntity {
     // @ApiPropertyOptional({ type: Array<Number> })
     // userIds: number[] | null;
 
-    @ApiPropertyOptional({ type: Array<Number> })
-    subtopicIds: number[] | null;
+    // @ApiPropertyOptional({ type: Array<Number> })
+    // subtopicIds: number[] | null;
 }

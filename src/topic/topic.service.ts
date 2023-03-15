@@ -7,8 +7,8 @@ import { UpdateTopicDto } from './dto/request/update-topic.dto';
 export class TopicService {
   
   constructor(private prisma: PrismaService) {}
-  create(entity: CreateTopicDto) {
-    const topic = this.prisma.brand.create({
+  async create(entity: CreateTopicDto) {
+    const topic = await this.prisma.brand.create({
       data: {
         name: entity.name,
         // itemIds: entity.itemIds,
@@ -33,8 +33,8 @@ export class TopicService {
     return topic;
     }
 
-  update(id: number, entity: UpdateTopicDto) {
-    const topic = this.prisma.topic.update({
+  async update(id: number, entity: UpdateTopicDto) {
+    const topic = await this.prisma.topic.update({
       where: {
         id: id,
       },
@@ -49,8 +49,8 @@ export class TopicService {
     
   }
 
-  delete(id: number) {
-    const deletedEntity = this.prisma.topic.delete({
+  async delete(id: number) {
+    const deletedEntity = await this.prisma.topic.delete({
       where: {
         id: id,
       },
