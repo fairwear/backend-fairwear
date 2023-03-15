@@ -4,14 +4,14 @@ import { AppService } from './app.service';
 import { EmailtemplateModule } from './emailtemplate/emailtemplate.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
-import { InfopostModule } from './infopost/infopost.module';
+import { InfoPostModule } from './infopost/infopost.module';
 
 @Module({
   imports: [
     EmailtemplateModule,
     PrismaModule,
     ConfigModule.forRoot(),
-    InfopostModule,
+    InfoPostModule,
   ],
   controllers: [AppController],
   providers: [AppService],
