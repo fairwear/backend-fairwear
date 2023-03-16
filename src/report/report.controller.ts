@@ -36,11 +36,6 @@ export class ReportController {
     return ReportMapper.toResponse(entity);
   }
 
-  // async findByStatus(@Param('status') status: string) {
-  //   const entities = await this.reportService.findByStatus(status);
-  //   return ReportMapper.toResponseList(entities);
-  // }
-
   @Put(':id')
   async update(@Param('id') id: string, @Body() request: UpdateReportRequest) {
     const entity = ReportMapper.toEntity(request);
