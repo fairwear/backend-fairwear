@@ -2,6 +2,7 @@ import { CreateReportRequest } from '../dto/request/create-report.dto';
 import { UpdateReportRequest } from '../dto/request/update-report.dto';
 import { ReportEntity } from '../entities/report.entity';
 import { ReportResponse } from '../dto/response/report.response.dto';
+import e from 'express';
 
 export class ReportMapper {
   public static toEntity(request: CreateReportRequest | UpdateReportRequest) {
@@ -15,9 +16,7 @@ export class ReportMapper {
     entity.itemId = request.itemId;
     entity.createdAt = request.createdAt;
     entity.status = request.status;
-    if (request.comment) {
-      entity.comment = request.comment;
-    }
+    entity.comment = request.comment;
     return entity;
   }
 

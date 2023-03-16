@@ -8,6 +8,9 @@ export class ReportResponse {
   @ApiProperty({ type: Date })
   createdAt: Date;
 
+  @ApiProperty({ type: Number })
+  authorId: number;
+
   @ApiProperty({ type: String })
   reportReason: string;
 
@@ -16,9 +19,6 @@ export class ReportResponse {
 
   @ApiProperty({ type: Number })
   itemId: number;
-
-  @ApiProperty({ type: Number })
-  authorId: number;
 
   @ApiProperty({ type: ReportStatusEnum })
   status: ReportStatusEnum;

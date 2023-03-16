@@ -34,7 +34,7 @@ describe('ReportService', () => {
 
   it('should successfully create a report', async () => {
     const report = dataFactory.getValidReport();
-    prismaService.report.create.mockResolvedValueOnce(report);
+    prismaService.report.create.mockResolvedValueOnce(report!);
     const result = await service.create(report);
     expect(prismaService.report.create).toHaveBeenCalledTimes(1);
     expect(result).toBeDefined();

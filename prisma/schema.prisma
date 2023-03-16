@@ -181,7 +181,7 @@ model Report {
   author       User             @relation(fields: [authorId], references: [id])
   authorId     Int              @unique @map("author_id")
   reportReason String           @map("report_reason")
-  comment      String
+  comment      String?
   status       ReportStatusEnum @default(SUBMITTED)
   item         Item             @relation(fields: [itemId], references: [id])
   itemId       Int              @unique @map("item_id")

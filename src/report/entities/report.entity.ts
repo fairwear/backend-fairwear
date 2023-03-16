@@ -10,14 +10,14 @@ export class ReportEntity {
   @ApiProperty({ type: String })
   reportReason: string;
 
+  @ApiProperty({ type: Array<number> })
+  authorId: number;
+
   @ApiPropertyOptional({ type: String })
-  comment: string;
+  comment: string | null;
 
   @ApiProperty({ type: Array<number> })
   itemId: number;
-
-  @ApiProperty({ type: Array<number> })
-  authorId: number;
 
   @ApiProperty({ type: ReportStatusEnum })
   status: ReportStatusEnum;
