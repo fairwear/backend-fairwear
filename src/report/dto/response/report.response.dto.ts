@@ -20,6 +20,6 @@ export class ReportResponse {
   @ApiProperty({ type: Number })
   authorId: number;
 
-  @ApiProperty({ type: String })
+  @ApiProperty({ type: ReportStatusEnum })
   status: ReportStatusEnum;
 }

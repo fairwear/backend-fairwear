@@ -189,28 +189,10 @@ model Report {
   @@map("report")
 }
 
-model StatusToReport {
-  // report   Report @relation(fields: [reportId], references: [id])
-  reportId Int            @map("report_id")
-  status   ReportToStatus @relation(fields: [statusId], references: [id])
-  statusId Int            @map("status_id")
-
-  @@unique([statusId, reportId])
-  @@map("status_to_report")
-}
-
-model ReportToStatus {
-  id      Int              @id @default(autoincrement()) @db.Integer
-  status  ReportStatusEnum @unique @default(SUBMITTED)
-  reports StatusToReport[]
-
-  @@map("report_to_status")
-}
-
 enum ReportStatusEnum {
   SUBMITTED
   PENDING
   RESOLVED
 
-  @@map("status_enum")
+  @@map("report_status_enum")
 }

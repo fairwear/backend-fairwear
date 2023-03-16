@@ -28,8 +28,8 @@ export class ReportService {
     return reportEntity;
   }
 
-  findAll() {
-    const reports = this.prisma.report.findMany();
+  async findAll() {
+    const reports = await this.prisma.report.findMany();
     return reports;
   }
 
@@ -42,8 +42,8 @@ export class ReportService {
     return report;
   }
 
-  update(id: number, entity: ReportEntity) {
-    const report = this.prisma.report.update({
+  async update(id: number, entity: ReportEntity) {
+    const report = await this.prisma.report.update({
       where: {
         id: id,
       },
@@ -58,15 +58,6 @@ export class ReportService {
     });
     return report;
   }
-
-  // findByStatus(status: string) {
-  //   const report = this.prisma.report.findMany({
-  //     where: {
-  //       status: status,
-  //     },
-  //   });
-  //   return report;
-  // }
 
   async delete(id: number) {
     const report = await this.prisma.report.delete({

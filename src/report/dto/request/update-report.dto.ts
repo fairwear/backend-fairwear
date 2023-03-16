@@ -21,6 +21,6 @@ export class UpdateReportRequest extends PartialType(CreateReportRequest) {
   @ApiProperty({ type: Number })
   itemId: number;
 
-  @ApiProperty({ type: String })
+  @ApiProperty({ type: ReportStatusEnum })
   status: ReportStatusEnum;
 }

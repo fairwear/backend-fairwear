@@ -11,11 +11,11 @@ export class CreateReportRequest {
   reportReason: string;
 
   @ApiPropertyOptional({ type: String })
-  comment: string;
+  comment: string | null;
 
   @ApiProperty({ type: Number })
   itemId: number;
 
-  @ApiProperty({ type: String })
+  @ApiProperty({ type: ReportStatusEnum })
   status: ReportStatusEnum;
 }

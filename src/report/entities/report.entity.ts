@@ -19,6 +19,6 @@ export class ReportEntity {
   @ApiProperty({ type: Array<number> })
   authorId: number;
 
-  @ApiProperty({ type: String })
+  @ApiProperty({ type: ReportStatusEnum })
   status: ReportStatusEnum;
 }
