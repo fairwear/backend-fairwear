@@ -7,7 +7,6 @@ export class UpdateEmailTemplateRequest extends PartialType(
 ) {
   @ApiProperty({ type: Number })
   id: number;
-
   @ApiProperty({ type: String })
   name: string;
 
