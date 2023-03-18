@@ -1,3 +1,4 @@
+import { ItemEntity } from '../../src/item/entities/item.entity';
 import { EmailTemplateEntity } from '../../src/emailtemplate/entities/emailtemplate.entity';
 
 export class DataFactory {
@@ -53,5 +54,36 @@ export class DataFactory {
     emailTemplateList.push(emailTemplate3);
 
     return emailTemplateList;
+  }
+
+  // --------------------------------
+  // Item test data
+
+  public getValidItem() {
+    const item: ItemEntity = new ItemEntity();
+    item.name = 'Test name 1';
+    item.score = 'Test score 1';
+
+    return item;
+  }
+
+  public getItemList() {
+    const itemList: ItemEntity[] = [];
+
+    const item1: ItemEntity = this.getValidItem();
+
+    const item2: ItemEntity = new ItemEntity();
+    item2.name = 'Test name 2';
+    item2.score = 'Test score 2';
+
+    const item3: ItemEntity = new ItemEntity();
+    item3.name = 'Test name 3';
+    item3.score = 'Test score 3';
+
+    itemList.push(item1);
+    itemList.push(item2);
+    itemList.push(item3);
+
+    return itemList;
   }
 }
