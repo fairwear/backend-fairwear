@@ -140,10 +140,10 @@ model User {
   id          Int            @unique @default(autoincrement()) @db.Integer
   username    String         @unique
   password    String
-  email       String         @unique
-  role        UserRole       @default(User)
+  email       String        @unique
   name        String
   surname     String
+  roles       RoleToUser[]
   filesReport Report[]
   UserToTopic UserToTopic[]
   UserToItem  UserToItem[]
@@ -154,33 +154,51 @@ model User {
   @@map("user")
 }
 
-enum UserRole {
-  User
-  Admin
+enum RoleEnum {
+  USER
+  ADMIN
 
-  @@map("userrole")
+  @@map("role_enum")
+}
+
+model UserRole {
+  id    Int          @id @default(autoincrement()) @db.Integer
+  name  RoleEnum     @unique @default(USER)
+  users RoleToUser[]
+
+  @@map("user_to_role")
+}
+
+model RoleToUser {
+  user   User     @relation(fields: [userId], references: [id])
+  userId Int      @map("user_id")
+  roles  UserRole @relation(fields: [roleId], references: [id])
+  roleId Int      @map("role_id")
+
+  @@unique([userId, roleId])
+  @@map("role_to_user")
 }
 
 model Report {
-  id           Int      @unique @default(autoincrement()) @db.Integer
-  createdAt    DateTime @default(now()) @map("created_at")
-  author       User     @relation(fields: [authorId], references: [id])
-  authorId     Int      @unique @map("author_id")
-  reportReason String   @map("report_reason")
-  comment      String
-  status       Status   @default(Submited)
-  item         Item     @relation(fields: [itemId], references: [id])
-  itemId       Int      @unique @map("item_id")
+  id           Int              @unique @default(autoincrement()) @db.Integer
+  createdAt    DateTime         @default(now()) @map("created_at")
+  author       User             @relation(fields: [authorId], references: [id])
+  authorId     Int              @unique @map("author_id")
+  reportReason String           @map("report_reason")
+  comment      String?
+  status       ReportStatusEnum @default(SUBMITTED)
+  item         Item             @relation(fields: [itemId], references: [id])
+  itemId       Int              @unique @map("item_id")
 
   @@map("report")
 }
 
-enum Status {
-  Submited
-  Seen
-  Resolved
+enum ReportStatusEnum {
+  SUBMITTED
+  PENDING
+  RESOLVED
 
-  @@map("status")
+  @@map("report_status_enum")
 }
 
 model InfoPost {
