@@ -17,5 +17,17 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": true
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "prisma/generated/dto",
+    "prisma/generated/nestjs-dto"
+  ],
+  "watchOptions": {
+    "excludeDirectories": [
+      "prisma/generated/dto/",
+      "prisma/generated/nestjs-dto/"
+    ]
   }
 }
