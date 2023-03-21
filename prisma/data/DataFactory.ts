@@ -4,6 +4,7 @@ import { ReportEntity } from '../../src/report/entities/report.entity';
 import { EmailTemplateEntity } from '../../src/emailtemplate/entities/emailtemplate.entity';
 import { BrandEntity } from '../../src/brand/entities/brand.entity';
 import { UserEntity } from '../../src/user/entities/user.entity';
+import { ItemEntity } from 'src/item/entities/item-entity';
 
 export class DataFactory {
   [x: string]: any;
@@ -161,5 +162,63 @@ export class DataFactory {
     reportList.push(report3);
 
     return reportList;
+  }
+
+  // --------------------------------
+  // Item test data
+
+  public getValidItem() {
+    const item: ItemEntity = new ItemEntity();
+    item.name = 'Test name 1';
+
+    return item;
+  }
+
+  public getItemList() {
+    const itemList: ItemEntity[] = [];
+
+    const item1: ItemEntity = this.getValidItem();
+
+    const item2: ItemEntity = new ItemEntity();
+    item2.name = 'Test name 2';
+    
+
+    const item3: ItemEntity = new ItemEntity();
+    item3.name = 'Test name 3';
+   
+
+    itemList.push(item1);
+    itemList.push(item2);
+    itemList.push(item3);
+
+    return itemList;
+  }
+
+  // --------------------------------
+  // Brand test data
+
+  public getValidBrand() {
+    const brand: BrandEntity = new BrandEntity();
+    brand.name = 'Test name 1';
+
+    return brand;
+  }
+
+  public getBrandList() {
+    const brandList: BrandEntity[] = [];
+
+    const brand1: BrandEntity = this.getValidBrand();
+
+    const brand2: BrandEntity = new BrandEntity();
+    brand2.name = 'Test name 2';
+
+    const brand3: BrandEntity = new BrandEntity();
+    brand3.name = 'Test name 3';
+
+    brandList.push(brand1);
+    brandList.push(brand2);
+    brandList.push(brand3);
+
+    return brandList;
   }
 }

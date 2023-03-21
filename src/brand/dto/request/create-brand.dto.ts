@@ -7,6 +7,6 @@ export class CreateBrandDto {
     // @ApiPropertyOptional({ type: Array<Number> })
     // topicIds: number[] | null;
 
-    // @ApiProperty({ type: Array<Number> })
-    // itemIds: number[] | null;
+    @ApiProperty({ type: Array<Number> })
+    itemIds: number[] | null;
 }

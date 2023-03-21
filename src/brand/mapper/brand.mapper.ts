@@ -1,4 +1,5 @@
-import { CreateBrandDto } from 'prisma/generated/dto/nestjs-dto/create-brand.dto';
+
+import { CreateBrandDto } from '../dto/request/create-brand.dto';
 import { UpdateBrandDto } from '../dto/request/update-brand.dto';
 import { BrandResponse } from '../dto/response/response-brand.dto';
 import { BrandEntity } from '../entities/brand.entity';
@@ -12,7 +13,7 @@ export class BrandMapper {
     }
     entity.name = request.name;
     // entity.topicIds = request.topicIds;
-    // entity.itemIds = request.itemIds;
+    entity.itemIds = request.itemIds;
 
     return entity;
   }
@@ -22,7 +23,7 @@ export class BrandMapper {
     response.id = entity.id;
     response.name = entity.name;
     // entity.topicIds = request.topicIds;
-    // entity.itemIds = request.itemIds;
+    entity.itemIds = entity.itemIds;
 
     return response;
   }

@@ -1,15 +1,21 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class BrandResponse {
+export class ItemEntity {
   @ApiProperty({ type: Number })
   id: number;
 
   @ApiProperty({ type: String })
   name: string;
 
+  @ApiProperty({ type: Number })
+  brandId: number;
+
   // @ApiPropertyOptional({ type: Array<Number> })
   // topicIds: number[] | null;
 
   @ApiProperty({ type: Array<Number> })
-  itemIds: number[] | null;
+  userIds: number[];
+
+  @ApiPropertyOptional({ type: Array<Number> })
+  reportIds: number[] | null;
 }

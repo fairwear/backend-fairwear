@@ -1,9 +1,6 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
-import { CreateItemDto } from './create-item.dto';
 
-export class UpdateItemDto extends PartialType(CreateItemDto) {
-  @ApiProperty({ type: Number })
-  id: number;
+export class CreateItemDto {
 
   @ApiProperty({ type: String })
   name: string;

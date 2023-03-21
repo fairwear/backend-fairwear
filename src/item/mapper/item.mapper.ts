@@ -1,7 +1,9 @@
+
 import { CreateItemDto } from '../dto/request/create-item.dto';
 import { UpdateItemDto } from '../dto/request/update-item.dto';
 import { ItemResponse } from '../dto/response/response-item.dto';
-import { ItemEntity } from '../entities/item.entity';
+import { ItemEntity } from '../entities/item-entity';
+
 
 export class ItemMapper {
   public static toEntity(request: CreateItemDto | UpdateItemDto) {
