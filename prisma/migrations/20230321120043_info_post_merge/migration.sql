@@ -1,35 +1,22 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Subtopic` table. If the table is not empty, all the data it contains will be lost.
-  - A unique constraint covering the columns `[topic_id]` on the table `Topic` will be added. If there are existing duplicate values, this will fail.
-  - Added the required column `topic_id` to the `Topic` table without a default value. This is not possible if the table is not empty.
-
-*/
 -- CreateEnum
-CREATE TYPE "vote_enum" AS ENUM ('upvote', 'downvote');
-
--- DropForeignKey
-ALTER TABLE "Subtopic" DROP CONSTRAINT "Subtopic_topic_id_fkey";
-
--- AlterTable
-ALTER TABLE "Topic" ADD COLUMN     "topic_id" INTEGER NOT NULL;
-
--- DropTable
-DROP TABLE "Subtopic";
+CREATE TYPE "vote_enum" AS ENUM ('UPVOTE', 'DOWNVOTE');
 
 -- CreateTable
 CREATE TABLE "info_post" (
     "id" SERIAL NOT NULL,
     "author_id" INTEGER NOT NULL,
     "item_id" INTEGER NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3),
+    "is_deleted" BOOLEAN NOT NULL DEFAULT false,
+    "deleted_at" TIMESTAMP(3)
 );
 
 -- CreateTable
 CREATE TABLE "info_post_to_topic" (
     "info_post_id" INTEGER NOT NULL,
-    "topic_id" INTEGER NOT NULL
+    "topic_id" INTEGER NOT NULL,
+    "score" INTEGER NOT NULL DEFAULT 0
 );
 
 -- CreateTable
@@ -64,12 +51,6 @@ CREATE UNIQUE INDEX "info_post_vote_info_post_id_key" ON "info_post_vote"("info_
 
 -- CreateIndex
 CREATE UNIQUE INDEX "info_post_vote_user_id_info_post_id_key" ON "info_post_vote"("user_id", "info_post_id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Topic_topic_id_key" ON "Topic"("topic_id");
-
--- AddForeignKey
-ALTER TABLE "Topic" ADD CONSTRAINT "Topic_topic_id_fkey" FOREIGN KEY ("topic_id") REFERENCES "Topic"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "info_post" ADD CONSTRAINT "info_post_author_id_fkey" FOREIGN KEY ("author_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
