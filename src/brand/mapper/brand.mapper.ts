@@ -12,8 +12,6 @@ export class BrandMapper {
       entity.id = request.id;
     }
     entity.name = request.name;
-    // entity.topicIds = request.topicIds;
-    entity.itemIds = request.itemIds;
 
     return entity;
   }
@@ -22,8 +20,6 @@ export class BrandMapper {
     const response = new BrandResponse();
     response.id = entity.id;
     response.name = entity.name;
-    // entity.topicIds = request.topicIds;
-    entity.itemIds = entity.itemIds;
 
     return response;
   }

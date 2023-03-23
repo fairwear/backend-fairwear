@@ -76,13 +76,13 @@ model Topic {
 }
 
 model Item {
-  id         Int           @id @default(autoincrement()) @db.Integer
-  name       String        @unique
-  brandId    Int           @map("brand_id")
-  brand      Brand         @relation(fields: [brandId], references: [id])
-  topics     ItemToTopic[]
-  users UserToItem[]
-  reports    Report[]
+  id      Int           @id @default(autoincrement()) @db.Integer
+  name    String        @unique
+  brandId Int           @map("brand_id")
+  brand   Brand         @relation(fields: [brandId], references: [id])
+  topics  ItemToTopic[]
+  users   UserToItem[]
+  reports Report[]
 }
 
 model ItemToTopic {

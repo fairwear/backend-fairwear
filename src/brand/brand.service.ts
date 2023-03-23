@@ -11,8 +11,6 @@ export class BrandService {
     const brand = await this.prisma.brand.create({
       data: {
         name: entity.name,
-        // topicIds: entity.topicIds,
-        // itemIds: entity.itemIds,
       },
     });
     return brand;
@@ -48,8 +46,6 @@ export class BrandService {
       },
       data: {
         name: entity.name,
-        // topicIds: entity.topicIds,
-        // itemIds: entity.itemIds,
       },
     });
     return brand;

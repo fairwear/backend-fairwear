@@ -10,10 +10,6 @@ export class ItemService {
     const item = await this.prisma.item.create({
       data: {
         name: entity.name,
-        brandId: entity.brandId,
-        // topicIds: entity.topicIds,
-        userIds: entity.userIds,
-        reportIds: entity.reportIds,
       },
     });
     return item;
@@ -49,10 +45,6 @@ export class ItemService {
       },
       data: {
         name: entity.name,
-        brandId: entity.brandId,
-        // topicIds: entity.topicIds,
-        userIds: entity.userIds,
-        reportIds: entity.reportIds,
       },
     });
     return item;

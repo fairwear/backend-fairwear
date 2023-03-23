@@ -4,7 +4,8 @@ import { ReportEntity } from '../../src/report/entities/report.entity';
 import { EmailTemplateEntity } from '../../src/emailtemplate/entities/emailtemplate.entity';
 import { BrandEntity } from '../../src/brand/entities/brand.entity';
 import { UserEntity } from '../../src/user/entities/user.entity';
-import { ItemEntity } from 'src/item/entities/item-entity';
+import { ItemEntity } from '../../src/item/entities/item-entity';
+
 
 export class DataFactory {
   [x: string]: any;
