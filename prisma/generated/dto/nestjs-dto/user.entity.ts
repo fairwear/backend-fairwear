@@ -13,6 +13,7 @@ password: string ;
 email: string ;
 name: string ;
 surname: string ;
+refreshToken: string  | null;
 roles?: RoleToUser[] ;
 filesReport?: Report[] ;
 UserToTopic?: UserToTopic[] ;

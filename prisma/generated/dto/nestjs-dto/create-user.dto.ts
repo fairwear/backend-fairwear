@@ -10,4 +10,5 @@ password: string;
 email: string;
 name: string;
 surname: string;
+refreshToken?: string;
 }

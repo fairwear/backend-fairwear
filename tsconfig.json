@@ -12,10 +12,22 @@
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": true
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "prisma/generated/dto",
+    "prisma/generated/nestjs-dto"
+  ],
+  "watchOptions": {
+    "excludeDirectories": [
+      "prisma/generated/dto/",
+      "prisma/generated/nestjs-dto/"
+    ]
   }
 }
