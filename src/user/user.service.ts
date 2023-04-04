@@ -42,6 +42,7 @@ export class UserService {
       name: response.name,
       surname: response.surname,
       roles: response.roles,
+      refreshToken: response.refreshToken,
     };
     return user;
   }
@@ -60,6 +61,7 @@ export class UserService {
         name: user.name,
         surname: user.surname,
         roles: user.roles,
+        refreshToken: user.refreshToken,
       };
     });
     return users;

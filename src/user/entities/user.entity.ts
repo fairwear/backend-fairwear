@@ -23,5 +23,5 @@ export class UserEntity {
   roles: RoleToUser[];
 
   @ApiProperty({ type: String })
-  refreshToken?: string;
+  refreshToken: string | null;
 }
