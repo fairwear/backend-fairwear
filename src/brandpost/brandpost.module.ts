@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { BrandpostService } from './brandpost.service';
-import { BrandpostController } from './brandpost.controller';
+import { BrandPostService } from './brandpost.service';
+import { BrandPostController } from './brandpost.controller';
 
 @Module({
-  controllers: [BrandpostController],
-  providers: [BrandpostService],
+  controllers: [BrandPostController],
+  providers: [BrandPostService],
 })
 export class BrandpostModule {}

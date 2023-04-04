@@ -7,17 +7,17 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { BrandpostService } from './brandpost.service';
-import { CreateBrandpostDto } from './dto/request/create-brandpost.dto';
-import { UpdateBrandpostDto } from './dto/update-brandpost.dto';
+import { BrandPostService } from './brandpost.service';
+import { CreateBrandPostDto } from './dto/request/create-brandpost.dto';
+import { UpdateBrandPostDto } from './dto/request/update-brandpost.dto';
 
-@Controller('brandpost')
-export class BrandpostController {
-  constructor(private readonly brandpostService: BrandpostService) {}
+@Controller('api/v1/brandpost')
+export class BrandPostController {
+  constructor(private readonly brandpostService: BrandPostService) {}
 
   @Post()
-  create(@Body() createBrandpostDto: CreateBrandpostDto) {
-    return this.brandpostService.create(createBrandpostDto);
+  create(@Body() createBrandPostDto: CreateBrandPostDto) {
+    return this.brandpostService.create(createBrandPostDto);
   }
 
   @Get()
@@ -33,9 +33,9 @@ export class BrandpostController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateBrandpostDto: UpdateBrandpostDto,
+    @Body() updateBrandPostDto: UpdateBrandPostDto,
   ) {
-    return this.brandpostService.update(+id, updateBrandpostDto);
+    return this.brandpostService.update(+id, updateBrandPostDto);
   }
 
   @Delete(':id')

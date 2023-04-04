@@ -1,1 +1,1 @@
-export class Brandpost {}
+export class BrandPostEntity {}
