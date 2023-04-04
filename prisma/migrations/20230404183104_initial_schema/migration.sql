@@ -55,8 +55,8 @@ CREATE TABLE "item" (
 CREATE TABLE "brand" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "user_id" INTEGER NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),
     "deleted_at" TIMESTAMP(3),
 
@@ -69,11 +69,11 @@ CREATE TABLE "report" (
     "report_reason" TEXT NOT NULL,
     "status" "report_status_enum" NOT NULL DEFAULT 'SUBMITTED',
     "comment" TEXT,
-    "author_id" INTEGER NOT NULL,
     "post_id" INTEGER NOT NULL,
+    "resolved_by_id" INTEGER,
+    "author_id" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "resolved_at" TIMESTAMP(3),
-    "resolved_by_id" INTEGER
+    "resolved_at" TIMESTAMP(3)
 );
 
 -- CreateTable
@@ -188,10 +188,10 @@ CREATE UNIQUE INDEX "brand_name_key" ON "brand"("name");
 CREATE UNIQUE INDEX "report_id_key" ON "report"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "report_author_id_key" ON "report"("author_id");
+CREATE UNIQUE INDEX "report_post_id_key" ON "report"("post_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "report_post_id_key" ON "report"("post_id");
+CREATE UNIQUE INDEX "report_author_id_key" ON "report"("author_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "email_template_name_key" ON "email_template"("name");
