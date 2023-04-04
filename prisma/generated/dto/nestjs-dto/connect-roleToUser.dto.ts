@@ -1,5 +1,1 @@
-
-  export class ConnectRoleToUserDto {
-    
-  }
-  
+export class ConnectRoleToUserDto {}

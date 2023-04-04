@@ -1,5 +1,3 @@
-
-  export class ConnectEmailDto {
-    id: number;
-  }
-  
+export class ConnectEmailDto {
+  id: number;
+}

@@ -1,5 +1,3 @@
-
-  export class ConnectUserToItemDto {
-    listName: string;
-  }
-  
+export class ConnectUserToItemDto {
+  listName: string;
+}

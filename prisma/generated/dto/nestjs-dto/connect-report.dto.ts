@@ -1,6 +1,4 @@
-
-  export class ConnectReportDto {
-    id?: number;
-authorId?: number;
-  }
-  
+export class ConnectReportDto {
+  id?: number;
+  authorId?: number;
+}

@@ -1,9 +1,1 @@
-
-
-
-
-
-
-export class UpdateTopicToBrandDto {
-  
-}
+export class UpdateTopicToBrandDto {}

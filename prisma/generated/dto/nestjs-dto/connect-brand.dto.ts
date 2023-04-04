@@ -1,6 +1,4 @@
-
-  export class ConnectBrandDto {
-    id?: number;
-name?: string;
-  }
-  
+export class ConnectBrandDto {
+  id?: number;
+  name?: string;
+}

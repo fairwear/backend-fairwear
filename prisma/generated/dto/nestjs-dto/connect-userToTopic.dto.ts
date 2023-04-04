@@ -1,5 +1,1 @@
-
-  export class ConnectUserToTopicDto {
-    
-  }
-  
+export class ConnectUserToTopicDto {}

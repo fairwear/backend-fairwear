@@ -1,5 +1,1 @@
-
-  export class ConnectTopicToBrandDto {
-    
-  }
-  
+export class ConnectTopicToBrandDto {}

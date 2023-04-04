@@ -1,9 +1,1 @@
-
-
-
-
-
-
-export class CreateUserToTopicDto {
-  
-}
+export class CreateUserToTopicDto {}

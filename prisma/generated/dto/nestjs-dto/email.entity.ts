@@ -1,14 +1,12 @@
-
-import {User} from './user.entity'
-
+import { User } from './user.entity';
 
 export class Email {
-  id: number ;
-user?: User ;
-userId: number ;
-subject: string ;
-body: string ;
-status: string ;
-dateSent: Date  | null;
-createdAt: Date ;
+  id: number;
+  user?: User;
+  userId: number;
+  subject: string;
+  body: string;
+  status: string;
+  dateSent: Date | null;
+  createdAt: Date;
 }

@@ -1,6 +1,4 @@
-
-  export class ConnectEmailTemplateDto {
-    id?: number;
-name?: string;
-  }
-  
+export class ConnectEmailTemplateDto {
+  id?: number;
+  name?: string;
+}

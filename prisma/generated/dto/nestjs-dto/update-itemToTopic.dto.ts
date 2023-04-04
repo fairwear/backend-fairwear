@@ -1,9 +1,1 @@
-
-
-
-
-
-
-export class UpdateItemToTopicDto {
-  
-}
+export class UpdateItemToTopicDto {}

@@ -1,9 +1,1 @@
-
-
-
-
-
-
-export class UpdateRoleToUserDto {
-  
-}
+export class UpdateRoleToUserDto {}

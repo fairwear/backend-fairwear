@@ -1,6 +1,4 @@
-
-  export class ConnectItemDto {
-    id?: number;
-name?: string;
-  }
-  
+export class ConnectItemDto {
+  id?: number;
+  name?: string;
+}

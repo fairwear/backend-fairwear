@@ -1,9 +1,1 @@
-
-
-
-
-
-
-export class CreateTopicToBrandDto {
-  
-}
+export class CreateTopicToBrandDto {}

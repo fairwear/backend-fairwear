@@ -1,9 +1,1 @@
-
-
-
-
-
-
-export class CreateRoleToUserDto {
-  
-}
+export class CreateRoleToUserDto {}

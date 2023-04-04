@@ -1,5 +1,1 @@
-
-  export class ConnectItemToTopicDto {
-    
-  }
-  
+export class ConnectItemToTopicDto {}

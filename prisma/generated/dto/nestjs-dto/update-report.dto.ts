@@ -1,10 +1,4 @@
-
-
-
-
-
-
 export class UpdateReportDto {
   reportReason?: string;
-comment?: string;
+  comment?: string;
 }

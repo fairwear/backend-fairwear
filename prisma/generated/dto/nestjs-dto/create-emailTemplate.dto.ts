@@ -1,12 +1,6 @@
-
-
-
-
-
-
 export class CreateEmailTemplateDto {
   name: string;
-subject: string;
-body: string;
-deletedAt?: Date;
+  subject: string;
+  body: string;
+  deletedAt?: Date;
 }
