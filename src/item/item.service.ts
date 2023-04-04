@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { ItemEntity } from './entities/item.entity';
+import { CreateItemDto } from './dto/request/create-item.dto';
+import { ItemEntity } from './entities/item-entity';
 
 @Injectable()
 export class ItemService {
@@ -9,11 +10,8 @@ export class ItemService {
     const item = await this.prisma.item.create({
       data: {
         name: entity.name,
-        score: entity.score,
-        //brandId: entity.brandId,
-        // topicIds: entity.topicIds,
-        // userIds: entity.userIds,
-        // reportIds: entity.reportIds,
+        brandId: entity.brandId,
+        userId: entity.userId,
       },
     });
     return item;
@@ -49,11 +47,6 @@ export class ItemService {
       },
       data: {
         name: entity.name,
-        score: entity.score,
-        // brandId: entity.brandId,
-        // topicIds: entity.topicIds,
-        // userIds: entity.userIds,
-        // reportIds: entity.reportIds,
       },
     });
     return item;
