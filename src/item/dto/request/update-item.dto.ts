@@ -8,18 +8,9 @@ export class UpdateItemDto extends PartialType(CreateItemDto) {
   @ApiProperty({ type: String })
   name: string;
 
-  @ApiProperty({ type: String })
-  score: string;
+  @ApiProperty({ type: Number })
+  brandId: number;
 
-  // @ApiProperty({ type: Number })
-  // brandId: number;
-
-  // @ApiPropertyOptional({ type: Array<Number> })
-  // topicIds: number[] | null;
-
-  // @ApiProperty({ type: Array<Number> })
-  // userIds: number[];
-
-  // @ApiPropertyOptional({ type: Array<Number> })
-  // reportIds: number[] | null;
+  @ApiProperty({ type: Number })
+  userId: number;
 }
