@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserRoleService } from '../user-role/user-role.service';
+import { UserResponse } from './dto/response/user.response.dto';
 import { UserEntity } from './entities/user.entity';
-
+import moment from 'moment';
 @Injectable()
 export class UserService {
   constructor(
@@ -41,6 +42,7 @@ export class UserService {
       name: response.name,
       surname: response.surname,
       roles: response.roles,
+      refreshToken: response.refreshToken,
     };
     return user;
   }
@@ -59,6 +61,7 @@ export class UserService {
         name: user.name,
         surname: user.surname,
         roles: user.roles,
+        refreshToken: user.refreshToken,
       };
     });
     return users;
@@ -173,5 +176,29 @@ export class UserService {
       },
     });
     return deleteEntity;
+  }
+
+  public async validRefreshToken(
+    email: string,
+    refreshToken: string,
+  ): Promise<UserResponse | null> {
+    const currentDate = moment().day(1).format('YYYY-MM-DD');
+    const user = await this.prisma.user.findFirst({
+      where: {
+        email: email,
+        refreshToken: refreshToken,
+      },
+    });
+    if (!user) {
+      return null;
+    }
+    const currentUser = new UserResponse();
+    currentUser.id = user.id;
+    currentUser.username = user.username;
+    currentUser.email = user.email;
+    currentUser.name = user.name;
+    currentUser.surname = user.surname;
+
+    return currentUser;
   }
 }
