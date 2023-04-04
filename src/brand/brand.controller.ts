@@ -7,12 +7,14 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { BrandService } from './brand.service';
 import { CreateBrandDto } from './dto/request/create-brand.dto';
 import { UpdateBrandDto } from './dto/request/update-brand.dto';
 import { BrandMapper } from './mapper/brand.mapper';
 
-@Controller('brand')
+@ApiTags('brand')
+@Controller('api/v1/brand')
 export class BrandController {
   constructor(private readonly brandService: BrandService) {}
 

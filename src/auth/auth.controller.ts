@@ -17,6 +17,7 @@ import { LocalAuthGuard } from './guards/local.guard';
 import RefreshTokenGuard from './guards/refresh-token.guard';
 import { SignUpGuard } from './guards/signUp.guard';
 import { Tokens } from './types';
+
 @ApiTags('auth')
 @Controller('api/v1/auth')
 export class AuthController {

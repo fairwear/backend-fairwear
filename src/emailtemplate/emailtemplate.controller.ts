@@ -7,12 +7,14 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateEmailTemplateRequest } from './dto/request/create-emailtemplate.dto';
 import { UpdateEmailTemplateRequest } from './dto/request/update-emailtemplate.dto';
 import { EmailTemplateService } from './emailtemplate.service';
 import { EmailTemplateMapper } from './mapper/emailtemplate.mapper';
 
-@Controller('emailtemplate')
+@ApiTags('emailtemplate')
+@Controller('api/v1/emailtemplate')
 export class EmailTemplateController {
   constructor(private readonly emailtemplateService: EmailTemplateService) {}
 

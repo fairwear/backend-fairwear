@@ -1,9 +1,11 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateReportRequest } from './dto/request/create-report.dto';
 import { UpdateReportRequest } from './dto/request/update-report.dto';
 import { ReportMapper } from './mapper/report.mapper';
 import { ReportService } from './report.service';
 
+@ApiTags('report')
 @Controller('api/v1/report')
 export class ReportController {
   constructor(private readonly reportService: ReportService) {}

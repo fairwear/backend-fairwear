@@ -7,11 +7,14 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { UserRoleService } from '../user-role/user-role.service';
 import { UserMapper } from '../user/mapper/user.mapper';
 import { CreateUserRequest } from './dto/request/create-user.dto';
 import { UpdateUserRequest } from './dto/request/update-user.dto';
 import { UserService } from './user.service';
+
+@ApiTags('user')
 @Controller('api/v1/user')
 export class UserController {
   constructor(
