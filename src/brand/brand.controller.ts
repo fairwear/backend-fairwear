@@ -45,7 +45,7 @@ export class BrandController {
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    const deletedEntity = await this.brandService.delete(+id);
+    const deletedEntity = await this.brandService.softDelete(+id);
     return BrandMapper.toResponse(deletedEntity);
   }
 }

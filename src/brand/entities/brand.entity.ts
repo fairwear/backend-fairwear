@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class BrandEntity {
   @ApiProperty({ type: Number })
@@ -13,9 +13,9 @@ export class BrandEntity {
   @ApiProperty({ type: Date })
   createdAt: Date;
 
-  @ApiProperty({ type: Date })
+  @ApiPropertyOptional({ type: Date })
   updatedAt: Date | null;
 
-  @ApiProperty({ type: Date })
+  @ApiPropertyOptional({ type: Date })
   deletedAt: Date | null;
 }

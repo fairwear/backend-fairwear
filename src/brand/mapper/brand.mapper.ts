@@ -9,8 +9,10 @@ export class BrandMapper {
 
     if (request instanceof UpdateBrandDto) {
       entity.id = request.id;
+      entity.updatedAt = request.updatedAt || new Date();
     }
     entity.name = request.name;
+    entity.createdAt = request.createdAt || new Date();
 
     return entity;
   }
@@ -19,6 +21,9 @@ export class BrandMapper {
     const response = new BrandResponse();
     response.id = entity.id;
     response.name = entity.name;
+    response.createdAt = entity.createdAt;
+    response.updatedAt = entity.updatedAt;
+    response.deletedAt = entity.deletedAt;
 
     return response;
   }

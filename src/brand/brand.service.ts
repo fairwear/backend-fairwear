@@ -51,10 +51,13 @@ export class BrandService {
     return brand;
   }
 
-  async delete(id: number) {
-    const deletedEntity = await this.prisma.brand.delete({
+  async softDelete(id: number) {
+    const deletedEntity = await this.prisma.brand.update({
       where: {
         id: id,
+      },
+      data: {
+        deletedAt: new Date(),
       },
     });
     return deletedEntity;

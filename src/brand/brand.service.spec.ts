@@ -118,16 +118,16 @@ describe('BrandService', () => {
 
   it('should successfuly delete a brand', async () => {
     const brand = dataFactory.getValidBrand();
-    prismaService.brand.delete.mockResolvedValueOnce(brand);
-    const result = await service.delete(1);
-    expect(prismaService.brand.delete).toHaveBeenCalledTimes(1);
+    prismaService.brand.update.mockResolvedValueOnce(brand);
+    const result = await service.softDelete(1);
+    expect(prismaService.brand.update).toHaveBeenCalledTimes(1);
     expect(result).toBeDefined();
     expect(result).toEqual(brand);
   });
 
   it('should fail to delete a brand', async () => {
-    prismaService.brand.delete.mockRejectedValueOnce(new Error('error'));
-    await expect(service.delete(1)).rejects.toThrowError('error');
-    expect(prismaService.brand.delete).toHaveBeenCalledTimes(1);
+    prismaService.brand.update.mockRejectedValueOnce(new Error('error'));
+    await expect(service.softDelete(1)).rejects.toThrowError('error');
+    expect(prismaService.brand.update).toHaveBeenCalledTimes(1);
   });
 });
