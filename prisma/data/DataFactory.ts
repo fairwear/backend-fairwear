@@ -5,6 +5,7 @@ import { EmailTemplateEntity } from '../../src/emailtemplate/entities/emailtempl
 import { BrandEntity } from '../../src/brand/entities/brand.entity';
 import { UserEntity } from '../../src/user/entities/user.entity';
 import { ItemEntity } from '../../src/item/entity/item-entity';
+import { TopicEntity } from '../../src/topic/entities/topic.entity';
 
 export class DataFactory {
   [x: string]: any;
@@ -215,5 +216,33 @@ export class DataFactory {
     brandList.push(brand3);
 
     return brandList;
+  }
+
+  // --------------------------------
+  // Topic test data
+
+  public getValidTopic() {
+    const topic: TopicEntity = new TopicEntity();
+    topic.name = 'Test name 1';
+
+    return topic;
+  }
+
+  public getTopicList() {
+    const topicList: TopicEntity[] = [];
+
+    const topic1: TopicEntity = this.getValidTopic();
+
+    const topic2: TopicEntity = new TopicEntity();
+    topic2.name = 'Test name 2';
+
+    const topic3: TopicEntity = new TopicEntity();
+    topic3.name = 'Test name 3';
+
+    topicList.push(topic1);
+    topicList.push(topic2);
+    topicList.push(topic3);
+
+    return topicList;
   }
 }

@@ -4,6 +4,6 @@ export class CreateTopicDto {
     @ApiProperty({ type: String })
     name: string;
     
-    @ApiProperty({ type: Number })
-    topicId: number;
+    @ApiPropertyOptional({ type: Number })
+    topicId: number | null;
 }

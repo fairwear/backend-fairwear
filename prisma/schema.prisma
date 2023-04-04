@@ -68,8 +68,8 @@ model Topic {
   id          Int            @id @default(autoincrement()) @db.Integer
   name        String         @unique
   UserToTopic UserToTopic[]
-  topicId     Int            @unique @map("topic_id")
-  topic       Topic          @relation("TopicSubtopic", fields: [topicId], references: [id])
+  topicId     Int?           @unique @map("topic_id")
+  topic       Topic?         @relation("TopicSubtopic", fields: [topicId], references: [id])
   subtopic    Topic[]        @relation("TopicSubtopic")
   brands      TopicToBrand[]
   //posts       TopicToPost[]
