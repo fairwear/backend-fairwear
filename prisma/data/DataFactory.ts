@@ -178,11 +178,9 @@ export class DataFactory {
 
     const item2: ItemEntity = new ItemEntity();
     item2.name = 'Test name 2';
-    
 
     const item3: ItemEntity = new ItemEntity();
     item3.name = 'Test name 3';
-   
 
     itemList.push(item1);
     itemList.push(item2);
