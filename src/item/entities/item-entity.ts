@@ -1,15 +1,15 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class ItemResponse {
+export class ItemEntity {
   @ApiProperty({ type: Number })
   id: number;
 
   @ApiProperty({ type: String })
   name: string;
 
-  @ApiProperty({ type: Number })
+  @ApiProperty({ type: String })
   brandId: number;
 
-  @ApiProperty({ type: Number })
+  @ApiProperty({ type: String })
   userId: number;
 }

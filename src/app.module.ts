@@ -7,6 +7,8 @@ import { ConfigModule } from '@nestjs/config';
 import { UserRoleModule } from './user-role/user-role.module';
 import { UserModule } from './user/user.module';
 import { ReportModule } from './report/report.module';
+import { ItemModule } from './item/item.module';
+import { BrandModule } from './brand/brand.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -16,6 +18,8 @@ import { AuthModule } from './auth/auth.module';
     ConfigModule.forRoot(),
     UserRoleModule,
     UserModule,
+    ItemModule,
+    BrandModule,
     ReportModule,
     AuthModule,
   ],

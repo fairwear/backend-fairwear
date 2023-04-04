@@ -9,9 +9,9 @@ describe('ItemController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      controllers: [ItemController],
       imports: [ConfigModule],
       providers: [ItemService, PrismaService],
-      controllers: [ItemController],
     }).compile();
 
     controller = module.get<ItemController>(ItemController);

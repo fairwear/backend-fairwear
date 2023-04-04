@@ -2,7 +2,8 @@
 import {RoleToUser} from './roleToUser.entity'
 import {Report} from './report.entity'
 import {UserToTopic} from './userToTopic.entity'
-import {UserToItem} from './userToItem.entity'
+import {Item} from './item.entity'
+import {UserToBrand} from './userToBrand.entity'
 import {Email} from './email.entity'
 
 
@@ -17,6 +18,7 @@ refreshToken: string  | null;
 roles?: RoleToUser[] ;
 filesReport?: Report[] ;
 UserToTopic?: UserToTopic[] ;
-UserToItem?: UserToItem[] ;
+items?: Item[] ;
+brands?: UserToBrand[] ;
 Email?: Email[] ;
 }

@@ -1,11 +1,11 @@
 
-import {TopicToBrand} from './topicToBrand.entity'
 import {Item} from './item.entity'
+import {UserToBrand} from './userToBrand.entity'
 
 
 export class Brand {
   id: number ;
 name: string ;
-topics?: TopicToBrand[] ;
 items?: Item[] ;
+UserToBrand?: UserToBrand[] ;
 }
