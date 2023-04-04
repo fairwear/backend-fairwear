@@ -12,14 +12,11 @@ on:
     workflow_dispatch:
       
 env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET }}
-  AWS_REGION: ${{ secrets.AWS_REGION }}
-  REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-  REMOTE_USERNAME: ${{ secrets.REMOTE_USERNAME }}
-  AWS_REMOTE_SSH_KEY: ${{ secrets.AWS_KEY_PAIR_SSH_KEY }}
-  DATABASE_URL: ${{ secrets.DATABASE_URL }}
-  REMOTE_PORT: 22
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_HOST: localhost
+  POSTGRES_PORT: 5432
+  POSTGRES_DB: fairwear-ci
 
       
 jobs:
@@ -57,9 +54,9 @@ jobs:
       - name: Clean and migrate the db
         run: npx prisma migrate reset --force
         env:
-          DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+          DATABASE_URL: postgresql://${{env.POSTGRES_USER}}:${{env.POSTGRES_PASSWORD}}@${{env.POSTGRES_HOST}}:${{env.POSTGRES_PORT}}/${{env.POSTGRES_DB}}
 
       - name: Run tests w/ Jest
         run: npm run test
         env:
-          DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+          DATABASE_URL: postgresql://${{env.POSTGRES_USER}}:${{env.POSTGRES_PASSWORD}}@${{env.POSTGRES_HOST}}:${{env.POSTGRES_PORT}}/${{env.POSTGRES_DB}}
