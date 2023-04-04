@@ -21,4 +21,7 @@ export class UserEntity {
 
   @ApiProperty({ type: Array<RoleToUser> })
   roles: RoleToUser[];
+
+  @ApiProperty({ type: String })
+  refreshToken: string | null;
 }

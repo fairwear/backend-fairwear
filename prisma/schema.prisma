@@ -111,18 +111,19 @@ model UserToTopic {
 }
 
 model User {
-  id          Int           @unique @default(autoincrement()) @db.Integer
-  username    String        @unique
-  password    String
-  email       String        @unique
-  name        String
-  surname     String
-  roles       RoleToUser[]
-  filesReport Report[]
-  UserToTopic UserToTopic[]
+  id           Int           @unique @default(autoincrement()) @db.Integer
+  username     String        @unique
+  password     String
+  email        String        @unique
+  name         String
+  surname      String
+  refreshToken String?       @map("refresh_token")
+  roles        RoleToUser[]
+  filesReport  Report[]
+  UserToTopic  UserToTopic[]
   items       Item[]
-  brands     UserToBrand[]
-  Email       Email[]
+  brands      UserToBrand[]
+  Email        Email[]
 
   @@map("user")
 }
