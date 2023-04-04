@@ -42,7 +42,7 @@ export class UserService {
       surname: response.surname,
       roles: response.roles,
       refreshToken: response.refreshToken,
-      createdAt: new Date(),
+      createdAt: response.createdAt,
       updatedAt: response.updatedAt,
       deletedAt: response.deletedAt,
     };
@@ -64,7 +64,7 @@ export class UserService {
         surname: user.surname,
         roles: user.roles,
         refreshToken: user.refreshToken,
-        createdAt: new Date(),
+        createdAt: user.createdAt,
         updatedAt: user.updatedAt,
         deletedAt: user.deletedAt,
       };

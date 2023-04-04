@@ -16,6 +16,7 @@ export class UserMapper {
     entity.surname = request.surname;
     entity.roles = entity.roles || [];
     entity.refreshToken = entity.refreshToken || '';
+    entity.createdAt = new Date();
     return entity;
   }
   public static toResponse(entity: UserEntity) {
