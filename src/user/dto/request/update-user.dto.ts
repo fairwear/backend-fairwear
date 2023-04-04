@@ -26,4 +26,10 @@ export class UpdateUserRequest extends PartialType(CreateUserRequest) {
 
   @ApiProperty({ type: String })
   refreshToken: string | null;
+
+  @ApiProperty({ type: Date })
+  updatedAt: Date | null;
+
+  @ApiProperty({ type: Date })
+  deletedAt: Date | null;
 }
