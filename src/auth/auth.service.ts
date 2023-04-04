@@ -12,10 +12,10 @@ import * as argon2 from 'argon2';
 import { Request } from 'express';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserService } from '../user/user.service';
+import { jwtConstants } from './constants';
 import { LoginRequestDto } from './dto/request/login-request.dto';
 import { JwtPayload } from './types/jwt-payload.types';
 import { Tokens } from './types/tokens.types';
-import { jwtConstants } from './constants';
 
 @Injectable()
 export class AuthService {
@@ -99,6 +99,7 @@ export class AuthService {
           secret: secret,
         })
         .catch((err) => {
+          console.log(err);
           return false;
         });
       if (isLoggedIn && isLoggedIn.isLoggedIn && isLoggedIn.userId !== null) {

@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateBrandDto } from './dto/request/create-brand.dto';
 import { UpdateBrandDto } from './dto/request/update-brand.dto';
 import { BrandEntity } from './entities/brand.entity';
 

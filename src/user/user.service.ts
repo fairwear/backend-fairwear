@@ -3,7 +3,6 @@ import { PrismaService } from '../prisma/prisma.service';
 import { UserRoleService } from '../user-role/user-role.service';
 import { UserResponse } from './dto/response/user.response.dto';
 import { UserEntity } from './entities/user.entity';
-import moment from 'moment';
 @Injectable()
 export class UserService {
   constructor(
@@ -182,7 +181,6 @@ export class UserService {
     email: string,
     refreshToken: string,
   ): Promise<UserResponse | null> {
-    const currentDate = moment().day(1).format('YYYY-MM-DD');
     const user = await this.prisma.user.findFirst({
       where: {
         email: email,

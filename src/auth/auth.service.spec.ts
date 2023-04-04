@@ -13,7 +13,9 @@ import { AuthService } from './auth.service';
 describe('AuthService', () => {
   let service: AuthService;
   let mockContext: MockContext;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let prismaService: DeepMockProxy<PrismaClient>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const dataFactory: DataFactory = new DataFactory();
 
   beforeEach(async () => {

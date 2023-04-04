@@ -1,13 +1,9 @@
-import { RoleToUser } from '@prisma/client';
 import { CreateUserRequest } from '../dto/request/create-user.dto';
 import { UpdateUserRequest } from '../dto/request/update-user.dto';
 import { UserResponse } from '../dto/response/user.response.dto';
 import { UserEntity } from '../entities/user.entity';
 export class UserMapper {
-  public static toEntity(
-    request: CreateUserRequest | UpdateUserRequest,
-    roles?: RoleToUser,
-  ) {
+  public static toEntity(request: CreateUserRequest | UpdateUserRequest) {
     const entity = new UserEntity();
 
     if (request instanceof UpdateUserRequest) {
