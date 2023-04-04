@@ -1,11 +1,11 @@
-import { ConfigModule } from "@nestjs/config";
-import { TestingModule, Test } from "@nestjs/testing";
-import { DeepMockProxy } from "jest-mock-extended";
-import { createMockContext, MockContext } from "../prisma/context";
-import { TopicService } from "./topic.service";
+import { ConfigModule } from '@nestjs/config';
+import { TestingModule, Test } from '@nestjs/testing';
+import { DeepMockProxy } from 'jest-mock-extended';
+import { createMockContext, MockContext } from '../prisma/context';
+import { TopicService } from './topic.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { PrismaClient } from '@prisma/client';
-import { DataFactory } from "../../prisma/data/DataFactory";
+import { DataFactory } from '../../prisma/data/DataFactory';
 
 describe('TopicService', () => {
   let service: TopicService;
@@ -76,7 +76,9 @@ describe('TopicService', () => {
   });
 
   it('should fail to find a topic by id', async () => {
-    prismaService.topic.findUniqueOrThrow.mockRejectedValueOnce(new Error('error'));
+    prismaService.topic.findUniqueOrThrow.mockRejectedValueOnce(
+      new Error('error'),
+    );
     await expect(service.findById(1)).rejects.toThrowError('error');
     expect(prismaService.topic.findUniqueOrThrow).toHaveBeenCalledTimes(1);
   });

@@ -4,7 +4,6 @@ import { PrismaService } from '../prisma/prisma.service';
 import { BrandController } from './brand.controller';
 import { BrandService } from './brand.service';
 
-
 describe('BrandController', () => {
   let controller: BrandController;
 
