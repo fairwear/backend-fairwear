@@ -1,6 +1,6 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateBrandDto {
-    @ApiProperty({ type: String })
-    name: string;
+  @ApiProperty({ type: String })
+  name: string;
 }

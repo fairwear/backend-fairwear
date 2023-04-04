@@ -4,6 +4,6 @@ import { BrandpostController } from './brandpost.controller';
 
 @Module({
   controllers: [BrandpostController],
-  providers: [BrandpostService]
+  providers: [BrandpostService],
 })
 export class BrandpostModule {}

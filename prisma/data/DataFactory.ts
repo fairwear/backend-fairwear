@@ -6,7 +6,6 @@ import { BrandEntity } from '../../src/brand/entities/brand.entity';
 import { UserEntity } from '../../src/user/entities/user.entity';
 import { ItemEntity } from '../../src/item/entities/item-entity';
 
-
 export class DataFactory {
   [x: string]: any;
   public static instance: DataFactory;
@@ -182,11 +181,9 @@ export class DataFactory {
 
     const item2: ItemEntity = new ItemEntity();
     item2.name = 'Test name 2';
-    
 
     const item3: ItemEntity = new ItemEntity();
     item3.name = 'Test name 3';
-   
 
     itemList.push(item1);
     itemList.push(item2);
