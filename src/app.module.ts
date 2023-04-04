@@ -10,6 +10,7 @@ import { ReportModule } from './report/report.module';
 import { BrandpostModule } from './brandpost/brandpost.module';
 import { ItemModule } from './item/item.module';
 import { BrandModule } from './brand/brand.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { BrandModule } from './brand/brand.module';
     BrandModule,
     ReportModule,
     BrandpostModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
