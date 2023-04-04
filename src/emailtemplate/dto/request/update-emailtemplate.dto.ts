@@ -21,7 +21,4 @@ export class UpdateEmailTemplateRequest extends PartialType(
 
   @ApiPropertyOptional({ type: Date })
   updatedAt: Date | null;
-
-  @ApiPropertyOptional({ type: Date })
-  deletedAt: Date | null;
 }

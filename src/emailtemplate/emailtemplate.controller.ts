@@ -32,7 +32,6 @@ export class EmailTemplateController {
   @Get(':id')
   async findById(@Param('id') id: string) {
     const entity = await this.emailtemplateService.findById(+id);
-    if (!entity) return null;
     return EmailTemplateMapper.toResponse(entity);
   }
 
@@ -48,7 +47,7 @@ export class EmailTemplateController {
 
   @Delete(':id')
   async delete(@Param('id') id: string) {
-    const deletedEntity = await this.emailtemplateService.delete(+id);
+    const deletedEntity = await this.emailtemplateService.softDelete(+id);
     return EmailTemplateMapper.toResponse(deletedEntity);
   }
 }
