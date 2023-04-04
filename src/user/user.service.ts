@@ -171,10 +171,13 @@ export class UserService {
     return user;
   }
 
-  async delete(id: number) {
-    const deleteEntity = await this.prisma.user.delete({
+  async softDelete(id: number) {
+    const deleteEntity = await this.prisma.user.update({
       where: {
         id: id,
+      },
+      data: {
+        deletedAt: new Date(),
       },
       include: {
         roles: true,

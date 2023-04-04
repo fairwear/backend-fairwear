@@ -55,7 +55,7 @@ export class UserController {
 
   @Delete(':id')
   async delete(@Param('id') id: string) {
-    const deletedEntity = await this.userService.delete(+id);
+    const deletedEntity = await this.userService.softDelete(+id);
     return UserMapper.toResponse(deletedEntity);
   }
 }

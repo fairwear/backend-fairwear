@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { CreateUserRequest } from './create-user.dto';
 
 export class UpdateUserRequest extends PartialType(CreateUserRequest) {
@@ -24,12 +24,9 @@ export class UpdateUserRequest extends PartialType(CreateUserRequest) {
   @ApiProperty({ type: Array<number> })
   roleIds: number[];
 
-  @ApiProperty({ type: String })
+  @ApiPropertyOptional({ type: String })
   refreshToken: string | null;
 
-  @ApiProperty({ type: Date })
+  @ApiPropertyOptional({ type: Date })
   updatedAt: Date | null;
-
-  @ApiProperty({ type: Date })
-  deletedAt: Date | null;
 }
