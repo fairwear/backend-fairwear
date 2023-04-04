@@ -12,4 +12,13 @@ export class ItemEntity {
 
   @ApiProperty({ type: String })
   userId: number;
+
+  @ApiProperty({ type: Date })
+  createdAt: Date;
+
+  @ApiProperty({ type: Date })
+  updatedAt: Date | null;
+
+  @ApiProperty({ type: Date })
+  deletedAt: Date | null;
 }
