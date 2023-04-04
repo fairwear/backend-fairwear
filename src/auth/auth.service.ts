@@ -8,13 +8,14 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
-import argon2 from 'argon2';
+import * as argon2 from 'argon2';
 import { Request } from 'express';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserService } from '../user/user.service';
 import { LoginRequestDto } from './dto/request/login-request.dto';
 import { JwtPayload } from './types/jwt-payload.types';
 import { Tokens } from './types/tokens.types';
+import { jwtConstants } from './constants';
 
 @Injectable()
 export class AuthService {
@@ -53,6 +54,7 @@ export class AuthService {
   }
   async login(request: any) {
     const user = request.user;
+    console.log(user);
     const isUserAdmin = await this.isUserAdminByName(user.username);
 
     const payload: JwtPayload = {
@@ -199,11 +201,11 @@ export class AuthService {
   async getTokens(payload: JwtPayload): Promise<Tokens> {
     let [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(payload, {
-        secret: process.env.JWT_ACCESS_TOKEN_SECRET,
+        secret: jwtConstants.secret,
         expiresIn: 60 * 60, // 1 hour
       }),
       this.jwtService.signAsync(payload, {
-        secret: process.env.JWT_REFRESH_TOKEN_SECRET,
+        secret: jwtConstants.refresh,
         expiresIn: 60 * 60 * 24 * 14, //14 days
       }),
     ]);
