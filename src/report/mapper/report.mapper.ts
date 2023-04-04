@@ -13,7 +13,6 @@ export class ReportMapper {
     }
     entity.authorId = request.authorId;
     entity.reportReason = request.reportReason;
-    entity.itemId = request.itemId;
     entity.createdAt = request.createdAt;
     entity.status = request.status;
     entity.comment = request.comment;
@@ -25,7 +24,6 @@ export class ReportMapper {
     response.id = entity.id;
     response.authorId = entity.authorId;
     response.reportReason = entity.reportReason;
-    response.itemId = entity.itemId;
     response.createdAt = entity.createdAt;
     response.comment = entity.comment;
     response.status = entity.status;

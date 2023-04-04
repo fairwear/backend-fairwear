@@ -9,7 +9,6 @@ export class ReportService {
       data: {
         authorId: entity.authorId,
         reportReason: entity.reportReason,
-        itemId: entity.itemId,
         createdAt: entity.createdAt,
         comment: entity.comment,
         status: entity.status,
@@ -20,7 +19,6 @@ export class ReportService {
       id: response.id,
       authorId: response.authorId,
       reportReason: response.reportReason,
-      itemId: response.itemId,
       createdAt: response.createdAt,
       comment: response.comment,
       status: response.status,
@@ -50,7 +48,6 @@ export class ReportService {
       data: {
         authorId: entity.authorId,
         reportReason: entity.reportReason,
-        itemId: entity.itemId,
         createdAt: entity.createdAt,
         comment: entity.comment,
         status: entity.status,
