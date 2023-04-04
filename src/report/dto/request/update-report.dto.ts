@@ -1,7 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateReportRequest } from './create-report.dto';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { ReportStatus } from '../../entities/report-status.enum';
+import { ReportStatusEnum } from '@prisma/client';
 
 export class UpdateReportRequest extends PartialType(CreateReportRequest) {
   @ApiProperty({ type: Number })
@@ -20,5 +20,5 @@ export class UpdateReportRequest extends PartialType(CreateReportRequest) {
   comment: string | null;
 
   @ApiProperty({})
-  status: ReportStatus;
+  status: ReportStatusEnum;
 }
