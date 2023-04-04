@@ -61,13 +61,4 @@ export class ReportService {
     });
     return report;
   }
-
-  async delete(id: number) {
-    const report = await this.prisma.report.delete({
-      where: {
-        id: id,
-      },
-    });
-    return report;
-  }
 }

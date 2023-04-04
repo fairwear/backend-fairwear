@@ -1,16 +1,8 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Delete,
-  Put,
-} from '@nestjs/common';
-import { ReportService } from './report.service';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { CreateReportRequest } from './dto/request/create-report.dto';
 import { UpdateReportRequest } from './dto/request/update-report.dto';
 import { ReportMapper } from './mapper/report.mapper';
+import { ReportService } from './report.service';
 
 @Controller('api/v1/report')
 export class ReportController {
@@ -41,11 +33,5 @@ export class ReportController {
     const entity = ReportMapper.toEntity(request);
     const report = await this.reportService.update(+id, entity);
     return ReportMapper.toResponse(report);
-  }
-
-  @Delete(':id')
-  async delete(@Param('id') id: string) {
-    const deletedEntity = await this.reportService.delete(+id);
-    return ReportMapper.toResponse(deletedEntity);
   }
 }
