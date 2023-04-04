@@ -39,7 +39,7 @@ describe('EmailtemplateService', () => {
     expect(prismaService).toBeDefined();
   });
 
-  it('should successfuly create an email template', async () => {
+  it('should successfully create an email template', async () => {
     const emailTemplate = dataFactory.getValidEmailTemplate();
 
     prismaService.emailTemplate.create.mockResolvedValueOnce(emailTemplate);
@@ -49,7 +49,7 @@ describe('EmailtemplateService', () => {
     expect(result).toEqual(emailTemplate);
   });
 
-  it('should fail to create an email tempalte', async () => {
+  it('should fail to create an email template', async () => {
     const emailTemplate = dataFactory.getValidEmailTemplate();
     prismaService.emailTemplate.create.mockRejectedValueOnce(
       new Error('error'),
@@ -58,7 +58,7 @@ describe('EmailtemplateService', () => {
     expect(prismaService.emailTemplate.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should successfuly find all email templates', async () => {
+  it('should successfully find all email templates', async () => {
     const emailTemplate = dataFactory.getValidEmailTemplate();
     prismaService.emailTemplate.findMany.mockResolvedValueOnce([emailTemplate]);
     const result = await service.findAll();
@@ -75,7 +75,7 @@ describe('EmailtemplateService', () => {
     expect(prismaService.emailTemplate.findMany).toHaveBeenCalledTimes(1);
   });
 
-  it('should successfuly find an email template by id', async () => {
+  it('should successfully find an email template by id', async () => {
     const emailTemplate = dataFactory.getValidEmailTemplate();
     prismaService.emailTemplate.findUniqueOrThrow.mockResolvedValueOnce(
       emailTemplate,
@@ -98,7 +98,7 @@ describe('EmailtemplateService', () => {
     );
   });
 
-  it('should successfuly update an email template', async () => {
+  it('should successfully update an email template', async () => {
     const emailTemplate = dataFactory.getValidEmailTemplate();
     prismaService.emailTemplate.update.mockResolvedValueOnce(emailTemplate);
     const result = await service.update(1, emailTemplate);
@@ -118,7 +118,7 @@ describe('EmailtemplateService', () => {
     expect(prismaService.emailTemplate.update).toHaveBeenCalledTimes(1);
   });
 
-  it('should successfuly delete an email template', async () => {
+  it('should successfully delete an email template', async () => {
     const emailTemplate = dataFactory.getValidEmailTemplate();
     prismaService.emailTemplate.delete.mockResolvedValueOnce(emailTemplate);
     const result = await service.delete(1);
