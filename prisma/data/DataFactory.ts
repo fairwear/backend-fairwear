@@ -1,4 +1,4 @@
-import { RoleToUser, UserRole } from '@prisma/client';
+import { UserRoleToUser, UserRole } from '@prisma/client';
 import { BrandEntity } from '../../src/brand/entities/brand.entity';
 import { BrandPostToItemEntity } from '../../src/brandpost/entities/brandpost-to-item.entity';
 import { BrandPostToTopicEntity } from '../../src/brandpost/entities/brandpost-to-topic.entity';
@@ -71,12 +71,16 @@ export class DataFactory {
   public getValidUser() {
     const roleToUser = this.getValidRoleToUser();
     const user: UserEntity = new UserEntity();
+    user.id = 1;
     user.username = 'Test username 1';
-    user.password = 'Test password 1';
     user.email = 'Test email 1';
+    user.password = 'Test password 1';
     user.name = 'Test name 1';
     user.surname = 'Test surname 1';
-    user.password = 'Test password 1';
+    user.refreshToken = 'Test refreshToken 1';
+    user.createdAt = new Date();
+    user.updatedAt = new Date('2021-01-02T00:00:00.000Z');
+    user.deletedAt = null;
     user.roles = [roleToUser];
 
     return user;
@@ -122,7 +126,7 @@ export class DataFactory {
   }
 
   public getValidRoleToUser() {
-    const roleToUser: RoleToUser = {
+    const roleToUser: UserRoleToUser = {
       userId: 1,
       roleId: 1,
     };
@@ -171,6 +175,11 @@ export class DataFactory {
   public getValidItem() {
     const item: ItemEntity = new ItemEntity();
     item.name = 'Test name 1';
+    item.brandId = 1;
+    item.userId = 1;
+    item.createdAt = new Date('2021-01-01T00:00:00.000Z');
+    item.updatedAt = null;
+    item.deletedAt = null;
 
     return item;
   }
@@ -198,6 +207,7 @@ export class DataFactory {
   public getValidBrand() {
     const brand: BrandEntity = new BrandEntity();
     brand.name = 'Test name 1';
+    brand.userId = 1;
 
     return brand;
   }
