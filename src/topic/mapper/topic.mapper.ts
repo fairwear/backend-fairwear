@@ -14,9 +14,7 @@ export class TopicMapper {
           entity.id = request.id;
         }
         entity.name = request.name;
-        // entity.itemIds = request.brandIds;
-        //entity.subtopicIds = request.subtopicIds;
-        // entity.userIds = request.userIds;
+        entity.topicId = request.topicId;
     
         return entity;
       }
@@ -25,9 +23,7 @@ export class TopicMapper {
             const response = new TopicResponse();
             response.id = entity.id;
             response.name = entity.name;
-            // response.itemIds = entity.brandId;
-            //response.subtopicIds = entity.subtopicIds;
-            // response.userIds = entity.userIds;
+            response.topicId = entity.topicId;
             
             return response;
           }

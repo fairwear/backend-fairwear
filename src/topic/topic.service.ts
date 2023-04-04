@@ -8,12 +8,10 @@ export class TopicService {
   
   constructor(private prisma: PrismaService) {}
   async create(entity: CreateTopicDto) {
-    const topic = await this.prisma.brand.create({
+    const topic = await this.prisma.topic.create({
       data: {
         name: entity.name,
-        // itemIds: entity.itemIds,
-        // subtopicIds: entity.topicIds,
-        // userIds: entity.userIds,
+        topicId: entity.topicId,
       },
     });
     return topic;
@@ -40,9 +38,7 @@ export class TopicService {
       },
       data: {
         name: entity.name,
-        // itemIds: updateTopicDto.itemIds,
-        // subtopicIds: updateTopicDto.topicIds,
-        // userIds: updateTopicDto.userIds,
+        topicId: entity.topicId,
       },
     });
     return topic;

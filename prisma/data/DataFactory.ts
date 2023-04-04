@@ -131,7 +131,6 @@ export class DataFactory {
     report.authorId = 1;
     report.reportReason = 'Test report reason 1';
     report.comment = 'Test comment 1';
-    report.itemId = 1;
     report.status = 'SUBMITTED';
 
     return report;
@@ -146,7 +145,6 @@ export class DataFactory {
     report2.authorId = 2;
     report2.reportReason = 'Test report reason 2';
     report2.comment = 'Test comment 2';
-    report2.itemId = 2;
     report2.status = 'SUBMITTED';
 
     const report3: ReportEntity = new ReportEntity();
@@ -154,7 +152,6 @@ export class DataFactory {
     report3.authorId = 3;
     report3.reportReason = 'Test report reason 3';
     report3.comment = 'Test comment 3';
-    report3.itemId = 3;
     report3.status = 'SUBMITTED';
 
     reportList.push(report1);

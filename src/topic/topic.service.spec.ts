@@ -1,12 +1,11 @@
 import { ConfigModule } from "@nestjs/config";
 import { TestingModule, Test } from "@nestjs/testing";
 import { DeepMockProxy } from "jest-mock-extended";
-import { DataFactory } from "prisma/data/DataFactory";
 import { createMockContext, MockContext } from "src/prisma/context";
 import { TopicService } from "./topic.service";
 import { PrismaService } from '../prisma/prisma.service';
 import { PrismaClient } from '@prisma/client';
-
+import { DataFactory } from "../../prisma/data/DataFactory";
 
 describe('TopicService', () => {
   let service: TopicService;

@@ -105,10 +105,11 @@ model Item {
 }
 
 model Brand {
-  id          Int           @id @default(autoincrement()) @db.Integer
-  name        String        @unique
+  id          Int            @id @default(autoincrement()) @db.Integer
+  name        String         @unique
   items       Item[]
   UserToBrand UserToBrand[]
+  topics      TopicToBrand[]
 }
 
 model UserToBrand {
@@ -143,13 +144,9 @@ model User {
   roles        RoleToUser[]
   filesReport  Report[]
   UserToTopic  UserToTopic[]
-  items       Item[]
-  brands      UserToBrand[]
-<<<<<<< HEAD
-  Email       Email[]
-=======
+  items        Item[]
+  brands       UserToBrand[]
   Email        Email[]
->>>>>>> 1db663aeba1276751a6472e2190a123a519c9cce
 
   @@map("user")
 }

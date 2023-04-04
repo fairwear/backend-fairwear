@@ -17,9 +17,6 @@ export class ReportResponse {
   @ApiPropertyOptional({ type: String })
   comment: string | null;
 
-  @ApiProperty({ type: Number })
-  itemId: number;
-
   @ApiProperty({ type: ReportStatusEnum })
   status: ReportStatusEnum;
 }
