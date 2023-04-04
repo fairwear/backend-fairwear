@@ -4,18 +4,27 @@ export class ReportEntity {
   @ApiProperty({ type: Number })
   id: number;
 
-  @ApiProperty({ type: Date })
-  createdAt: Date;
-
   @ApiProperty({ type: String })
   reportReason: string;
 
-  @ApiProperty({ type: Array<number> })
-  authorId: number;
+  @ApiProperty({})
+  status: ReportStatusEnum;
 
   @ApiPropertyOptional({ type: String })
   comment: string | null;
 
-  @ApiProperty({})
-  status: ReportStatusEnum;
+  @ApiProperty({ type: Number })
+  authorId: number;
+
+  @ApiProperty({ type: Number })
+  postId: number;
+
+  @ApiProperty({ type: Date })
+  createdAt: Date;
+
+  @ApiPropertyOptional({ type: Date, nullable: true, required: false })
+  resolvedAt: Date | null;
+
+  @ApiPropertyOptional({ type: Number, nullable: true, required: false })
+  resolvedById: number | null;
 }

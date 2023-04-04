@@ -12,16 +12,22 @@ export class ReportService {
         createdAt: entity.createdAt,
         comment: entity.comment,
         status: entity.status,
+        resolvedById: entity.resolvedById,
+        resolvedAt: entity.resolvedAt,
+        postId: entity.postId,
       },
     });
 
     const reportEntity: ReportEntity = {
       id: response.id,
       authorId: response.authorId,
+      postId: response.postId,
       reportReason: response.reportReason,
       createdAt: response.createdAt,
       comment: response.comment,
       status: response.status,
+      resolvedById: response.resolvedById,
+      resolvedAt: response.resolvedAt,
     };
     return reportEntity;
   }
