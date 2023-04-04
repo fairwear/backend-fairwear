@@ -10,8 +10,8 @@ export class ItemService {
     const item = await this.prisma.item.create({
       data: {
         name: entity.name,
-        brand: entity.brand,
-        user: entity.user,
+        brandId: entity.brandId,
+        userId: entity.userId,
       },
     });
     return item;

@@ -8,8 +8,8 @@ export class ItemEntity {
   name: string;
 
   @ApiProperty({ type: String })
-  brand: number;
+  brandId: number;
 
   @ApiProperty({ type: String })
-  user: number;
+  userId: number;
 }

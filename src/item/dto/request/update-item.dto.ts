@@ -9,8 +9,8 @@ export class UpdateItemDto extends PartialType(CreateItemDto) {
   name: string;
 
   @ApiProperty({ type: Number })
-  brand: number;
+  brandId: number;
 
   @ApiProperty({ type: Number })
-  user: number;
+  userId: number;
 }

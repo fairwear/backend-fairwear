@@ -8,8 +8,8 @@ export class ItemResponse {
   name: string;
 
   @ApiProperty({ type: Number })
-  brand: number;
+  brandId: number;
 
   @ApiProperty({ type: Number })
-  user: number;
+  userId: number;
 }

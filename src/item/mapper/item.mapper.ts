@@ -12,6 +12,7 @@ export class ItemMapper {
     }
     entity.name = request.name;
     entity.brandId = request.brandId;
+    entity.userId = request.userId;
 
     return entity;
   }
@@ -21,6 +22,7 @@ export class ItemMapper {
     response.id = entity.id;
     response.name = entity.name;
     response.brandId = entity.brandId;
+    response.userId = entity.userId;
 
     return response;
   }
