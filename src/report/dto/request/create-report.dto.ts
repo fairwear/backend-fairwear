@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { ReportStatusEnum } from '@prisma/client';
+import { ReportStatus } from '../../entities/report-status.enum';
+
 export class CreateReportRequest {
   @ApiProperty({ type: Date })
   createdAt: Date;
@@ -13,6 +14,6 @@ export class CreateReportRequest {
   @ApiPropertyOptional({ type: String })
   comment: string | null;
 
-  @ApiProperty({ type: ReportStatusEnum })
-  status: ReportStatusEnum;
+  @ApiProperty({})
+  status: ReportStatus;
 }
