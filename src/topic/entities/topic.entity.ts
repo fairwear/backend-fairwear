@@ -1,15 +1,12 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class ItemEntity {
+export class TopicEntity {
   @ApiProperty({ type: Number })
   id: number;
 
   @ApiProperty({ type: String })
   name: string;
 
-  @ApiProperty({ type: String })
-  brandId: number;
-
-  @ApiProperty({ type: String })
-  userId: number;
+  @ApiPropertyOptional({ type: Number })
+  topicId: number | null;
 }

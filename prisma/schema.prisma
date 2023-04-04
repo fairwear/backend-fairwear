@@ -25,19 +25,19 @@ generator docs {
 //   theme    = "forest"
 // }
 
-generator nestjsDto {
-  provider                        = "prisma-generator-nestjs-dto"
-  output                          = "./generated/dto/nestjs-dto"
-  outputToNestJsResourceStructure = "false"
-  exportRelationModifierClasses   = "true"
-  reExport                        = "false"
-  createDtoPrefix                 = "Create"
-  updateDtoPrefix                 = "Update"
-  dtoSuffix                       = "Dto"
-  entityPrefix                    = ""
-  entitySuffix                    = ""
-  fileNamingStyle                 = "camel"
-}
+// generator nestjsDto {
+//   provider                        = "prisma-generator-nestjs-dto"
+//   output                          = "./generated/dto/nestjs-dto"
+//   outputToNestJsResourceStructure = "false"
+//   exportRelationModifierClasses   = "true"
+//   reExport                        = "false"
+//   createDtoPrefix                 = "Create"
+//   updateDtoPrefix                 = "Update"
+//   dtoSuffix                       = "Dto"
+//   entityPrefix                    = ""
+//   entitySuffix                    = ""
+//   fileNamingStyle                 = "camel"
+// }
 
 model EmailTemplate {
   id        Int       @id @default(autoincrement()) @db.Integer
@@ -65,14 +65,36 @@ model Email {
 }
 
 model Topic {
-  id               Int                @id @default(autoincrement()) @db.Integer
-  name             String             @unique
+  id               Int                 @id @default(autoincrement()) @db.Integer
+  name             String              @unique
   UserToTopic      UserToTopic[]
-  topicId          Int                @unique @map("topic_id")
-  topic            Topic              @relation("TopicSubtopic", fields: [topicId], references: [id])
-  subtopic         Topic[]            @relation("TopicSubtopic")
+  topicId          Int?                @unique @map("topic_id")
+  topic            Topic?              @relation("TopicSubtopic", fields: [topicId], references: [id])
+  subtopic         Topic[]             @relation("TopicSubtopic")
   BrandPostToTopic BrandPostToTopic[]
+  brands      TopicToBrand[]
+  //posts       TopicToPost[]
 }
+
+model TopicToBrand {
+  topic   Topic @relation(fields: [topicId], references: [id])
+  topicId Int   @map("topic_id")
+  brand   Brand @relation(fields: [brandId], references: [id])
+  brandId Int   @map("brand_id")
+
+  @@unique([topicId, brandId])
+  @@map("topic_to_brand")
+}
+
+// model TopicToPost {
+//   topic   Topic @relation(fields: [topicId], references: [id])
+//   topicId Int   @map("topic_id")
+//   post    Post  @relation(fields: [postId], references: [id])
+//   postId  Int   @map("post_id")
+
+//   @@unique([topicId, postId])
+//   @@map("topic_to_post")
+// }
 
 model Item {
   id              Int               @id @default(autoincrement()) @db.Integer
@@ -85,11 +107,12 @@ model Item {
 }
 
 model Brand {
-  id          Int           @id @default(autoincrement()) @db.Integer
-  name        String        @unique
+  id          Int            @id @default(autoincrement()) @db.Integer
+  name        String         @unique
   items       Item[]
   UserToBrand UserToBrand[]
   BrandPost   BrandPost[]
+  topics      TopicToBrand[]
 }
 
 model UserToBrand {

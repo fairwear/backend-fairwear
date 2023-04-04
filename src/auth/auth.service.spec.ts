@@ -7,8 +7,14 @@ import { MockContext, createMockContext } from '../prisma/context';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
-import { JwtService } from '@nestjs/jwt';
+import { MockContext, createMockContext } from '../prisma/context';
+import { DeepMockProxy } from 'jest-mock-extended';
+import { PrismaClient } from '@prisma/client';
+import { ConfigModule } from '@nestjs/config';
+import { UserService } from '../user/user.service';
 import { UserRoleService } from '../user-role/user-role.service';
+import { JwtService } from '@nestjs/jwt';
+import { PrismaService } from '../prisma/prisma.service';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -17,6 +23,9 @@ describe('AuthService', () => {
   const dataFactory: DataFactory = new DataFactory();
 
   beforeEach(async () => {
+    jest.resetAllMocks();
+    mockContext = createMockContext();
+
     jest.resetAllMocks();
     mockContext = createMockContext();
 
@@ -35,6 +44,7 @@ describe('AuthService', () => {
       .compile();
 
     service = module.get<AuthService>(AuthService);
+    prismaService = module.get<DeepMockProxy<PrismaClient>>(PrismaService);
     prismaService = module.get<DeepMockProxy<PrismaClient>>(PrismaService);
   });
 

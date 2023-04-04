@@ -2,9 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
-import { PrismaService } from '../prisma/prisma.service';
-import { JwtService } from '@nestjs/jwt';
 import { UserRoleService } from '../user-role/user-role.service';
+import { JwtService } from '@nestjs/jwt';
+import { PrismaService } from '../prisma/prisma.service';
 
 describe('AuthController', () => {
   let controller: AuthController;
