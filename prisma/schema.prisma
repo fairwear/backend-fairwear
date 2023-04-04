@@ -37,6 +37,7 @@ generator docs {
 // }
 
 // ------------------------------------ ENUMS ------------------------------------
+
 enum RoleEnum {
   USER
   ADMIN
@@ -60,6 +61,7 @@ enum VoteEnum {
 }
 
 // ------------------------------------ MAIN ENTITIES ------------------------------------
+
 model User {
   // ------ Fields ------
   id              Int              @unique @default(autoincrement()) @db.Integer
@@ -69,6 +71,10 @@ model User {
   name            String
   surname         String
   refreshToken    String?          @map("refresh_token")
+  // ------ Timestamps ------
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime?        @updatedAt @map("updated_at")
+  deletedAt       DateTime?        @map("deleted_at")
   // ------ Relationships ------
   roles           UserRoleToUser[]
   filedReports    Report[]         @relation("author")
@@ -80,10 +86,6 @@ model User {
   votes           BrandPostVote[]
   createdBrands   Brand[]
   Email           Email[]
-  // ------ Timestamps & Ownership ------
-  createdAt       DateTime         @default(now()) @map("created_at")
-  updatedAt       DateTime?        @updatedAt @map("updated_at")
-  deletedAt       DateTime?        @map("deleted_at")
 
   @@map("user")
 }
@@ -117,16 +119,16 @@ model Item {
   // ------ Fields ------
   id        Int               @id @default(autoincrement()) @db.Integer
   name      String            @unique
-  // ------ Relationships ------
-  brand     Brand             @relation(fields: [brandId], references: [id])
-  brandId   Int               @map("brand_id")
-  posts     BrandPostToItem[]
-  // ------ Timestamps & Ownership ------
-  createdAt DateTime          @default(now()) @map("created_at")
-  createdBy User              @relation(fields: [userId], references: [id])
   userId    Int               @map("user_id")
+  brandId   Int               @map("brand_id")
+  // ------ Timestamps ------
+  createdAt DateTime          @default(now()) @map("created_at")
   updatedAt DateTime?         @updatedAt @map("updated_at")
   deletedAt DateTime?         @map("deleted_at")
+  // ------ Relationships ------
+  brand     Brand             @relation(fields: [brandId], references: [id])
+  posts     BrandPostToItem[]
+  createdBy User              @relation(fields: [userId], references: [id])
 
   @@map("item")
 }
@@ -136,16 +138,16 @@ model Brand {
   id           Int            @id @default(autoincrement()) @db.Integer
   name         String         @unique
   userId       Int            @map("user_id")
+  // ------ Timestamps ------
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime?      @updatedAt @map("updated_at")
+  deletedAt    DateTime?      @map("deleted_at")
   // ------ Relationships ------
   items        Item[]
   savedByUsers UserToBrand[]
   posts        BrandPost[]
   topics       TopicToBrand[]
-  // ------ Timestamps & Ownership ------
   createdBy    User           @relation(fields: [userId], references: [id])
-  createdAt    DateTime       @default(now()) @map("created_at")
-  updatedAt    DateTime?      @updatedAt @map("updated_at")
-  deletedAt    DateTime?      @map("deleted_at")
 
   @@map("brand")
 }
@@ -158,13 +160,13 @@ model Report {
   comment      String?
   postId       Int              @unique @map("post_id")
   resolvedById Int?             @map("resolved_by_id")
-  // ------ Relationships ------
-  author       User             @relation(name: "author", fields: [authorId], references: [id])
   authorId     Int              @unique @map("author_id")
-  post         BrandPost        @relation(fields: [postId], references: [id])
-  // ------ Timestamps & Ownership ------
+  // ------ Timestamps  ------
   createdAt    DateTime         @default(now()) @map("created_at")
   resolvedAt   DateTime?        @map("resolved_at")
+  // ------ Relationships ------
+  author       User             @relation(name: "author", fields: [authorId], references: [id])
+  post         BrandPost        @relation(fields: [postId], references: [id])
   resolvedBy   User?            @relation(name: "resolved_by", fields: [resolvedById], references: [id])
 
   @@map("report")
@@ -174,18 +176,18 @@ model BrandPost {
   // ------ Fields ------
   id           Int                @id @default(autoincrement()) @db.Integer
   body         String
+  brandId      Int                @map("brand_id")
+  authorId     Int                @map("author_id")
+  // ------ Timestamps ------
+  createdAt    DateTime           @default(now()) @map("created_at")
+  deletedAt    DateTime?          @map("deleted_at")
   // ------ Relationships ------
   brand        Brand              @relation(fields: [brandId], references: [id])
-  brandId      Int                @map("brand_id")
   author       User               @relation(fields: [authorId], references: [id])
-  authorId     Int                @map("author_id")
   votes        BrandPostVote[]
   topics       BrandPostToTopic[]
   relatedItems BrandPostToItem[]
   reports      Report[]
-  // ------ Timestamps & Ownership ------
-  createdAt    DateTime           @default(now()) @map("created_at")
-  deletedAt    DateTime?          @map("deleted_at")
 
   @@map("brand_post")
 }
@@ -196,7 +198,7 @@ model EmailTemplate {
   name      String    @unique
   subject   String
   body      String
-  // ------ Timestamps & Ownership ------
+  // ------ Timestamps ------
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
@@ -210,12 +212,12 @@ model Email {
   subject   String
   body      String
   status    String
-  // ------ Relationships ------
-  user      User      @relation(fields: [userId], references: [id])
   userId    Int
-  // ------ Timestamps & Ownership ------
+  // ------ Timestamps ------
   dateSent  DateTime? @map("date_sent")
   createdAt DateTime  @default(now()) @map("created_at")
+  // ------ Relationships ------
+  user      User      @relation(fields: [userId], references: [id])
 
   @@map("email")
 }
