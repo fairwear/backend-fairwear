@@ -10,6 +10,7 @@ export class BrandService {
     const brand = await this.prisma.brand.create({
       data: {
         name: entity.name,
+        userId: entity.userId,
       },
     });
     return brand;
