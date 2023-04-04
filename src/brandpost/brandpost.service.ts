@@ -1,26 +1,167 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBrandPostDto } from './dto/request/create-brandpost.dto';
-import { UpdateBrandPostDto } from './dto/request/update-brandpost.dto';
+import { AuthService } from '../auth/auth.service';
+import { PrismaService } from '../prisma/prisma.service';
+import { VoteBrandPostDto } from './dto/request/entry/brandpost-vote.dto';
+import { BrandPostEntity } from './entities/brandpost.entity';
 
 @Injectable()
 export class BrandPostService {
-  create(createBrandPostDto: CreateBrandPostDto) {
-    return 'This action adds a new brandpost';
+  constructor(
+    private prisma: PrismaService,
+    private authService: AuthService,
+  ) {}
+  async create(entity: BrandPostEntity) {
+    const createdEntity = await this.prisma.brandPost.create({
+      data: {
+        body: entity.body,
+        createdAt: entity.createdAt,
+        brandId: entity.brandId,
+        authorId: entity.authorId,
+        topics: {
+          create: entity.topics.map((topic) => ({
+            topicId: topic.topicId,
+            isBad: topic.isBad,
+          })),
+        },
+        relatedItems: {
+          create: entity.relatedItems.map((item) => ({
+            itemId: item.itemId,
+          })),
+        },
+      },
+      include: {
+        topics: true,
+        relatedItems: true,
+        votes: true,
+      },
+    });
+
+    return createdEntity;
   }
 
-  findAll() {
-    return `This action returns all brandpost`;
+  async findAll() {
+    return this.prisma.brandPost.findMany({
+      include: {
+        topics: true,
+        relatedItems: true,
+        votes: true,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} brandpost`;
+  async findById(id: number) {
+    const entity = this.prisma.brandPost.findUniqueOrThrow({
+      where: {
+        id,
+      },
+      include: {
+        topics: true,
+        relatedItems: true,
+        votes: true,
+      },
+    });
+
+    return entity;
   }
 
-  update(id: number, updateBrandPostDto: UpdateBrandPostDto) {
-    return `This action updates a #${id} brandpost`;
+  async softDelete(id: number, userId: number) {
+    const entity = await this.prisma.brandPost.findUniqueOrThrow({
+      where: {
+        id,
+      },
+    });
+
+    const isUserAdmin = await this.authService.isUserAdmin(userId);
+
+    if (entity.authorId !== userId && !isUserAdmin) {
+      throw new Error('You are not the author of this post');
+    }
+
+    const deletedEntity = await this.prisma.brandPost.update({
+      where: {
+        id,
+      },
+      data: {
+        deletedAt: new Date(),
+      },
+      include: {
+        topics: true,
+        relatedItems: true,
+        votes: true,
+      },
+    });
+
+    return deletedEntity;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} brandpost`;
+  async vote(id: number, userId: number, voteEntry: VoteBrandPostDto) {
+    const entity = await this.prisma.brandPost.findUniqueOrThrow({
+      where: {
+        id,
+      },
+      include: {
+        votes: true,
+      },
+    });
+
+    const existingVote = entity.votes.find((vote) => vote.userId === userId);
+
+    if (existingVote) {
+      if (existingVote.vote === voteEntry.vote) {
+        await this.prisma.brandPostVote.delete({
+          where: {
+            userId_postId: {
+              userId: existingVote.userId,
+              postId: existingVote.postId,
+            },
+          },
+        });
+      }
+
+      await this.prisma.brandPostVote.update({
+        where: {
+          userId_postId: {
+            userId: existingVote.userId,
+            postId: existingVote.postId,
+          },
+        },
+        data: {
+          vote: voteEntry.vote,
+        },
+      });
+    }
+    await this.prisma.brandPostVote.create({
+      data: {
+        userId,
+        postId: id,
+        vote: voteEntry.vote,
+      },
+    });
+
+    const createdEntity = this.prisma.brandPost.findUniqueOrThrow({
+      where: {
+        id,
+      },
+      include: {
+        topics: true,
+        relatedItems: true,
+        votes: true,
+      },
+    });
+
+    return createdEntity;
+  }
+
+  async getVotes(id: number) {
+    const entity = await this.prisma.brandPost.findUniqueOrThrow({
+      where: {
+        id,
+      },
+      include: {
+        votes: true,
+      },
+    });
+
+    return entity.votes;
   }
 }
