@@ -246,3 +246,6 @@ export class DataFactory {
     return topicList;
   }
 }
+
+// Hashed password 'password'
+// $argon2id$v=19$m=65536,t=3,p=4$uOqMSIzsj7p29cW5MZBycQ$aHKi072CJODOLsLz3rKa9RBXvZOLgF+XcilEIc4Um10

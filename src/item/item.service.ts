@@ -3,7 +3,6 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateItemDto } from './dto/request/create-item.dto';
 import { ItemEntity } from './entity/item-entity';
 
-
 @Injectable()
 export class ItemService {
   constructor(private prisma: PrismaService) {}

@@ -5,7 +5,6 @@ import { UpdateTopicDto } from './dto/request/update-topic.dto';
 
 @Injectable()
 export class TopicService {
-  
   constructor(private prisma: PrismaService) {}
   async create(entity: CreateTopicDto) {
     const topic = await this.prisma.topic.create({
@@ -29,7 +28,7 @@ export class TopicService {
       },
     });
     return topic;
-    }
+  }
 
   async update(id: number, entity: UpdateTopicDto) {
     const topic = await this.prisma.topic.update({
@@ -42,7 +41,6 @@ export class TopicService {
       },
     });
     return topic;
-    
   }
 
   async delete(id: number) {
