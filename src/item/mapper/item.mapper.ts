@@ -11,6 +11,7 @@ export class ItemMapper {
       entity.id = request.id;
     }
     entity.name = request.name;
+    entity.brandId = request.brandId;
 
     return entity;
   }
@@ -19,6 +20,7 @@ export class ItemMapper {
     const response = new ItemResponse();
     response.id = entity.id;
     response.name = entity.name;
+    response.brandId = entity.brandId;
 
     return response;
   }
