@@ -12,7 +12,7 @@ import { CreateReportRequest } from './dto/request/create-report.dto';
 import { UpdateReportRequest } from './dto/request/update-report.dto';
 import { ReportMapper } from './mapper/report.mapper';
 
-@Controller('report')
+@Controller('api/v1/report')
 export class ReportController {
   constructor(private readonly reportService: ReportService) {}
 
