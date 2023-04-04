@@ -1,0 +1,65 @@
+name: backend continuous integration
+
+permissions:
+  id-token: write
+  contents: read
+
+on:
+    push:
+        branches: [master]
+    pull_request:
+        branches: [master]
+    workflow_dispatch:
+      
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET }}
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+  REMOTE_USERNAME: ${{ secrets.REMOTE_USERNAME }}
+  AWS_REMOTE_SSH_KEY: ${{ secrets.AWS_KEY_PAIR_SSH_KEY }}
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  REMOTE_PORT: 22
+
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      actions-db:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD:  postgres
+          POSTGRES_DB: fairwear-ci
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v3
+
+      - name: Set up Node 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+
+      - name: Check code formatting w/ Prettier
+        run: npx prettier --check .
+
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run build
+        run: npm run build
+
+      - name: Clean and migrate the db
+        run: npx prisma migrate reset --force
+        env:
+          DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+
+      - name: Run tests w/ Jest
+        run: npm run test
+        env:
+          DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
