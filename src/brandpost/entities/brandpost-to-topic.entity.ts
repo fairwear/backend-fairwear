@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class BrandPostToTopic {
+export class BrandPostToTopicEntity {
   @ApiProperty({ type: Number, description: 'BrandPost ID' })
   postId: number;
 

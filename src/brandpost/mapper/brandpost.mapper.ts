@@ -1,7 +1,7 @@
 import { CreateBrandPostDto } from '../dto/request/create-brandpost.dto';
 import { ResponseBrandPostDto } from '../dto/response/response-brandpost.dto';
 import { BrandPostToItemEntity } from '../entities/brandpost-to-item.entity';
-import { BrandPostToTopic } from '../entities/brandpost-to-topic.entity';
+import { BrandPostToTopicEntity } from '../entities/brandpost-to-topic.entity';
 import { BrandPostEntity } from '../entities/brandpost.entity';
 
 export class BrandPostMapper {
@@ -14,7 +14,7 @@ export class BrandPostMapper {
     entity.authorId = authorId;
     entity.votes = [];
     entity.topics = request.topics.map((topic) => {
-      const brandPostToTopic = new BrandPostToTopic();
+      const brandPostToTopic = new BrandPostToTopicEntity();
       brandPostToTopic.topicId = topic.topicId;
       brandPostToTopic.isBad = topic.isBad;
       return brandPostToTopic;

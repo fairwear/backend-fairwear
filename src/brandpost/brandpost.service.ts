@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { VoteBrandPostDto } from './dto/request/entry/brandpost-vote.dto';
+import { BrandPostVoteEntry } from './dto/request/entry/brandpost-vote.dto';
 import { BrandPostEntity } from './entities/brandpost.entity';
 
 @Injectable()
@@ -94,7 +94,7 @@ export class BrandPostService {
     return deletedEntity;
   }
 
-  async vote(id: number, userId: number, voteEntry: VoteBrandPostDto) {
+  async vote(id: number, userId: number, voteEntry: BrandPostVoteEntry) {
     const entity = await this.prisma.brandPost.findUniqueOrThrow({
       where: {
         id,

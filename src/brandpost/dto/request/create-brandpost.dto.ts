@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BrandPostToTopicEntryDto } from './entry/brandpost-to-topic-entry.-dto';
+import { BrandPostToTopicEntryDto } from './entry/brandpost-to-topic-entry.dto';
 
 export class CreateBrandPostDto {
   @ApiProperty({ type: String, description: 'BrandPost Body' })

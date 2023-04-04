@@ -1,11 +1,15 @@
-import { RoleToUser } from '@prisma/client';
-import { UserRole } from '@prisma/client';
-import { ReportEntity } from '../../src/report/entities/report.entity';
-import { EmailTemplateEntity } from '../../src/emailtemplate/entities/emailtemplate.entity';
+import { RoleToUser, UserRole } from '@prisma/client';
 import { BrandEntity } from '../../src/brand/entities/brand.entity';
-import { UserEntity } from '../../src/user/entities/user.entity';
+import { BrandPostToItemEntity } from '../../src/brandpost/entities/brandpost-to-item.entity';
+import { BrandPostToTopicEntity } from '../../src/brandpost/entities/brandpost-to-topic.entity';
+import { BrandPostVoteEntity } from '../../src/brandpost/entities/brandpost-vote.entity';
+import { BrandPostEntity } from '../../src/brandpost/entities/brandpost.entity';
+import { EmailTemplateEntity } from '../../src/emailtemplate/entities/emailtemplate.entity';
 import { ItemEntity } from '../../src/item/entity/item-entity';
+import { ReportEntity } from '../../src/report/entities/report.entity';
 import { TopicEntity } from '../../src/topic/entities/topic.entity';
+import { UserEntity } from '../../src/user/entities/user.entity';
+import { BrandPostVoteEntry } from '../../src/brandpost/dto/request/entry/brandpost-vote.dto';
 
 export class DataFactory {
   [x: string]: any;
@@ -162,8 +166,7 @@ export class DataFactory {
     return reportList;
   }
 
-  // --------------------------------
-  // Item test data
+  // ---------------Item Test Data-----------------
 
   public getValidItem() {
     const item: ItemEntity = new ItemEntity();
@@ -190,8 +193,7 @@ export class DataFactory {
     return itemList;
   }
 
-  // --------------------------------
-  // Brand test data
+  // ---------------Brand Test Data-----------------
 
   public getValidBrand() {
     const brand: BrandEntity = new BrandEntity();
@@ -218,8 +220,7 @@ export class DataFactory {
     return brandList;
   }
 
-  // --------------------------------
-  // Topic test data
+  // ---------------Topic Test Data-----------------
 
   public getValidTopic() {
     const topic: TopicEntity = new TopicEntity();
@@ -245,7 +246,110 @@ export class DataFactory {
 
     return topicList;
   }
-}
 
+  // -----------------BrandPost Test Data--------------------
+
+  public getValidBrandPost() {
+    const brandPost: BrandPostEntity = new BrandPostEntity();
+    brandPost.body = 'Test body 1';
+    brandPost.authorId = 1;
+    brandPost.brandId = 1;
+    brandPost.createdAt = new Date('2021-01-01T00:00:00.000Z');
+    brandPost.deletedAt = null;
+    brandPost.topics = [this.getValidBrandPostToTopic()];
+    brandPost.relatedItems = [this.getValidBrandPostToItem()];
+    brandPost.votes = [this.getValidBrandPostUpvote()];
+
+    return brandPost;
+  }
+
+  public getValidBrandPostUpvote() {
+    const brandPostVote: BrandPostVoteEntity = new BrandPostVoteEntity();
+    brandPostVote.userId = 1;
+    brandPostVote.postId = 1;
+    brandPostVote.vote = 'UPVOTE';
+    brandPostVote.createdAt = new Date('2021-01-01T00:00:00.000Z');
+
+    return brandPostVote;
+  }
+  public getValidBrandPostDownvote() {
+    const brandPostVote: BrandPostVoteEntity = new BrandPostVoteEntity();
+    brandPostVote.userId = 1;
+    brandPostVote.postId = 1;
+    brandPostVote.vote = 'DOWNVOTE';
+    brandPostVote.createdAt = new Date('2021-01-02T00:00:00.000Z');
+
+    return brandPostVote;
+  }
+
+  public getValidBrandPostToTopic() {
+    const brandPostToTopic = new BrandPostToTopicEntity();
+    brandPostToTopic.topicId = 1;
+    brandPostToTopic.postId = 1;
+    brandPostToTopic.isBad = false;
+
+    return brandPostToTopic;
+  }
+
+  public getValidBrandPostVoteEntry() {
+    const brandPostVoteEntry: BrandPostVoteEntry = new BrandPostVoteEntry();
+    brandPostVoteEntry.postId = 1;
+    brandPostVoteEntry.vote = 'DOWNVOTE';
+
+    return brandPostVoteEntry;
+  }
+
+  public getValidBrandPostToItem() {
+    const brandPostToItem = new BrandPostToItemEntity();
+    brandPostToItem.itemId = 1;
+    brandPostToItem.postId = 1;
+
+    return brandPostToItem;
+  }
+
+  public getDeletedBrandPost() {
+    const brandPost: BrandPostEntity = new BrandPostEntity();
+    brandPost.body = 'Test body 1';
+    brandPost.authorId = 1;
+    brandPost.brandId = 1;
+    brandPost.createdAt = new Date('2021-01-01T00:00:00.000Z');
+    brandPost.deletedAt = new Date('2021-01-02T00:00:00.000Z');
+
+    return brandPost;
+  }
+
+  public getBrandPostList() {
+    const brandPostList: BrandPostEntity[] = [];
+
+    const brandPost1: BrandPostEntity = this.getValidBrandPost();
+
+    const brandPost2: BrandPostEntity = new BrandPostEntity();
+    brandPost2.body = 'Test body 2';
+    brandPost2.authorId = 2;
+    brandPost2.brandId = 2;
+    brandPost2.createdAt = new Date('2021-02-01T00:00:00.000Z');
+    brandPost2.deletedAt = null;
+    brandPost2.votes = [this.getValidBrandPostDownvote()];
+    brandPost2.topics = [this.getValidBrandPostToTopic()];
+    brandPost2.relatedItems = [];
+
+    const brandPost3: BrandPostEntity = new BrandPostEntity();
+    brandPost3.body = 'Test body 3';
+    brandPost3.authorId = 3;
+    brandPost3.brandId = 3;
+    brandPost3.createdAt = new Date('2021-03-01T00:00:00.000Z');
+    brandPost3.deletedAt = new Date('2021-03-02T00:00:00.000Z');
+    brandPost3.votes = [];
+    brandPost3.topics = [];
+    brandPost3.relatedItems = [];
+
+    brandPostList.push(brandPost1);
+    brandPostList.push(brandPost2);
+    brandPostList.push(brandPost3);
+
+    return brandPostList;
+  }
+  // ---------------Other-----------------
+}
 // Hashed password 'password'
 // $argon2id$v=19$m=65536,t=3,p=4$uOqMSIzsj7p29cW5MZBycQ$aHKi072CJODOLsLz3rKa9RBXvZOLgF+XcilEIc4Um10

@@ -12,7 +12,7 @@ import GetCurrentUserId from '../auth/decorators/get-current-user-id.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { BrandPostService } from './brandpost.service';
 import { CreateBrandPostDto } from './dto/request/create-brandpost.dto';
-import { VoteBrandPostDto } from './dto/request/entry/brandpost-vote.dto';
+import { BrandPostVoteEntry } from './dto/request/entry/brandpost-vote.dto';
 import { BrandPostMapper } from './mapper/brandpost.mapper';
 
 @ApiTags('BrandPost')
@@ -56,7 +56,7 @@ export class BrandPostController {
   async vote(
     @Param('id') id: string,
     @GetCurrentUserId() userId: number,
-    @Body() voteEntry: VoteBrandPostDto,
+    @Body() voteEntry: BrandPostVoteEntry,
   ) {
     const entity = await this.brandpostService.vote(+id, userId, voteEntry);
     return BrandPostMapper.toResponse(entity);
