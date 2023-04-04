@@ -11,7 +11,7 @@ describe('TopicController', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule],
       providers: [TopicService, PrismaService],
-      controllers: [TopicController]
+      controllers: [TopicController],
     }).compile();
 
     controller = module.get<TopicController>(TopicController);
