@@ -16,6 +16,6 @@ export class ReportEntity {
   @ApiPropertyOptional({ type: String })
   comment: string | null;
 
-  @ApiProperty({ type: ReportStatusEnum })
+  @ApiProperty({})
   status: ReportStatusEnum;
 }

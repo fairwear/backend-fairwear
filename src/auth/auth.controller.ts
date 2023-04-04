@@ -18,8 +18,8 @@ import { LocalAuthGuard } from './guards/local.guard';
 import RefreshTokenGuard from './guards/refresh-token.guard';
 import { SignUpGuard } from './guards/signUp.guard';
 import { Tokens } from './types';
-@ApiTags('api/v1/auth')
-@Controller('auth')
+@ApiTags('auth')
+@Controller('api/v1/auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
@@ -27,13 +27,13 @@ export class AuthController {
   @Post('signup')
   @UseGuards(SignUpGuard)
   signup(@Req() request: Request): Promise<Tokens> {
-    return this.authService.signUp(request.body);
+    return this.authService.signUp(request);
   }
 
   @Post('login')
   @UseGuards(LocalAuthGuard)
   login(@Req() request: Request) {
-    return this.authService.login(request.body);
+    return this.authService.login(request);
   }
 
   @Get('profile')
