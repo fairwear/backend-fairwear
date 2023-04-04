@@ -11,6 +11,7 @@ export class ItemService {
         name: entity.name,
         brandId: entity.brandId,
         userId: entity.userId,
+        createdAt: entity.createdAt,
       },
     });
     return item;
@@ -46,15 +47,20 @@ export class ItemService {
       },
       data: {
         name: entity.name,
+        brandId: entity.brandId,
+        updatedAt: entity.updatedAt,
       },
     });
     return item;
   }
 
-  async delete(id: number) {
-    const deletedEntity = await this.prisma.item.delete({
+  async softDelete(id: number) {
+    const deletedEntity = await this.prisma.item.update({
       where: {
         id: id,
+      },
+      data: {
+        deletedAt: new Date(),
       },
     });
     return deletedEntity;

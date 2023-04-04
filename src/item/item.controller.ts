@@ -52,7 +52,7 @@ export class ItemController {
 
   @Delete(':id')
   async delete(@Param('id') id: string) {
-    const deletedEntity = await this.itemService.delete(+id);
+    const deletedEntity = await this.itemService.softDelete(+id);
     return ItemMapper.toResponse(deletedEntity);
   }
 }

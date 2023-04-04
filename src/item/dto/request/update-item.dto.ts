@@ -13,4 +13,7 @@ export class UpdateItemDto extends PartialType(CreateItemDto) {
 
   @ApiProperty({ type: Number })
   userId: number;
+
+  @ApiProperty({ type: Date })
+  updatedAt: Date;
 }
