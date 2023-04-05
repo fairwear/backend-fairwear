@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Put,
+} from '@nestjs/common';
 import { BrandService } from './brand.service';
 import { CreateBrandDto } from './dto/request/create-brand.dto';
 import { UpdateBrandDto } from './dto/request/update-brand.dto';
@@ -25,7 +34,7 @@ export class BrandController {
   async findById(@Param('id') id: string) {
     const entity = await this.brandService.findById(+id);
     if (!entity) return null;
-    return BrandMapper.toResponse(entity); 
+    return BrandMapper.toResponse(entity);
   }
 
   @Put(':id')

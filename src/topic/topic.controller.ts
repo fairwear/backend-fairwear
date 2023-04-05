@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { TopicService } from './topic.service';
 import { CreateTopicDto } from './dto/request/create-topic.dto';
 import { UpdateTopicDto } from './dto/request/update-topic.dto';
@@ -25,7 +33,7 @@ export class TopicController {
   async findById(@Param('id') id: string) {
     const entity = await this.topicService.findById(+id);
     if (!entity) return null;
-    return TopicMapper.toResponse(entity); 
+    return TopicMapper.toResponse(entity);
   }
 
   @Patch(':id')
