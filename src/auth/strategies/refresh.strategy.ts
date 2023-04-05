@@ -13,7 +13,7 @@ export class RefreshTokenStrategy extends PassportStrategy(
     super({
       ignoreExpiration: true,
       passReqToCallback: true,
-      secretOrKey: 'my really secret key does not let oters to login',
+      secretOrKey: 'my really secret key does not let others to login',
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request: Request) => {
           const data = request?.cookies?.['auth-cookie'];
