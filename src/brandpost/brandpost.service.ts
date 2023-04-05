@@ -10,7 +10,7 @@ export class BrandPostService {
     private prisma: PrismaService,
     private authService: AuthService,
   ) {}
-  async create(entity: BrandPostEntity) {
+  async create(entity: BrandPostEntity): Promise<BrandPostEntity> {
     const createdEntity = await this.prisma.brandPost.create({
       data: {
         body: entity.body,
@@ -39,7 +39,7 @@ export class BrandPostService {
     return createdEntity;
   }
 
-  async findAll() {
+  async findAll(): Promise<BrandPostEntity[]> {
     return this.prisma.brandPost.findMany({
       include: {
         topics: true,
@@ -49,7 +49,7 @@ export class BrandPostService {
     });
   }
 
-  async findById(id: number) {
+  async findById(id: number): Promise<BrandPostEntity> {
     const entity = this.prisma.brandPost.findUniqueOrThrow({
       where: {
         id,
@@ -64,10 +64,10 @@ export class BrandPostService {
     return entity;
   }
 
-  async softDelete(id: number, userId: number) {
+  async softDelete(id: number, userId: number): Promise<BrandPostEntity> {
     const entity = await this.prisma.brandPost.findUniqueOrThrow({
       where: {
-        id,
+        id: id,
       },
     });
 
@@ -79,7 +79,7 @@ export class BrandPostService {
 
     const deletedEntity = await this.prisma.brandPost.update({
       where: {
-        id,
+        id: id,
       },
       data: {
         deletedAt: new Date(),
@@ -94,10 +94,14 @@ export class BrandPostService {
     return deletedEntity;
   }
 
-  async vote(id: number, userId: number, voteEntry: BrandPostVoteEntry) {
+  async vote(
+    id: number,
+    userId: number,
+    voteEntry: BrandPostVoteEntry,
+  ): Promise<BrandPostEntity> {
     const entity = await this.prisma.brandPost.findUniqueOrThrow({
       where: {
-        id,
+        id: id,
       },
       include: {
         votes: true,
@@ -116,31 +120,32 @@ export class BrandPostService {
             },
           },
         });
-      }
-
-      await this.prisma.brandPostVote.update({
-        where: {
-          userId_postId: {
-            userId: existingVote.userId,
-            postId: existingVote.postId,
+      } else {
+        await this.prisma.brandPostVote.update({
+          where: {
+            userId_postId: {
+              userId: existingVote.userId,
+              postId: existingVote.postId,
+            },
           },
-        },
+          data: {
+            vote: voteEntry.vote,
+          },
+        });
+      }
+    } else {
+      await this.prisma.brandPostVote.create({
         data: {
+          userId,
+          postId: id,
           vote: voteEntry.vote,
         },
       });
     }
-    await this.prisma.brandPostVote.create({
-      data: {
-        userId,
-        postId: id,
-        vote: voteEntry.vote,
-      },
-    });
 
     const createdEntity = this.prisma.brandPost.findUniqueOrThrow({
       where: {
-        id,
+        id: id,
       },
       include: {
         topics: true,
@@ -152,7 +157,7 @@ export class BrandPostService {
     return createdEntity;
   }
 
-  async getVotes(id: number) {
+  async getVotes(id: number): Promise<{ upvotes: number; downvotes: number }> {
     const entity = await this.prisma.brandPost.findUniqueOrThrow({
       where: {
         id,
@@ -162,6 +167,11 @@ export class BrandPostService {
       },
     });
 
-    return entity.votes;
+    const postVotes = {
+      upvotes: entity.votes.filter((vote) => vote.vote === 'UPVOTE').length,
+      downvotes: entity.votes.filter((vote) => vote.vote === 'DOWNVOTE').length,
+    };
+
+    return postVotes;
   }
 }

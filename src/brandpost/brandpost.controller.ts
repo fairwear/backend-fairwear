@@ -14,6 +14,8 @@ import { BrandPostService } from './brandpost.service';
 import { CreateBrandPostDto } from './dto/request/create-brandpost.dto';
 import { BrandPostVoteEntry } from './dto/request/entry/brandpost-vote.dto';
 import { BrandPostMapper } from './mapper/brandpost.mapper';
+import { BrandPostVoteResponseDto } from './dto/response/brandpost-vote-response.dto';
+import { ResponseBrandPostDto } from './dto/response/response-brandpost.dto';
 
 @ApiTags('BrandPost')
 @Controller('api/v1/brandpost')
@@ -25,7 +27,7 @@ export class BrandPostController {
   async create(
     @GetCurrentUserId() userId: number,
     @Body() createRequest: CreateBrandPostDto,
-  ) {
+  ): Promise<ResponseBrandPostDto> {
     const entity = BrandPostMapper.toEntity(createRequest, userId);
 
     const createdEntity = await this.brandpostService.create(entity);
@@ -33,20 +35,23 @@ export class BrandPostController {
   }
 
   @Get()
-  async findAll() {
+  async findAll(): Promise<ResponseBrandPostDto[]> {
     const entities = await this.brandpostService.findAll();
     return BrandPostMapper.toResponseList(entities);
   }
 
   @Get(':id')
-  async findById(@Param('id') id: string) {
+  async findById(@Param('id') id: string): Promise<ResponseBrandPostDto> {
     const entity = await this.brandpostService.findById(+id);
     return BrandPostMapper.toResponse(entity);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  async delete(@Param('id') id: string, @GetCurrentUserId() userId: number) {
+  async delete(
+    @Param('id') id: string,
+    @GetCurrentUserId() userId: number,
+  ): Promise<ResponseBrandPostDto> {
     const deletedEntity = await this.brandpostService.softDelete(+id, userId);
     return BrandPostMapper.toResponse(deletedEntity);
   }
@@ -57,13 +62,13 @@ export class BrandPostController {
     @Param('id') id: string,
     @GetCurrentUserId() userId: number,
     @Body() voteEntry: BrandPostVoteEntry,
-  ) {
+  ): Promise<ResponseBrandPostDto> {
     const entity = await this.brandpostService.vote(+id, userId, voteEntry);
     return BrandPostMapper.toResponse(entity);
   }
 
   @Get(':id/votes')
-  async getVotes(@Param('id') id: string) {
+  async getVotes(@Param('id') id: string): Promise<BrandPostVoteResponseDto> {
     const votes = await this.brandpostService.getVotes(+id);
     return votes;
   }
