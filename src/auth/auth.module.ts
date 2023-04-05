@@ -14,7 +14,7 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { AccessTokenStrategy } from './strategies/access-token.strategy';
 import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
-import { SignUpStrategy } from './strategies/signUp.strategy';
+import { SignUpStrategy } from './strategies/signup.strategy';
 
 @Module({
   imports: [
