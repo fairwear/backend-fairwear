@@ -15,7 +15,7 @@ import GetCurrentUser from './decorators/get-current-user.decorator';
 import Public from './decorators/public.decorator';
 import { LocalAuthGuard } from './guards/local.guard';
 import RefreshTokenGuard from './guards/refresh-token.guard';
-import { SignUpGuard } from './guards/signUp.guard';
+import { SignUpGuard } from './guards/signup.guard';
 import { Tokens } from './types';
 
 @ApiTags('auth')
