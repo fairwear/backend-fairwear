@@ -208,6 +208,7 @@ export class DataFactory {
     const brand: BrandEntity = new BrandEntity();
     brand.name = 'Test name 1';
     brand.userId = 1;
+    brand.createdAt = new Date('2021-01-01T00:00:00.000Z');
 
     return brand;
   }

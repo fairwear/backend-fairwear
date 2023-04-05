@@ -6,12 +6,15 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { BrandService } from './brand.service';
 import { CreateBrandDto } from './dto/request/create-brand.dto';
 import { UpdateBrandDto } from './dto/request/update-brand.dto';
 import { BrandMapper } from './mapper/brand.mapper';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
+import GetCurrentUserId from '../auth/decorators/get-current-user-id.decorator';
 
 @ApiTags('brand')
 @Controller('api/v1/brand')
@@ -19,8 +22,12 @@ export class BrandController {
   constructor(private readonly brandService: BrandService) {}
 
   @Post()
-  async create(@Body() request: CreateBrandDto) {
-    const entity = BrandMapper.toEntity(request);
+  @UseGuards(JwtAuthGuard)
+  async create(
+    @Body() request: CreateBrandDto,
+    @GetCurrentUserId() userId: number,
+  ) {
+    const entity = BrandMapper.toEntity(request, userId);
     const createdEntity = await this.brandService.create(entity);
     return BrandMapper.toResponse(createdEntity);
   }
@@ -39,15 +46,21 @@ export class BrandController {
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() request: UpdateBrandDto) {
-    const entity = BrandMapper.toEntity(request);
+  @UseGuards(JwtAuthGuard)
+  async update(
+    @Param('id') id: string,
+    @Body() request: UpdateBrandDto,
+    @GetCurrentUserId() userId: number,
+  ) {
+    const entity = BrandMapper.toEntity(request, userId);
     const updatedEntity = await this.brandService.update(+id, entity);
     return BrandMapper.toResponse(updatedEntity);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    const deletedEntity = await this.brandService.softDelete(+id);
+  @UseGuards(JwtAuthGuard)
+  async remove(@Param('id') id: string, @GetCurrentUserId() userId: number) {
+    const deletedEntity = await this.brandService.softDelete(+id, userId);
     return BrandMapper.toResponse(deletedEntity);
   }
 }
