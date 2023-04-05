@@ -101,13 +101,13 @@ describe('BrandpostService', () => {
 
     prismaService.brandPost.findUniqueOrThrow.mockResolvedValueOnce(brandpost);
     prismaService.user.findUniqueOrThrow.mockResolvedValueOnce(user);
-    prismaService.brandPostVote.create.mockResolvedValueOnce(vote);
+    prismaService.brandPostVote.update.mockResolvedValueOnce(vote);
     prismaService.brandPost.findUniqueOrThrow.mockResolvedValueOnce(brandpost);
 
     const result = await service.vote(brandpost.id, user.id, voteEntry);
 
     expect(prismaService.brandPost.findUniqueOrThrow).toHaveBeenCalledTimes(2);
-    expect(prismaService.brandPostVote.create).toHaveBeenCalledTimes(1);
+    expect(prismaService.brandPostVote.update).toHaveBeenCalledTimes(1);
 
     expect(result).toBeDefined();
     expect(result).toEqual(brandpost);
@@ -121,13 +121,13 @@ describe('BrandpostService', () => {
 
     prismaService.brandPost.findUniqueOrThrow.mockResolvedValueOnce(brandpost);
     prismaService.user.findUniqueOrThrow.mockResolvedValueOnce(user);
-    prismaService.brandPostVote.create.mockResolvedValueOnce(vote);
+    prismaService.brandPostVote.update.mockResolvedValueOnce(vote);
     prismaService.brandPost.findUniqueOrThrow.mockResolvedValueOnce(brandpost);
 
     const result = await service.vote(brandpost.id, user.id, voteEntry);
 
     expect(prismaService.brandPost.findUniqueOrThrow).toHaveBeenCalledTimes(2);
-    expect(prismaService.brandPostVote.create).toHaveBeenCalledTimes(1);
+    expect(prismaService.brandPostVote.update).toHaveBeenCalledTimes(1);
 
     expect(result).toBeDefined();
     expect(result).toEqual(brandpost);
