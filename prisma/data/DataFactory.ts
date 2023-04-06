@@ -4,8 +4,8 @@ import { ReportEntity } from '../../src/report/entities/report.entity';
 import { EmailTemplateEntity } from '../../src/emailtemplate/entities/emailtemplate.entity';
 import { BrandEntity } from '../../src/brand/entities/brand.entity';
 import { UserEntity } from '../../src/user/entities/user.entity';
-import { ItemEntity } from '../../src/item/entities/item-entity';
-
+import { ItemEntity } from '../../src/item/entity/item-entity';
+import { TopicEntity } from '../../src/topic/entities/topic.entity';
 
 export class DataFactory {
   [x: string]: any;
@@ -132,7 +132,6 @@ export class DataFactory {
     report.authorId = 1;
     report.reportReason = 'Test report reason 1';
     report.comment = 'Test comment 1';
-    report.itemId = 1;
     report.status = 'SUBMITTED';
 
     return report;
@@ -147,7 +146,6 @@ export class DataFactory {
     report2.authorId = 2;
     report2.reportReason = 'Test report reason 2';
     report2.comment = 'Test comment 2';
-    report2.itemId = 2;
     report2.status = 'SUBMITTED';
 
     const report3: ReportEntity = new ReportEntity();
@@ -155,7 +153,6 @@ export class DataFactory {
     report3.authorId = 3;
     report3.reportReason = 'Test report reason 3';
     report3.comment = 'Test comment 3';
-    report3.itemId = 3;
     report3.status = 'SUBMITTED';
 
     reportList.push(report1);
@@ -182,11 +179,9 @@ export class DataFactory {
 
     const item2: ItemEntity = new ItemEntity();
     item2.name = 'Test name 2';
-    
 
     const item3: ItemEntity = new ItemEntity();
     item3.name = 'Test name 3';
-   
 
     itemList.push(item1);
     itemList.push(item2);
@@ -222,4 +217,35 @@ export class DataFactory {
 
     return brandList;
   }
+
+  // --------------------------------
+  // Topic test data
+
+  public getValidTopic() {
+    const topic: TopicEntity = new TopicEntity();
+    topic.name = 'Test name 1';
+
+    return topic;
+  }
+
+  public getTopicList() {
+    const topicList: TopicEntity[] = [];
+
+    const topic1: TopicEntity = this.getValidTopic();
+
+    const topic2: TopicEntity = new TopicEntity();
+    topic2.name = 'Test name 2';
+
+    const topic3: TopicEntity = new TopicEntity();
+    topic3.name = 'Test name 3';
+
+    topicList.push(topic1);
+    topicList.push(topic2);
+    topicList.push(topic3);
+
+    return topicList;
+  }
 }
+
+// Hashed password 'password'
+// $argon2id$v=19$m=65536,t=3,p=4$uOqMSIzsj7p29cW5MZBycQ$aHKi072CJODOLsLz3rKa9RBXvZOLgF+XcilEIc4Um10

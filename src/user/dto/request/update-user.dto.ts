@@ -23,4 +23,7 @@ export class UpdateUserRequest extends PartialType(CreateUserRequest) {
 
   @ApiProperty({ type: Array<number> })
   roleIds: number[];
+
+  @ApiProperty({ type: String })
+  refreshToken: string | null;
 }

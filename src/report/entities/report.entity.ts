@@ -16,9 +16,6 @@ export class ReportEntity {
   @ApiPropertyOptional({ type: String })
   comment: string | null;
 
-  @ApiProperty({ type: Array<number> })
-  itemId: number;
-
-  @ApiProperty({ type: ReportStatusEnum })
+  @ApiProperty({})
   status: ReportStatusEnum;
 }

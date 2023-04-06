@@ -13,9 +13,7 @@ describe('BrandService', () => {
   let prismaService: DeepMockProxy<PrismaClient>;
   const dataFactory: DataFactory = new DataFactory();
 
-
   beforeEach(async () => {
-    
     jest.resetAllMocks();
     mockContext = createMockContext();
 
@@ -48,14 +46,12 @@ describe('BrandService', () => {
 
   it('should fail to create a brand', async () => {
     const brand = dataFactory.getValidBrand();
-    prismaService.brand.create.mockRejectedValueOnce(
-      new Error('error'),
-    );
+    prismaService.brand.create.mockRejectedValueOnce(new Error('error'));
     await expect(service.create(brand)).rejects.toThrowError('error');
     expect(prismaService.brand.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should successfuly find all brands', async () => { 
+  it('should successfuly find all brands', async () => {
     const brand = dataFactory.getValidBrand();
     prismaService.brand.findMany.mockResolvedValueOnce([brand]);
     const result = await service.findAll();
@@ -65,9 +61,7 @@ describe('BrandService', () => {
   });
 
   it('should fail to find all brands', async () => {
-    prismaService.brand.findMany.mockRejectedValueOnce(
-      new Error('error'),
-    );
+    prismaService.brand.findMany.mockRejectedValueOnce(new Error('error'));
     await expect(service.findAll()).rejects.toThrowError('error');
     expect(prismaService.brand.findMany).toHaveBeenCalledTimes(1);
   });
@@ -117,9 +111,7 @@ describe('BrandService', () => {
 
   it('should fail to update a brand', async () => {
     const brand = dataFactory.getValidBrand();
-    prismaService.brand.update.mockRejectedValueOnce(
-      new Error('error'),
-    );
+    prismaService.brand.update.mockRejectedValueOnce(new Error('error'));
     await expect(service.update(1, brand)).rejects.toThrowError('error');
     expect(prismaService.brand.update).toHaveBeenCalledTimes(1);
   });
@@ -134,9 +126,7 @@ describe('BrandService', () => {
   });
 
   it('should fail to delete a brand', async () => {
-    prismaService.brand.delete.mockRejectedValueOnce(
-      new Error('error'),
-    );
+    prismaService.brand.delete.mockRejectedValueOnce(new Error('error'));
     await expect(service.delete(1)).rejects.toThrowError('error');
     expect(prismaService.brand.delete).toHaveBeenCalledTimes(1);
   });

@@ -19,6 +19,7 @@ export class UserMapper {
     entity.name = request.name;
     entity.surname = request.surname;
     entity.roles = entity.roles || [];
+    entity.refreshToken = entity.refreshToken || '';
     return entity;
   }
   public static toResponse(entity: UserEntity) {
@@ -30,6 +31,7 @@ export class UserMapper {
     response.name = entity.name;
     response.surname = entity.surname;
     response.roles = entity.roles;
+    response.refreshToken = entity.refreshToken;
     return response;
   }
 

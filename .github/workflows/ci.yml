@@ -1,0 +1,62 @@
+name: backend continuous integration
+
+permissions:
+  id-token: write
+  contents: read
+
+on:
+    push:
+        branches: [master]
+    pull_request:
+        branches: [master]
+    workflow_dispatch:
+      
+env:
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_HOST: localhost
+  POSTGRES_PORT: 5432
+  POSTGRES_DB: fairwear-ci
+
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      actions-db:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD:  postgres
+          POSTGRES_DB: fairwear-ci
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v3
+
+      - name: Set up Node 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+
+      - name: Check code formatting w/ Prettier
+        run: npx prettier --check .
+
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run build
+        run: npm run build
+
+      - name: Clean and migrate the db
+        run: npx prisma migrate reset --force
+        env:
+          DATABASE_URL: postgresql://${{env.POSTGRES_USER}}:${{env.POSTGRES_PASSWORD}}@${{env.POSTGRES_HOST}}:${{env.POSTGRES_PORT}}/${{env.POSTGRES_DB}}
+
+      - name: Run tests w/ Jest
+        run: npm run test
+        env:
+          DATABASE_URL: postgresql://${{env.POSTGRES_USER}}:${{env.POSTGRES_PASSWORD}}@${{env.POSTGRES_HOST}}:${{env.POSTGRES_PORT}}/${{env.POSTGRES_DB}}
