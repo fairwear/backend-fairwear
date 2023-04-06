@@ -15,8 +15,8 @@ describe('AuthController', () => {
       providers: [
         AuthService,
         UserService,
-        UserRoleService,
         JwtService,
+        UserRoleService,
         PrismaService,
       ],
     }).compile();

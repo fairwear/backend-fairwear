@@ -1,18 +1,20 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Post,
   Put,
 } from '@nestjs/common';
-import { ItemService } from './item.service';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateItemDto } from './dto/request/create-item.dto';
 import { UpdateItemDto } from './dto/request/update-item.dto';
+import { ItemService } from './item.service';
 import { ItemMapper } from './mapper/item.mapper';
 
-@Controller('item')
+@ApiTags('item')
+@Controller('api/v1/item')
 export class ItemController {
   constructor(private readonly itemService: ItemService) {}
 
@@ -52,7 +54,7 @@ export class ItemController {
 
   @Delete(':id')
   async delete(@Param('id') id: string) {
-    const deletedEntity = await this.itemService.delete(+id);
+    const deletedEntity = await this.itemService.softDelete(+id);
     return ItemMapper.toResponse(deletedEntity);
   }
 }

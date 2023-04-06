@@ -12,7 +12,6 @@ export class EmailTemplateMapper {
     if (request instanceof UpdateEmailTemplateRequest) {
       entity.id = request.id;
       entity.updatedAt = request.updatedAt;
-      entity.deletedAt = request.deletedAt;
     }
     entity.name = request.name;
     entity.subject = request.subject;

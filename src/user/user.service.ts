@@ -3,7 +3,6 @@ import { PrismaService } from '../prisma/prisma.service';
 import { UserRoleService } from '../user-role/user-role.service';
 import { UserResponse } from './dto/response/user.response.dto';
 import { UserEntity } from './entities/user.entity';
-import moment from 'moment';
 @Injectable()
 export class UserService {
   constructor(
@@ -43,6 +42,9 @@ export class UserService {
       surname: response.surname,
       roles: response.roles,
       refreshToken: response.refreshToken,
+      createdAt: response.createdAt,
+      updatedAt: response.updatedAt,
+      deletedAt: response.deletedAt,
     };
     return user;
   }
@@ -62,6 +64,9 @@ export class UserService {
         surname: user.surname,
         roles: user.roles,
         refreshToken: user.refreshToken,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+        deletedAt: user.deletedAt,
       };
     });
     return users;
@@ -166,10 +171,13 @@ export class UserService {
     return user;
   }
 
-  async delete(id: number) {
-    const deleteEntity = await this.prisma.user.delete({
+  async softDelete(id: number) {
+    const deleteEntity = await this.prisma.user.update({
       where: {
         id: id,
+      },
+      data: {
+        deletedAt: new Date(),
       },
       include: {
         roles: true,
@@ -182,7 +190,6 @@ export class UserService {
     email: string,
     refreshToken: string,
   ): Promise<UserResponse | null> {
-    const currentDate = moment().day(1).format('YYYY-MM-DD');
     const user = await this.prisma.user.findFirst({
       where: {
         email: email,

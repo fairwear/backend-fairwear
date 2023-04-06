@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UserRoleModule } from './user-role/user-role.module';
 import { UserModule } from './user/user.module';
 import { ReportModule } from './report/report.module';
+import { BrandpostModule } from './brandpost/brandpost.module';
 import { ItemModule } from './item/item.module';
 import { BrandModule } from './brand/brand.module';
 import { AuthModule } from './auth/auth.module';
@@ -21,6 +22,7 @@ import { AuthModule } from './auth/auth.module';
     ItemModule,
     BrandModule,
     ReportModule,
+    BrandpostModule,
     AuthModule,
   ],
   controllers: [AppController],

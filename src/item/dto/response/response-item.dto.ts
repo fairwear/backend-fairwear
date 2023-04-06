@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class ItemResponse {
   @ApiProperty({ type: Number })
@@ -12,4 +12,13 @@ export class ItemResponse {
 
   @ApiProperty({ type: Number })
   userId: number;
+
+  @ApiProperty({ type: Date })
+  createdAt: Date;
+
+  @ApiProperty({ type: Date, nullable: true })
+  updatedAt: Date | null;
+
+  @ApiProperty({ type: Date, nullable: true })
+  deletedAt: Date | null;
 }

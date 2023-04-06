@@ -118,16 +118,16 @@ describe('ItemService', () => {
 
   it('should successfuly delete an item', async () => {
     const item = dataFactory.getValidItem();
-    prismaService.item.delete.mockResolvedValueOnce(item);
-    const result = await service.delete(1);
-    expect(prismaService.item.delete).toHaveBeenCalledTimes(1);
+    prismaService.item.update.mockResolvedValueOnce(item);
+    const result = await service.softDelete(1);
+    expect(prismaService.item.update).toHaveBeenCalledTimes(1);
     expect(result).toBeDefined();
     expect(result).toEqual(item);
   });
 
   it('should fail to delete an item', async () => {
-    prismaService.item.delete.mockRejectedValueOnce(new Error('error'));
-    await expect(service.delete(1)).rejects.toThrowError('error');
-    expect(prismaService.item.delete).toHaveBeenCalledTimes(1);
+    prismaService.item.update.mockRejectedValueOnce(new Error('error'));
+    await expect(service.softDelete(1)).rejects.toThrowError('error');
+    expect(prismaService.item.update).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { CreateItemDto } from './create-item.dto';
 
 export class UpdateItemDto extends PartialType(CreateItemDto) {
@@ -13,4 +13,7 @@ export class UpdateItemDto extends PartialType(CreateItemDto) {
 
   @ApiProperty({ type: Number })
   userId: number;
+
+  @ApiProperty({ type: Date })
+  updatedAt: Date;
 }

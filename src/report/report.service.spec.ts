@@ -98,20 +98,4 @@ describe('ReportService', () => {
     );
     expect(prismaService.report.update).toHaveBeenCalledTimes(1);
   });
-
-  it('should successfully delete a report', async () => {
-    const report = dataFactory.getValidReport();
-    prismaService.report.delete.mockResolvedValueOnce(report);
-    const result = await service.delete(report.id);
-    expect(prismaService.report.delete).toHaveBeenCalledTimes(1);
-    expect(result).toBeDefined();
-    expect(result).toEqual(report);
-  });
-
-  it('should fail to delete a report', async () => {
-    const report = dataFactory.getValidReport();
-    prismaService.report.delete.mockRejectedValueOnce(new Error('error'));
-    await expect(service.delete(report.id)).rejects.toThrowError('error');
-    expect(prismaService.report.delete).toHaveBeenCalledTimes(1);
-  });
 });

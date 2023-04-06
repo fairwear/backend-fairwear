@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { RoleToUser } from '@prisma/client';
+import { UserRoleToUser } from '@prisma/client';
 export class UserEntity {
   @ApiProperty({ type: Number })
   id: number;
@@ -19,9 +19,18 @@ export class UserEntity {
   @ApiProperty({ type: String })
   surname: string;
 
-  @ApiProperty({ type: Array<RoleToUser> })
-  roles: RoleToUser[];
+  @ApiProperty({ type: Array<UserRoleToUser> })
+  roles: UserRoleToUser[];
 
   @ApiProperty({ type: String })
   refreshToken: string | null;
+
+  @ApiProperty({ type: Date })
+  createdAt: Date;
+
+  @ApiProperty({ type: Date })
+  updatedAt: Date | null;
+
+  @ApiProperty({ type: Date })
+  deletedAt: Date | null;
 }

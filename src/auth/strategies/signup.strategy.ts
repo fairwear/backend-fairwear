@@ -33,6 +33,9 @@ export class SignUpStrategy extends PassportStrategy(Strategy, 'signup') {
         id: 0,
         roles: [],
         refreshToken: null,
+        createdAt: request.body.createdAt,
+        updatedAt: request.body.updatedAt,
+        deletedAt: request.body.deletedAt,
       })
       .catch((error) => {
         if (error instanceof PrismaClientKnownRequestError) {

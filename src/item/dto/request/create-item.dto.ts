@@ -9,4 +9,7 @@ export class CreateItemDto {
 
   @ApiProperty({ type: Number })
   userId: number;
+
+  @ApiProperty({ type: Date })
+  createdAt: Date;
 }

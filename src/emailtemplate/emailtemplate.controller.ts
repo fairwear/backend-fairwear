@@ -7,12 +7,14 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateEmailTemplateRequest } from './dto/request/create-emailtemplate.dto';
 import { UpdateEmailTemplateRequest } from './dto/request/update-emailtemplate.dto';
 import { EmailTemplateService } from './emailtemplate.service';
 import { EmailTemplateMapper } from './mapper/emailtemplate.mapper';
 
-@Controller('emailtemplate')
+@ApiTags('emailtemplate')
+@Controller('api/v1/emailtemplate')
 export class EmailTemplateController {
   constructor(private readonly emailtemplateService: EmailTemplateService) {}
 
@@ -32,7 +34,6 @@ export class EmailTemplateController {
   @Get(':id')
   async findById(@Param('id') id: string) {
     const entity = await this.emailtemplateService.findById(+id);
-    if (!entity) return null;
     return EmailTemplateMapper.toResponse(entity);
   }
 
@@ -48,7 +49,7 @@ export class EmailTemplateController {
 
   @Delete(':id')
   async delete(@Param('id') id: string) {
-    const deletedEntity = await this.emailtemplateService.delete(+id);
+    const deletedEntity = await this.emailtemplateService.softDelete(+id);
     return EmailTemplateMapper.toResponse(deletedEntity);
   }
 }

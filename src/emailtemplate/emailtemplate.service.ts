@@ -5,8 +5,8 @@ import { EmailTemplateEntity } from './entities/emailtemplate.entity';
 @Injectable()
 export class EmailTemplateService {
   constructor(private prisma: PrismaService) {}
-  create(entity: EmailTemplateEntity) {
-    const emailTemplate = this.prisma.emailTemplate.create({
+  async create(entity: EmailTemplateEntity) {
+    const emailTemplate = await this.prisma.emailTemplate.create({
       data: {
         name: entity.name,
         subject: entity.subject,
@@ -17,8 +17,8 @@ export class EmailTemplateService {
     return emailTemplate;
   }
 
-  findAll() {
-    const emailTemplates = this.prisma.emailTemplate.findMany();
+  async findAll() {
+    const emailTemplates = await this.prisma.emailTemplate.findMany();
     return emailTemplates;
   }
 
@@ -31,8 +31,8 @@ export class EmailTemplateService {
     return emailTemplate;
   }
 
-  update(id: number, entity: EmailTemplateEntity) {
-    const emailTemplate = this.prisma.emailTemplate.update({
+  async update(id: number, entity: EmailTemplateEntity) {
+    const emailTemplate = await this.prisma.emailTemplate.update({
       where: {
         id: id,
       },
@@ -42,16 +42,18 @@ export class EmailTemplateService {
         body: entity.body,
         createdAt: entity.createdAt,
         updatedAt: entity.updatedAt,
-        deletedAt: entity.deletedAt,
       },
     });
     return emailTemplate;
   }
 
-  async delete(id: number) {
-    const deletedEntity = await this.prisma.emailTemplate.delete({
+  async softDelete(id: number) {
+    const deletedEntity = await this.prisma.emailTemplate.update({
       where: {
         id: id,
+      },
+      data: {
+        deletedAt: new Date(),
       },
     });
     return deletedEntity;
