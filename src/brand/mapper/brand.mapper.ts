@@ -4,13 +4,21 @@ import { BrandResponse } from '../dto/response/response-brand.dto';
 import { BrandEntity } from '../entities/brand.entity';
 
 export class BrandMapper {
-  public static toEntity(request: CreateBrandDto | UpdateBrandDto) {
+  public static toEntity(
+    request: CreateBrandDto | UpdateBrandDto,
+    userId: number,
+  ) {
     const entity = new BrandEntity();
 
     if (request instanceof UpdateBrandDto) {
       entity.id = request.id;
+      entity.updatedAt = request.updatedAt;
     }
     entity.name = request.name;
+    entity.userId = userId;
+    if (request instanceof CreateBrandDto) {
+      entity.createdAt = request.createdAt;
+    }
 
     return entity;
   }
@@ -19,6 +27,9 @@ export class BrandMapper {
     const response = new BrandResponse();
     response.id = entity.id;
     response.name = entity.name;
+    response.createdAt = entity.createdAt;
+    response.updatedAt = entity.updatedAt;
+    response.deletedAt = entity.deletedAt;
 
     return response;
   }

@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -39,11 +36,169 @@ generator docs {
 //   fileNamingStyle                 = "camel"
 // }
 
+// ------------------------------------ ENUMS ------------------------------------
+
+enum RoleEnum {
+  USER
+  ADMIN
+
+  @@map("role_enum")
+}
+
+enum ReportStatusEnum {
+  SUBMITTED
+  PENDING
+  RESOLVED
+
+  @@map("report_status_enum")
+}
+
+enum VoteEnum {
+  UPVOTE
+  DOWNVOTE
+
+  @@map("vote_enum")
+}
+
+// ------------------------------------ MAIN ENTITIES ------------------------------------
+
+model User {
+  // ------ Fields ------
+  id              Int              @unique @default(autoincrement()) @db.Integer
+  username        String           @unique
+  password        String
+  email           String           @unique
+  name            String
+  surname         String
+  refreshToken    String?          @map("refresh_token")
+  // ------ Timestamps ------
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime?        @updatedAt @map("updated_at")
+  deletedAt       DateTime?        @map("deleted_at")
+  // ------ Relationships ------
+  roles           UserRoleToUser[]
+  filedReports    Report[]         @relation("author")
+  resolvedReports Report[]         @relation("resolved_by")
+  prefferedTopics UserToTopic[]
+  items           Item[]
+  savedBrands     UserToBrand[]
+  posts           BrandPost[]
+  votes           BrandPostVote[]
+  createdBrands   Brand[]
+  Email           Email[]
+
+  @@map("user")
+}
+
+model Topic {
+  // ------ Fields ------
+  id              Int                @id @default(autoincrement()) @db.Integer
+  name            String             @unique
+  topicId         Int?               @unique @map("topic_id")
+  // ------ Relationships ------
+  topic           Topic?             @relation("TopicSubtopic", fields: [topicId], references: [id])
+  subtopic        Topic[]            @relation("TopicSubtopic")
+  posts           BrandPostToTopic[]
+  brands          TopicToBrand[]
+  userPreferences UserToTopic[]
+
+  @@map("topic")
+}
+
+model UserRole {
+  // ------ Fields ------
+  id    Int              @id @default(autoincrement()) @db.Integer
+  name  RoleEnum         @unique @default(USER)
+  // ------ Relationships ------
+  users UserRoleToUser[]
+
+  @@map("user_to_role")
+}
+
+model Item {
+  // ------ Fields ------
+  id        Int               @id @default(autoincrement()) @db.Integer
+  name      String            @unique
+  userId    Int               @map("user_id")
+  brandId   Int               @map("brand_id")
+  // ------ Timestamps ------
+  createdAt DateTime          @default(now()) @map("created_at")
+  updatedAt DateTime?         @updatedAt @map("updated_at")
+  deletedAt DateTime?         @map("deleted_at")
+  // ------ Relationships ------
+  brand     Brand             @relation(fields: [brandId], references: [id])
+  posts     BrandPostToItem[]
+  createdBy User              @relation(fields: [userId], references: [id])
+
+  @@map("item")
+}
+
+model Brand {
+  // ------ Fields ------
+  id           Int            @id @default(autoincrement()) @db.Integer
+  name         String         @unique
+  userId       Int            @map("user_id")
+  // ------ Timestamps ------
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime?      @updatedAt @map("updated_at")
+  deletedAt    DateTime?      @map("deleted_at")
+  // ------ Relationships ------
+  items        Item[]
+  savedByUsers UserToBrand[]
+  posts        BrandPost[]
+  topics       TopicToBrand[]
+  createdBy    User           @relation(fields: [userId], references: [id])
+
+  @@map("brand")
+}
+
+model Report {
+  // ------ Fields ------
+  id           Int              @unique @default(autoincrement()) @db.Integer
+  reportReason String           @map("report_reason")
+  status       ReportStatusEnum @default(SUBMITTED)
+  comment      String?
+  postId       Int              @unique @map("post_id")
+  resolvedById Int?             @map("resolved_by_id")
+  authorId     Int              @unique @map("author_id")
+  // ------ Timestamps  ------
+  createdAt    DateTime         @default(now()) @map("created_at")
+  resolvedAt   DateTime?        @map("resolved_at")
+  // ------ Relationships ------
+  author       User             @relation(name: "author", fields: [authorId], references: [id])
+  post         BrandPost        @relation(fields: [postId], references: [id])
+  resolvedBy   User?            @relation(name: "resolved_by", fields: [resolvedById], references: [id])
+
+  @@map("report")
+}
+
+model BrandPost {
+  // ------ Fields ------
+  id           Int                @id @default(autoincrement()) @db.Integer
+  body         String
+  brandId      Int                @map("brand_id")
+  authorId     Int                @map("author_id")
+  // ------ Timestamps ------
+  createdAt    DateTime           @default(now()) @map("created_at")
+  deletedAt    DateTime?          @map("deleted_at")
+  // ------ Relationships ------
+  brand        Brand              @relation(fields: [brandId], references: [id])
+  author       User               @relation(fields: [authorId], references: [id])
+  votes        BrandPostVote[]
+  topics       BrandPostToTopic[]
+  relatedItems BrandPostToItem[]
+  reports      Report[]
+
+  @@map("brand_post")
+}
+
 model EmailTemplate {
+  // ------ Fields ------
   id        Int       @id @default(autoincrement()) @db.Integer
   name      String    @unique
   subject   String
   body      String
+  // ------ Timestamps ------
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
@@ -52,27 +207,32 @@ model EmailTemplate {
 }
 
 model Email {
+  // ------ Fields ------
   id        Int       @id @default(autoincrement()) @db.Integer
-  user      User      @relation(fields: [userId], references: [id])
-  userId    Int
   subject   String
   body      String
   status    String
+  userId    Int
+  // ------ Timestamps ------
   dateSent  DateTime? @map("date_sent")
   createdAt DateTime  @default(now()) @map("created_at")
+  // ------ Relationships ------
+  user      User      @relation(fields: [userId], references: [id])
 
   @@map("email")
 }
 
-model Topic {
-  id          Int            @id @default(autoincrement()) @db.Integer
-  name        String         @unique
-  UserToTopic UserToTopic[]
-  topicId     Int?           @unique @map("topic_id")
-  topic       Topic?         @relation("TopicSubtopic", fields: [topicId], references: [id])
-  subtopic    Topic[]        @relation("TopicSubtopic")
-  brands      TopicToBrand[]
-  //posts       TopicToPost[]
+// ------------------------------------ MANY TO MANY RELATIONS ------------------------------------
+
+model UserToBrand {
+  listName String @unique @map("list_name")
+  user     User   @relation(fields: [userId], references: [id])
+  userId   Int    @map("user_id")
+  brand    Brand  @relation(fields: [brandId], references: [id])
+  brandId  Int    @map("brand_id")
+
+  @@unique([userId, brandId])
+  @@map("user_to_brand")
 }
 
 model TopicToBrand {
@@ -85,44 +245,6 @@ model TopicToBrand {
   @@map("topic_to_brand")
 }
 
-// model TopicToPost {
-//   topic   Topic @relation(fields: [topicId], references: [id])
-//   topicId Int   @map("topic_id")
-//   post    Post  @relation(fields: [postId], references: [id])
-//   postId  Int   @map("post_id")
-
-//   @@unique([topicId, postId])
-//   @@map("topic_to_post")
-// }
-
-model Item {
-  id      Int    @id @default(autoincrement()) @db.Integer
-  name    String @unique
-  brandId Int    @map("brand_id")
-  brand   Brand  @relation(fields: [brandId], references: [id])
-  user    User   @relation(fields: [userId], references: [id])
-  userId  Int    @map("user_id")
-}
-
-model Brand {
-  id          Int            @id @default(autoincrement()) @db.Integer
-  name        String         @unique
-  items       Item[]
-  UserToBrand UserToBrand[]
-  topics      TopicToBrand[]
-}
-
-model UserToBrand {
-  user     User   @relation(fields: [userId], references: [id])
-  userId   Int    @map("user_id")
-  brand    Brand  @relation(fields: [brandId], references: [id])
-  brandId  Int    @map("brand_id")
-  listName String @unique @map("list_name")
-
-  @@unique([userId, brandId])
-  @@map("user_to_brand")
-}
-
 model UserToTopic {
   user    User  @relation(fields: [userId], references: [id])
   userId  Int   @map("user_id")
@@ -133,40 +255,7 @@ model UserToTopic {
   @@map("user_to_topic")
 }
 
-model User {
-  id           Int           @unique @default(autoincrement()) @db.Integer
-  username     String        @unique
-  password     String
-  email        String        @unique
-  name         String
-  surname      String
-  refreshToken String?       @map("refresh_token")
-  roles        RoleToUser[]
-  filesReport  Report[]
-  UserToTopic  UserToTopic[]
-  items        Item[]
-  brands       UserToBrand[]
-  Email        Email[]
-
-  @@map("user")
-}
-
-enum RoleEnum {
-  USER
-  ADMIN
-
-  @@map("role_enum")
-}
-
-model UserRole {
-  id    Int          @id @default(autoincrement()) @db.Integer
-  name  RoleEnum     @unique @default(USER)
-  users RoleToUser[]
-
-  @@map("user_to_role")
-}
-
-model RoleToUser {
+model UserRoleToUser {
   user   User     @relation(fields: [userId], references: [id])
   userId Int      @map("user_id")
   roles  UserRole @relation(fields: [roleId], references: [id])
@@ -176,22 +265,37 @@ model RoleToUser {
   @@map("role_to_user")
 }
 
-model Report {
-  id           Int              @unique @default(autoincrement()) @db.Integer
-  createdAt    DateTime         @default(now()) @map("created_at")
-  author       User             @relation(fields: [authorId], references: [id])
-  authorId     Int              @unique @map("author_id")
-  reportReason String           @map("report_reason")
-  comment      String?
-  status       ReportStatusEnum @default(SUBMITTED)
+model BrandPostVote {
+  vote      VoteEnum
+  createdAt DateTime  @default(now()) @map("created_at")
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int       @map("user_id")
+  post      BrandPost @relation(fields: [postId], references: [id])
+  postId    Int       @map("post_id")
 
-  @@map("report")
+  @@unique([userId, postId])
+  @@map("brand_post_vote")
 }
 
-enum ReportStatusEnum {
-  SUBMITTED
-  PENDING
-  RESOLVED
+model BrandPostToTopic {
+  isBad   Boolean   @default(false) @map("is_bad")
+  post    BrandPost @relation(fields: [postId], references: [id])
+  postId  Int       @map("post_id")
+  topic   Topic     @relation(fields: [topicId], references: [id])
+  topicId Int       @map("topic_id")
 
-  @@map("report_status_enum")
+  @@unique([postId, topicId])
+  @@map("brand_post_to_topic")
 }
+
+model BrandPostToItem {
+  post   BrandPost @relation(fields: [postId], references: [id])
+  postId Int       @map("post_id")
+  item   Item      @relation(fields: [itemId], references: [id])
+  itemId Int       @map("item_id")
+
+  @@unique([postId, itemId])
+  @@map("brand_post_to_item")
+}
+
+// ------------------------------------ END ------------------------------------

@@ -1,17 +1,11 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Delete,
-  Put,
-} from '@nestjs/common';
-import { ReportService } from './report.service';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateReportRequest } from './dto/request/create-report.dto';
 import { UpdateReportRequest } from './dto/request/update-report.dto';
 import { ReportMapper } from './mapper/report.mapper';
+import { ReportService } from './report.service';
 
+@ApiTags('report')
 @Controller('api/v1/report')
 export class ReportController {
   constructor(private readonly reportService: ReportService) {}
@@ -41,11 +35,5 @@ export class ReportController {
     const entity = ReportMapper.toEntity(request);
     const report = await this.reportService.update(+id, entity);
     return ReportMapper.toResponse(report);
-  }
-
-  @Delete(':id')
-  async delete(@Param('id') id: string) {
-    const deletedEntity = await this.reportService.delete(+id);
-    return ReportMapper.toResponse(deletedEntity);
   }
 }

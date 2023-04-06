@@ -7,4 +7,7 @@ export class UpdateBrandDto extends PartialType(CreateBrandDto) {
 
   @ApiProperty({ type: String })
   name: string;
+
+  @ApiProperty({ type: Date })
+  updatedAt: Date;
 }

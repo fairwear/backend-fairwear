@@ -1,16 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateBrandDto } from './dto/request/create-brand.dto';
-import { UpdateBrandDto } from './dto/request/update-brand.dto';
 import { BrandEntity } from './entities/brand.entity';
 
 @Injectable()
 export class BrandService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private authService: AuthService,
+  ) {}
+
   async create(entity: BrandEntity) {
     const brand = await this.prisma.brand.create({
       data: {
         name: entity.name,
+        userId: entity.userId,
+        createdAt: entity.createdAt,
       },
     });
     return brand;
@@ -39,22 +44,52 @@ export class BrandService {
     return brand;
   }
 
-  async update(id: number, entity: UpdateBrandDto) {
-    const brand = await this.prisma.brand.update({
+  async update(id: number, entity: BrandEntity) {
+    const isUserAdmin = this.authService.isUserAdmin(entity.userId);
+    const brand = await this.prisma.brand.findUniqueOrThrow({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!isUserAdmin && brand.userId !== entity.userId) {
+      throw new UnauthorizedException(
+        'You are not authorized to perform this action',
+      );
+    }
+
+    const updatedBrand = await this.prisma.brand.update({
       where: {
         id: id,
       },
       data: {
         name: entity.name,
+        updatedAt: entity.updatedAt,
       },
     });
-    return brand;
+    return updatedBrand;
   }
 
-  async delete(id: number) {
-    const deletedEntity = await this.prisma.brand.delete({
+  async softDelete(id: number, userId: number) {
+    const isUserAdmin = this.authService.isUserAdmin(userId);
+    const entity = await this.prisma.brand.findUniqueOrThrow({
       where: {
         id: id,
+      },
+    });
+
+    if (!isUserAdmin && entity.userId !== userId) {
+      throw new UnauthorizedException(
+        'You are not authorized to perform this action',
+      );
+    }
+
+    const deletedEntity = await this.prisma.brand.update({
+      where: {
+        id: id,
+      },
+      data: {
+        deletedAt: new Date(),
       },
     });
     return deletedEntity;

@@ -120,18 +120,18 @@ describe('EmailtemplateService', () => {
 
   it('should successfully delete an email template', async () => {
     const emailTemplate = dataFactory.getValidEmailTemplate();
-    prismaService.emailTemplate.delete.mockResolvedValueOnce(emailTemplate);
-    const result = await service.delete(1);
-    expect(prismaService.emailTemplate.delete).toHaveBeenCalledTimes(1);
+    prismaService.emailTemplate.update.mockResolvedValueOnce(emailTemplate);
+    const result = await service.softDelete(1);
+    expect(prismaService.emailTemplate.update).toHaveBeenCalledTimes(1);
     expect(result).toBeDefined();
     expect(result).toEqual(emailTemplate);
   });
 
   it('should fail to delete an email template', async () => {
-    prismaService.emailTemplate.delete.mockRejectedValueOnce(
+    prismaService.emailTemplate.update.mockRejectedValueOnce(
       new Error('error'),
     );
-    await expect(service.delete(1)).rejects.toThrowError('error');
-    expect(prismaService.emailTemplate.delete).toHaveBeenCalledTimes(1);
+    await expect(service.softDelete(1)).rejects.toThrowError('error');
+    expect(prismaService.emailTemplate.update).toHaveBeenCalledTimes(1);
   });
 });

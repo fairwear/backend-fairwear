@@ -138,15 +138,15 @@ describe('UserService', () => {
 
   it('should successfully delete a user', async () => {
     const user = dataFactory.getValidUser();
-    prismaService.user.delete.mockResolvedValueOnce(user);
-    const result = await service.delete(user.id);
-    expect(prismaService.user.delete).toHaveBeenCalledTimes(1);
+    prismaService.user.update.mockResolvedValueOnce(user);
+    const result = await service.softDelete(user.id);
+    expect(prismaService.user.update).toHaveBeenCalledTimes(1);
     expect(result).toBeDefined();
     expect(result).toEqual(user);
   });
   it('should fail to delete a user', async () => {
-    prismaService.user.delete.mockRejectedValueOnce(new Error('error'));
-    await expect(service.delete(1)).rejects.toThrowError('error');
-    expect(prismaService.user.delete).toHaveBeenCalledTimes(1);
+    prismaService.user.update.mockRejectedValueOnce(new Error('error'));
+    await expect(service.softDelete(1)).rejects.toThrowError('error');
+    expect(prismaService.user.update).toHaveBeenCalledTimes(1);
   });
 });

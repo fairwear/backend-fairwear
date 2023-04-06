@@ -6,4 +6,16 @@ export class BrandEntity {
 
   @ApiProperty({ type: String })
   name: string;
+
+  @ApiProperty({ type: Number })
+  userId: number;
+
+  @ApiProperty({ type: Date })
+  createdAt: Date;
+
+  @ApiPropertyOptional({ type: Date })
+  updatedAt: Date | null;
+
+  @ApiPropertyOptional({ type: Date })
+  deletedAt: Date | null;
 }

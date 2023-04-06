@@ -18,4 +18,7 @@ export class CreateUserRequest {
 
   @ApiProperty({ type: Array<number> })
   roleIds: number[];
+
+  @ApiProperty({ type: Date })
+  createdAt: Date;
 }

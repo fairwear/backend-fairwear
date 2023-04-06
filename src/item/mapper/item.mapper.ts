@@ -9,10 +9,14 @@ export class ItemMapper {
 
     if (request instanceof UpdateItemDto) {
       entity.id = request.id;
+      entity.updatedAt = request.updatedAt;
     }
     entity.name = request.name;
     entity.brandId = request.brandId;
     entity.userId = request.userId;
+    if (request instanceof CreateItemDto) {
+      entity.createdAt = request.createdAt;
+    }
 
     return entity;
   }
@@ -23,6 +27,9 @@ export class ItemMapper {
     response.name = entity.name;
     response.brandId = entity.brandId;
     response.userId = entity.userId;
+    response.createdAt = entity.createdAt;
+    response.updatedAt = entity.updatedAt;
+    response.deletedAt = entity.deletedAt;
 
     return response;
   }

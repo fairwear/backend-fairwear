@@ -1,25 +1,31 @@
-import { RoleToUser } from '@prisma/client';
+import { UserRoleToUserEntity } from '../../user-role/entity/user-role-to-user.entity';
 import { CreateUserRequest } from '../dto/request/create-user.dto';
 import { UpdateUserRequest } from '../dto/request/update-user.dto';
 import { UserResponse } from '../dto/response/user.response.dto';
 import { UserEntity } from '../entities/user.entity';
 export class UserMapper {
-  public static toEntity(
-    request: CreateUserRequest | UpdateUserRequest,
-    roles?: RoleToUser,
-  ) {
+  public static toEntity(request: CreateUserRequest | UpdateUserRequest) {
     const entity = new UserEntity();
 
     if (request instanceof UpdateUserRequest) {
       entity.id = request.id;
+      entity.updatedAt = request.updatedAt;
+      entity.refreshToken = request.refreshToken;
     }
     entity.username = request.username;
     entity.password = request.password;
     entity.email = request.email;
     entity.name = request.name;
     entity.surname = request.surname;
-    entity.roles = entity.roles || [];
-    entity.refreshToken = entity.refreshToken || '';
+    entity.roles = request.roleIds.map((roleId) => {
+      const userRole = new UserRoleToUserEntity();
+      userRole.roleId = roleId;
+      return userRole;
+    });
+    if (request instanceof CreateUserRequest) {
+      entity.createdAt = request.createdAt;
+    }
+
     return entity;
   }
   public static toResponse(entity: UserEntity) {
@@ -32,6 +38,10 @@ export class UserMapper {
     response.surname = entity.surname;
     response.roles = entity.roles;
     response.refreshToken = entity.refreshToken;
+    response.createdAt = entity.createdAt;
+    response.updatedAt = entity.updatedAt;
+    response.deletedAt = entity.deletedAt;
+
     return response;
   }
 
