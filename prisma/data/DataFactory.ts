@@ -89,7 +89,6 @@ export class DataFactory {
     user2.email = 'Test email 2';
     user2.name = 'Test name 2';
     user2.surname = 'Test surname 2';
-    user2.password = 'Test password 2';
     user2.roles = [];
 
     const user3: UserEntity = new UserEntity();
@@ -98,11 +97,119 @@ export class DataFactory {
     user3.email = 'Test email 3';
     user3.name = 'Test name 3';
     user3.surname = 'Test surname 3';
-    user3.password = 'Test password 3';
     user3.roles = [];
     userList.push(user1);
     userList.push(user2);
     userList.push(user3);
+
+    return userList;
+  }
+
+  public getUserListSeed() {
+    const userList: UserEntity[] = [];
+
+    const user1: UserEntity = this.getValidUser();
+
+    const user2: UserEntity = new UserEntity();
+    user2.username = 'fairwear';
+    user2.password = 'fairwear';
+    user2.email = 'fairwear@gmail.com';
+    user2.name = 'Fair';
+    user2.surname = 'Wear';
+    user2.roles = [];
+
+    const user3: UserEntity = new UserEntity();
+    user3.username = 'kernius';
+    user3.password = 'kerniusss';
+    user3.email = 'kernius@email.com';
+    user3.name = 'Kernius';
+    user3.surname = 'Survila';
+    user3.roles = [];
+
+    const user4: UserEntity = new UserEntity();
+    user4.username = 'dominykas';
+    user4.password = 'dominykas:)';
+    user4.email = 'dominykas@gmail.com';
+    user4.name = 'Dominykas';
+    user4.surname = 'Kazlauskas';
+    user4.roles = [];
+
+    const user5: UserEntity = new UserEntity();
+    user5.username = 'mortamm';
+    user5.password = 'mortamm221';
+    user5.email = 'mortam@gmail.com';
+    user5.name = 'Morta';
+    user5.surname = 'Matelyte';
+    user5.roles = [];
+
+    const user6: UserEntity = new UserEntity();
+    user6.username = 'marius';
+    user6.password = 'marius123';
+    user6.email = 'marius@gmail.com';
+    user6.name = 'Marius';
+    user6.surname = 'Aurelijauskas';
+    user6.roles = [];
+
+    const user7: UserEntity = new UserEntity();
+    user7.username = 'martynas12';
+    user7.password = 'martynas123';
+    user7.email = 'martynasgl@gmail.com';
+    user7.name = 'Martynas';
+    user7.surname = 'Glodenis';
+    user7.roles = [];
+
+    const user8: UserEntity = new UserEntity();
+    user8.username = 'vaidas';
+    user8.password = 'vaidas123';
+    user8.email = 'vaidasku@gmail.com';
+    user8.name = 'Vaidas';
+    user8.surname = 'Kuizinas';
+    user8.roles = [];
+
+    const user9: UserEntity = new UserEntity();
+    user9.username = 'tomas';
+    user9.password = 'tomas123';
+    user9.email = 'tomasd@gmail.com';
+    user9.name = 'Tomas';
+    user9.surname = 'Daukantas';
+    user9.roles = [];
+
+    const user10: UserEntity = new UserEntity();
+    user10.username = 'monika';
+    user10.password = 'monikal123';
+    user10.email = 'monikali@gmail.com';
+    user10.name = 'Monika';
+    user10.surname = 'Lileikaite';
+    user10.roles = [];
+
+    const user11: UserEntity = new UserEntity();
+    user11.username = 'mindaugas';
+    user11.password = 'mindaugas123';
+    user11.email = 'mindaugasglod@gmail.com';
+    user11.name = 'Mindaugas';
+    user11.surname = 'Glodenis';
+    user11.roles = [];
+
+    const user12: UserEntity = new UserEntity();
+    user12.username = 'mariamonika';
+    user12.password = 'mariamonika123';
+    user12.email = 'monikammar@gmail.com';
+    user12.name = 'Monika';
+    user12.surname = 'Mairaite';
+    user12.roles = [];
+
+    userList.push(user1);
+    userList.push(user2);
+    userList.push(user3);
+    userList.push(user4);
+    userList.push(user5);
+    userList.push(user6);
+    userList.push(user7);
+    userList.push(user8);
+    userList.push(user9);
+    userList.push(user10);
+    userList.push(user11);
+    userList.push(user12);
 
     return userList;
   }
@@ -117,6 +224,24 @@ export class DataFactory {
     return userRole;
   }
 
+  public getBasicUserRole() {
+    const userRole: UserRole = {
+      id: 2,
+      name: 'USER',
+    };
+
+    return userRole;
+  }
+
+  public getAdminUserRole() {
+    const userRole: UserRole = {
+      id: 3,
+      name: 'ADMIN',
+    };
+
+    return userRole;
+  }
+
   public getValidRoleToUser() {
     const roleToUser: RoleToUser = {
       userId: 1,
@@ -125,6 +250,7 @@ export class DataFactory {
 
     return roleToUser;
   }
+
   // -------------Report Test Data-------------------
   public getValidReport() {
     const report: ReportEntity = new ReportEntity();
