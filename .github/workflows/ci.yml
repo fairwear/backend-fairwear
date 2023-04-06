@@ -86,6 +86,11 @@ jobs:
         run: |
           sh publish.sh
 
+      - name: Create SSH key
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
 
       - uses: Burnett01/rsync-deployments@5.2
         name: Add start.sh script to remote
