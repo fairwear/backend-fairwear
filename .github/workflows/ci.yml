@@ -12,10 +12,10 @@ on:
     workflow_dispatch:
       
 env:
-  REMOTE_PORT: 9882
+  REMOTE_PORT: 12579
   REMOTE_USERNAME: ${{ secrets.REMOTE_USERNAME }}
   REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+  REMOTE_PRIVATE_KEY : ${{ secrets.REMOTE_PRIVATE_KEY }}
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: postgres
   POSTGRES_HOST: localhost
@@ -86,11 +86,6 @@ jobs:
         run: |
           sh publish.sh
 
-      - name: Create SSH key
-        run: |
-          install -m 600 -D /dev/null ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
 
       - uses: Burnett01/rsync-deployments@5.2
         name: Add start.sh script to remote
@@ -98,9 +93,10 @@ jobs:
           switches: -av --progress
           path: start.sh
           remote_path: ~/start.sh
+          remote_port: ${{env.REMOTE_PORT}}
           remote_host: ${{env.REMOTE_HOST}}
           remote_user: ${{env.REMOTE_USERNAME}}
-          remote_key: ${{env.SSH_PRIVATE_KEY}}
+          remote_key: ${{env.REMOTE_PRIVATE_KEY}}
 
 
       - uses: Burnett01/rsync-deployments@5.2
@@ -110,8 +106,9 @@ jobs:
           path: docker-compose.yml
           remote_path: ~/docker-compose.yml
           remote_host: ${{env.REMOTE_HOST}}
+          remote_port: ${{env.REMOTE_PORT}}
           remote_user: ${{env.REMOTE_USERNAME}}
-          remote_key: ${{env.SSH_PRIVATE_KEY}}
+          remote_key: ${{env.REMOTE_PRIVATE_KEY}}
 
       - name: Rebuild and start docker containers 
         uses: appleboy/ssh-action@master
@@ -119,7 +116,7 @@ jobs:
           host: ${{env.REMOTE_HOST}}
           username: ${{env.REMOTE_USERNAME}}
           port: ${{env.REMOTE_PORT}}
-          key: ${{env.SSH_PRIVATE_KEY}}
+          key: ${{env.REMOTE_PRIVATE_KEY}}
           script_stop: true
           script: |
             sh start.sh    
