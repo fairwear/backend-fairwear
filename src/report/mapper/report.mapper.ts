@@ -4,13 +4,18 @@ import { ReportEntity } from '../entities/report.entity';
 import { ReportResponse } from '../dto/response/report.response.dto';
 
 export class ReportMapper {
-  public static toEntity(request: CreateReportRequest | UpdateReportRequest) {
+  public static toEntity(
+    request: CreateReportRequest | UpdateReportRequest,
+    userId?: number,
+  ) {
     const entity = new ReportEntity();
 
     if (request instanceof UpdateReportRequest) {
       entity.id = request.id;
     }
-    entity.authorId = request.authorId;
+    if (userId) {
+      entity.authorId = userId;
+    }
     entity.reportReason = request.reportReason;
     entity.createdAt = request.createdAt;
     entity.status = request.status;
