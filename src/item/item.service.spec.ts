@@ -6,11 +6,16 @@ import { DataFactory } from '../../prisma/data/DataFactory';
 import { MockContext, createMockContext } from '../prisma/context';
 import { PrismaService } from '../prisma/prisma.service';
 import { ItemService } from './item.service';
+import { JwtService } from '@nestjs/jwt';
+import { UserRoleService } from '../user-role/user-role.service';
+import { UserService } from '../user/user.service';
+import { AuthService } from '../auth/auth.service';
 
 describe('ItemService', () => {
   let service: ItemService;
   let mockContext: MockContext;
   let prismaService: DeepMockProxy<PrismaClient>;
+  let authService: DeepMockProxy<AuthService>;
   const dataFactory: DataFactory = new DataFactory();
 
   beforeEach(async () => {
@@ -19,14 +24,24 @@ describe('ItemService', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule],
-      providers: [ItemService, PrismaService],
+      providers: [
+        ItemService,
+        AuthService,
+        UserService,
+        UserRoleService,
+        JwtService,
+        PrismaService,
+      ],
     })
+      .overrideProvider(AuthService)
+      .useValue(mockContext.authService)
       .overrideProvider(PrismaService)
       .useValue(mockContext.prisma)
       .compile();
 
     service = module.get<ItemService>(ItemService);
     prismaService = module.get<DeepMockProxy<PrismaClient>>(PrismaService);
+    authService = module.get<DeepMockProxy<AuthService>>(AuthService);
   });
 
   it('should be defined', () => {
@@ -103,6 +118,7 @@ describe('ItemService', () => {
   it('should successfuly update an item', async () => {
     const item = dataFactory.getValidItem();
     prismaService.item.update.mockResolvedValueOnce(item);
+    prismaService.item.findUniqueOrThrow.mockResolvedValueOnce(item);
     const result = await service.update(1, item);
     expect(prismaService.item.update).toHaveBeenCalledTimes(1);
     expect(result).toBeDefined();
@@ -112,6 +128,7 @@ describe('ItemService', () => {
   it('should fail to update an item', async () => {
     const item = dataFactory.getValidItem();
     prismaService.item.update.mockRejectedValueOnce(new Error('error'));
+    prismaService.item.findUniqueOrThrow.mockResolvedValueOnce(item);
     await expect(service.update(1, item)).rejects.toThrowError('error');
     expect(prismaService.item.update).toHaveBeenCalledTimes(1);
   });
@@ -119,7 +136,8 @@ describe('ItemService', () => {
   it('should successfuly delete an item', async () => {
     const item = dataFactory.getValidItem();
     prismaService.item.update.mockResolvedValueOnce(item);
-    const result = await service.softDelete(1);
+    authService.isUserAdmin.mockResolvedValueOnce(true);
+    const result = await service.softDelete(1, 1);
     expect(prismaService.item.update).toHaveBeenCalledTimes(1);
     expect(result).toBeDefined();
     expect(result).toEqual(item);
@@ -127,7 +145,8 @@ describe('ItemService', () => {
 
   it('should fail to delete an item', async () => {
     prismaService.item.update.mockRejectedValueOnce(new Error('error'));
-    await expect(service.softDelete(1)).rejects.toThrowError('error');
+    authService.isUserAdmin.mockResolvedValueOnce(true);
+    await expect(service.softDelete(1, 1)).rejects.toThrowError('error');
     expect(prismaService.item.update).toHaveBeenCalledTimes(1);
   });
 });
