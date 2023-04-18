@@ -66,20 +66,18 @@ export const main = async () => {
     return user.id;
   });
 
-  let twemp = await Promise.all(userIds);
   await prisma.userRole.upsert({
     where: { id: adminRole.id },
     update: {},
     create: {
-
-        users: {
-          createMany: {
-            data: userIds.map((id) => ({
-              userId: id,
-            })),
-          },
+      users: {
+        createMany: {
+          data: userIds.map((id) => ({
+            userId: id,
+          })),
         },
       },
+    },
   });
   let roles = [userRole, adminRole];
   let user = await dataFactory.getValidUser();
@@ -112,39 +110,61 @@ export const main = async () => {
 
   let emailTemplates = dataFactory.getEmailTemplateList();
   emailTemplates.forEach(async (emailTemplate) => {
-	  await prisma.emailTemplate.upsert({
-		  where: { name: emailTemplate.name },
-		  update: {},
-		  create: {
-			  name: emailTemplate.name,
-			  subject: emailTemplate.subject,
-			  body: emailTemplate.body,
-			  createdAt: emailTemplate.createdAt,
-			  updatedAt: emailTemplate.updatedAt,
-			  deletedAt: emailTemplate.deletedAt,
-		  },
-	  });
+    await prisma.emailTemplate.upsert({
+      where: { name: emailTemplate.name },
+      update: {},
+      create: {
+        name: emailTemplate.name,
+        subject: emailTemplate.subject,
+        body: emailTemplate.body,
+        createdAt: emailTemplate.createdAt,
+        updatedAt: emailTemplate.updatedAt,
+        deletedAt: emailTemplate.deletedAt,
+      },
+    });
   });
 
-
   console.log('Successfully created email templates');
+
+  // --------------------------------
+  // Brand test data
+
+  await Promise.all(res1);
+  let brands = dataFactory.getBrandsSeed();
+  brands.forEach(async (brand) => {
+    await prisma.brand.upsert({
+      where: { name: brand.name },
+      update: {},
+      create: {
+        name: brand.name,
+        createdBy: {
+          connect: {
+            id: brand.userId,
+          },
+        },
+        createdAt: brand.createdAt,
+      },
+    });
+  });
+
+  console.log('Successfully created brands');
+
+  //--------------------------------
+  // Topic test data
+
+  let topics = dataFactory.getTopicsSeed();
+  topics.forEach(async (topic) => {
+    await prisma.topic.upsert({
+      where: { name: topic.name },
+      update: {},
+      create: {
+        name: topic.name,
+      },
+    });
+  });
+
+  console.log('Successfully created topics');
 };
-
-// --------------------------------
-// Brand test data
-
-let brands = dataFactory.getBrandList();
-brands.forEach(async (brand) => {
-	await prisma.brand.upsert({
-		where: { name: brand.name },
-		update: {},
-		create: {
-			name: brand.name,
-		},
-	});
-});
-
-
 main();
 
 // .catch((e) => {
