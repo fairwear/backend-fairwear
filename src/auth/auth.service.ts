@@ -9,6 +9,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 import * as argon2 from 'argon2';
+import * as dotenv from 'dotenv';
 import { Request } from 'express';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserService } from '../user/user.service';
@@ -17,6 +18,7 @@ import { LoginRequestDto } from './dto/request/login-request.dto';
 import { JwtPayload } from './types/jwt-payload.types';
 import { Tokens } from './types/tokens.types';
 
+dotenv.config();
 @Injectable()
 export class AuthService {
   constructor(
@@ -27,13 +29,13 @@ export class AuthService {
 
   async hashPassword(password: string) {
     return argon2.hash(password, {
-      hashLength: 128,
+      hashLength: 24,
     });
   }
 
   async hash(token: string) {
     return argon2.hash(token, {
-      hashLength: 128,
+      hashLength: 36,
     });
   }
 
@@ -54,7 +56,6 @@ export class AuthService {
   }
   async login(request: any) {
     const user = request.user;
-    console.log(user);
     const isUserAdmin = await this.isUserAdminByName(user.username);
 
     const payload: JwtPayload = {
@@ -92,11 +93,10 @@ export class AuthService {
   }
 
   async isUserLoggedIn(accessToken?: string) {
-    const secret = process.env.JWT_ACCESS_TOKEN_SECRET;
     if (accessToken) {
       const isLoggedIn = await this.jwtService
         .verifyAsync(accessToken, {
-          secret: secret,
+          secret: jwtConstants.secret,
         })
         .catch((err) => {
           console.log(err);
@@ -110,10 +110,9 @@ export class AuthService {
   }
   async isLoggedIn(request: Request) {
     const accessToken = request.headers['authorization']?.split(' ')[1];
-    const secret = process.env.JWT_ACCESS_TOKEN_SECRET;
-    if (accessToken && secret) {
+    if (accessToken) {
       const isLoggedIn = await this.jwtService.verifyAsync(accessToken, {
-        secret: secret,
+        secret: jwtConstants.secret,
       });
       if (isLoggedIn) {
         return true;
