@@ -1,5 +1,4 @@
 #!/bin/bash
 
-docker pull fairwear/fairwear-backend
-docker pull fairwear/fairwear-frontend
+docker-compose pull
 docker-compose up -d
