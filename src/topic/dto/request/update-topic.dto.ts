@@ -10,4 +10,10 @@ export class UpdateTopicDto extends PartialType(CreateTopicDto) {
 
   @ApiPropertyOptional({ type: Number })
   topicId: number | null;
+
+  @ApiProperty({ type: Date })
+  createdAt: Date;
+
+  @ApiPropertyOptional({ type: Date })
+  updatedAt: Date | null;
 }

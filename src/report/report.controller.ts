@@ -1,9 +1,19 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateReportRequest } from './dto/request/create-report.dto';
 import { UpdateReportRequest } from './dto/request/update-report.dto';
 import { ReportMapper } from './mapper/report.mapper';
 import { ReportService } from './report.service';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
+import GetCurrentUserId from '../auth/decorators/get-current-user-id.decorator';
 
 @ApiTags('report')
 @Controller('api/v1/report')
@@ -11,8 +21,12 @@ export class ReportController {
   constructor(private readonly reportService: ReportService) {}
 
   @Post()
-  async create(@Body() request: CreateReportRequest) {
-    const entity = ReportMapper.toEntity(request);
+  @UseGuards(JwtAuthGuard)
+  async create(
+    @Body() request: CreateReportRequest,
+    @GetCurrentUserId() userId: number,
+  ) {
+    const entity = ReportMapper.toEntity(request, userId);
     const report = await this.reportService.create(entity);
     return ReportMapper.toResponse(report);
   }
@@ -31,9 +45,14 @@ export class ReportController {
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() request: UpdateReportRequest) {
+  @UseGuards(JwtAuthGuard)
+  async update(
+    @Param('id') id: string,
+    @GetCurrentUserId() userId: number,
+    @Body() request: UpdateReportRequest,
+  ) {
     const entity = ReportMapper.toEntity(request);
-    const report = await this.reportService.update(+id, entity);
+    const report = await this.reportService.update(+id, entity, userId);
     return ReportMapper.toResponse(report);
   }
 }

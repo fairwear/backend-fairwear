@@ -1,16 +1,29 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTopicDto } from './dto/request/create-topic.dto';
 import { UpdateTopicDto } from './dto/request/update-topic.dto';
 
 @Injectable()
 export class TopicService {
-  constructor(private prisma: PrismaService) {}
-  async create(entity: CreateTopicDto) {
+  constructor(
+    private prisma: PrismaService,
+    private authService: AuthService,
+  ) {}
+  async create(entity: CreateTopicDto, userId: number) {
+    const isUserAdmin = this.authService.isUserAdmin(userId);
+
+    if (!isUserAdmin) {
+      throw new UnauthorizedException(
+        'You are not authorized to perform this action',
+      );
+    }
+
     const topic = await this.prisma.topic.create({
       data: {
         name: entity.name,
         topicId: entity.topicId,
+        createdAt: entity.createdAt,
       },
     });
     return topic;
@@ -30,23 +43,43 @@ export class TopicService {
     return topic;
   }
 
-  async update(id: number, entity: UpdateTopicDto) {
-    const topic = await this.prisma.topic.update({
+  async update(id: number, entity: UpdateTopicDto, userId: number) {
+    const isUserAdmin = this.authService.isUserAdmin(userId);
+
+    if (!isUserAdmin) {
+      throw new UnauthorizedException(
+        'You are not authorized to perform this action',
+      );
+    }
+
+    const updatedTopic = await this.prisma.topic.update({
       where: {
         id: id,
       },
       data: {
         name: entity.name,
         topicId: entity.topicId,
+        updatedAt: entity.updatedAt,
       },
     });
-    return topic;
+    return updatedTopic;
   }
 
-  async delete(id: number) {
-    const deletedEntity = await this.prisma.topic.delete({
+  async softDelete(id: number, userId: number) {
+    const isUserAdmin = this.authService.isUserAdmin(userId);
+
+    if (!isUserAdmin) {
+      throw new UnauthorizedException(
+        'You are not authorized to perform this action',
+      );
+    }
+
+    const deletedEntity = await this.prisma.topic.update({
       where: {
         id: id,
+      },
+      data: {
+        deletedAt: new Date(),
       },
     });
     return deletedEntity;
