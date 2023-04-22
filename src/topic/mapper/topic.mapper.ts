@@ -9,9 +9,11 @@ export class TopicMapper {
 
     if (request instanceof UpdateTopicDto) {
       entity.id = request.id;
+      entity.updatedAt = request.updatedAt;
     }
     entity.name = request.name;
     entity.topicId = request.topicId;
+    entity.createdAt = request.createdAt;
 
     return entity;
   }

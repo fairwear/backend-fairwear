@@ -1,16 +1,21 @@
 import { ConfigModule } from '@nestjs/config';
-import { TestingModule, Test } from '@nestjs/testing';
-import { DeepMockProxy } from 'jest-mock-extended';
-import { createMockContext, MockContext } from '../prisma/context';
-import { TopicService } from './topic.service';
-import { PrismaService } from '../prisma/prisma.service';
+import { JwtService } from '@nestjs/jwt';
+import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaClient } from '@prisma/client';
+import { DeepMockProxy } from 'jest-mock-extended';
 import { DataFactory } from '../../prisma/data/DataFactory';
+import { AuthService } from '../auth/auth.service';
+import { MockContext, createMockContext } from '../prisma/context';
+import { PrismaService } from '../prisma/prisma.service';
+import { UserRoleService } from '../user-role/user-role.service';
+import { UserService } from '../user/user.service';
+import { TopicService } from './topic.service';
 
 describe('TopicService', () => {
   let service: TopicService;
   let mockContext: MockContext;
   let prismaService: DeepMockProxy<PrismaClient>;
+  let authService: DeepMockProxy<AuthService>;
   const dataFactory: DataFactory = new DataFactory();
 
   beforeEach(async () => {
@@ -19,14 +24,24 @@ describe('TopicService', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule],
-      providers: [TopicService, PrismaService],
+      providers: [
+        TopicService,
+        AuthService,
+        UserService,
+        UserRoleService,
+        JwtService,
+        PrismaService,
+      ],
     })
+      .overrideProvider(AuthService)
+      .useValue(mockContext.authService)
       .overrideProvider(PrismaService)
       .useValue(mockContext.prisma)
       .compile();
 
     service = module.get<TopicService>(TopicService);
     prismaService = module.get<DeepMockProxy<PrismaClient>>(PrismaService);
+    authService = module.get<DeepMockProxy<AuthService>>(AuthService);
   });
 
   it('should be defined', () => {
@@ -38,7 +53,8 @@ describe('TopicService', () => {
     const topic = dataFactory.getValidTopic();
 
     prismaService.topic.create.mockResolvedValueOnce(topic);
-    const result = await service.create(topic);
+    authService.isUserAdmin.mockResolvedValueOnce(true);
+    const result = await service.create(topic, 1);
     expect(prismaService.topic.create).toHaveBeenCalledTimes(1);
     expect(result).toBeDefined();
     expect(result).toEqual(topic);
@@ -47,7 +63,8 @@ describe('TopicService', () => {
   it('should fail to create a topic', async () => {
     const topic = dataFactory.getValidTopic();
     prismaService.topic.create.mockRejectedValueOnce(new Error('error'));
-    await expect(service.create(topic)).rejects.toThrowError('error');
+    authService.isUserAdmin.mockResolvedValueOnce(false);
+    await expect(service.create(topic, 1)).rejects.toThrowError('error');
     expect(prismaService.topic.create).toHaveBeenCalledTimes(1);
   });
 
@@ -86,7 +103,8 @@ describe('TopicService', () => {
   it('should successfuly update a topic', async () => {
     const topic = dataFactory.getValidTopic();
     prismaService.topic.update.mockResolvedValueOnce(topic);
-    const result = await service.update(1, topic);
+    authService.isUserAdmin.mockResolvedValueOnce(true);
+    const result = await service.update(1, topic, 1);
     expect(prismaService.topic.update).toHaveBeenCalledTimes(1);
     expect(result).toBeDefined();
     expect(result).toEqual(topic);
