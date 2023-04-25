@@ -33,6 +33,7 @@ export class BrandPostService {
         topics: true,
         relatedItems: true,
         votes: true,
+        brand: true,
       },
     });
 
@@ -45,6 +46,7 @@ export class BrandPostService {
         topics: true,
         relatedItems: true,
         votes: true,
+        brand: true,
       },
     });
   }
@@ -58,6 +60,7 @@ export class BrandPostService {
         topics: true,
         relatedItems: true,
         votes: true,
+        brand: true,
       },
     });
 
@@ -88,6 +91,7 @@ export class BrandPostService {
         topics: true,
         relatedItems: true,
         votes: true,
+        brand: true,
       },
     });
 
@@ -151,6 +155,7 @@ export class BrandPostService {
         topics: true,
         relatedItems: true,
         votes: true,
+        brand: true,
       },
     });
 
