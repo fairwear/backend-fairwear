@@ -1,47 +1,53 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserResponse } from './dto/response/user.response.dto';
 import { UserEntity } from './entities/user.entity';
+
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
   async create(entity: UserEntity) {
-    const response = await this.prisma.user.create({
-      data: {
-        username: entity.username,
-        password: entity.password,
-        email: entity.email,
-        name: entity.name,
-        surname: entity.surname,
-        roles: {
-          createMany: {
-            data: entity.roles.map((role) => {
-              return {
-                roleId: role.roleId,
-              };
-            }),
+    try {
+      const response = await this.prisma.user.create({
+        data: {
+          username: entity.username,
+          password: entity.password,
+          email: entity.email,
+          name: entity.name,
+          surname: entity.surname,
+          roles: {
+            createMany: {
+              data: entity.roles.map((role) => {
+                return {
+                  roleId: role.roleId,
+                };
+              }),
+            },
           },
         },
-      },
-      include: {
-        roles: true,
-      },
-    });
+        include: {
+          roles: true,
+        },
+      });
 
-    const user: UserEntity = {
-      id: response.id,
-      username: response.username,
-      password: response.password,
-      email: response.email,
-      name: response.name,
-      surname: response.surname,
-      roles: response.roles,
-      refreshToken: response.refreshToken,
-      createdAt: response.createdAt,
-      updatedAt: response.updatedAt,
-      deletedAt: response.deletedAt,
-    };
-    return user;
+      const user: UserEntity = {
+        id: response.id,
+        username: response.username,
+        password: response.password,
+        email: response.email,
+        name: response.name,
+        surname: response.surname,
+        roles: response.roles,
+        refreshToken: response.refreshToken,
+        createdAt: response.createdAt,
+        updatedAt: response.updatedAt,
+        deletedAt: response.deletedAt,
+      };
+      return user;
+    } catch (error) {
+      throw new PrismaClientKnownRequestError('User already exists!', error);
+    }
   }
 
   async findAll() {
@@ -99,21 +105,22 @@ export class UserService {
   }
 
   async isUserAdmin(id: number) {
-    const user = await this.prisma.user.findUniqueOrThrow({
-      where: {
-        id: id,
-      },
-      include: {
-        roles: true,
-      },
-    });
-    if (!user) {
-      throw new NotFoundException(`User with id ${id} not found!`);
-    }
-    const isUserAdmin = user.roles.length > 1;
-    return isUserAdmin;
-  }
+    try {
+      const user = await this.prisma.user.findUniqueOrThrow({
+        where: {
+          id: id,
+        },
+        include: {
+          roles: true,
+        },
+      });
 
+      const isUserAdmin = user.roles.length > 1;
+      return isUserAdmin;
+    } catch (error) {
+      throw new PrismaClientKnownRequestError('User Not Found', error);
+    }
+  }
   async usernameOrEmailExists(usernameOrEmail?: string): Promise<boolean> {
     const res = await this.prisma.user.findFirst({
       where: {
@@ -148,22 +155,25 @@ export class UserService {
     });
   }
   async update(id: number, entity: UserEntity) {
-    const user = await this.prisma.user.update({
-      where: {
-        id: id,
-      },
-      data: {
-        username: entity.username,
-        password: entity.password,
-        email: entity.email,
-        name: entity.name,
-        surname: entity.surname,
-      },
-      include: {
-        roles: true,
-      },
-    });
-    return user;
+    try {
+      const user = await this.prisma.user.update({
+        where: {
+          id: id,
+        },
+        data: {
+          username: entity.username,
+          password: entity.password,
+          name: entity.name,
+          surname: entity.surname,
+        },
+        include: {
+          roles: true,
+        },
+      });
+      return user;
+    } catch (error) {
+      throw new PrismaClientKnownRequestError('User Not Found', error);
+    }
   }
 
   async softDelete(id: number) {

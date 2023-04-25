@@ -14,6 +14,7 @@ export class PrismaService
   constructor() {
     super({
       log: ['error', 'info'],
+      errorFormat: 'pretty',
     });
   }
 
