@@ -5,7 +5,7 @@ import {
   BrandPost,
   BrandPostToItem,
 } from '@prisma/client';
-import { BrandEntity } from 'src/brand/entities/brand.entity';
+import { BrandEntity } from '../../brand/entities/brand.entity';
 
 export class BrandPostEntity {
   @ApiProperty({ type: Number, description: 'BrandPost ID' })

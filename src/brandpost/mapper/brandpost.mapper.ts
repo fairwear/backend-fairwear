@@ -1,4 +1,4 @@
-import { BrandMapper } from 'src/brand/mapper/brand.mapper';
+import { BrandMapper } from '../../brand/mapper/brand.mapper';
 import { CreateBrandPostDto } from '../dto/request/create-brandpost.dto';
 import { ResponseBrandPostDto } from '../dto/response/response-brandpost.dto';
 import { BrandPostToItemEntity } from '../entities/brandpost-to-item.entity';

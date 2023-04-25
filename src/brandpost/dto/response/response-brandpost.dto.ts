@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BrandPostToItem, BrandPostToTopic, VoteEnum } from '@prisma/client';
-import { BrandResponse } from 'src/brand/dto/response/response-brand.dto';
+import { BrandResponse } from '../../../brand/dto/response/response-brand.dto';
 
 export class ResponseBrandPostDto {
   @ApiProperty({ type: Number, description: 'BrandPost ID' })
