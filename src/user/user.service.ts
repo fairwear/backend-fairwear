@@ -8,7 +8,6 @@ export class UserService {
   async create(entity: UserEntity) {
     const response = await this.prisma.user.create({
       data: {
-        id: entity.id,
         username: entity.username,
         password: entity.password,
         email: entity.email,
