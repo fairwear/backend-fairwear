@@ -9,12 +9,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import GetCurrentUserId from '../auth/decorators/get-current-user-id.decorator';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { BrandService } from './brand.service';
 import { CreateBrandDto } from './dto/request/create-brand.dto';
 import { UpdateBrandDto } from './dto/request/update-brand.dto';
 import { BrandMapper } from './mapper/brand.mapper';
-import { JwtAuthGuard } from '../auth/guards/jwt.guard';
-import GetCurrentUserId from '../auth/decorators/get-current-user-id.decorator';
 
 @ApiTags('brand')
 @Controller('api/v1/brand')

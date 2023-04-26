@@ -5,6 +5,7 @@ import { BrandEntity } from './entities/brand.entity';
 
 @Injectable()
 export class BrandService {
+  private ERROR_MESSAGE_BASE = 'err.brand.';
   constructor(
     private prisma: PrismaService,
     private authService: AuthService,

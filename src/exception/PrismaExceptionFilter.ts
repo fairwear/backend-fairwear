@@ -3,21 +3,19 @@ import {
   Catch,
   HttpException,
   HttpServer,
-  HttpStatus,
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { Prisma } from '@prisma/client';
-
-export type ErrorCodesStatusMapping = {
-  [key: string]: number;
-};
+import ErrorCodesStatusMapping, {
+  errorCodesStatusMap,
+} from './ErrorCodesStatusMapping';
 
 /**
  * {@link PrismaClientExceptionFilter}
  * catches {@link Prisma.PrismaClientKnownRequestError}
  * and {@link Prisma.NotFoundError} exceptions.
  */
-@Catch(Prisma?.PrismaClientKnownRequestError, Prisma?.NotFoundError, Error)
+@Catch(Prisma.PrismaClientKnownRequestError, Prisma.NotFoundError, Error)
 export class PrismaClientExceptionFilter extends BaseExceptionFilter {
   /**
    * default error codes mapping
@@ -25,13 +23,8 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
    * Error codes definition for Prisma Client (Query Engine)
    * @see https://www.prisma.io/docs/reference/api-reference/error-reference#prisma-client-query-engine
    */
-  private errorCodesStatusMapping: ErrorCodesStatusMapping = {
-    P2000: HttpStatus.BAD_REQUEST,
-    P2002: HttpStatus.CONFLICT,
-    P2025: HttpStatus.NOT_FOUND,
-    P2003: HttpStatus.NOT_FOUND,
-    P2004: HttpStatus.CONFLICT,
-  };
+  private errorCodesStatusMapping: ErrorCodesStatusMapping =
+    errorCodesStatusMap;
 
   /**
    * @param applicationRef
@@ -66,9 +59,6 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
     if (exception instanceof Prisma.PrismaClientKnownRequestError) {
       return this.catchClientKnownRequestError(exception, host);
     }
-    if (exception instanceof Prisma.NotFoundError) {
-      return this.catchNotFoundError(exception, host);
-    }
     if (exception instanceof Prisma.PrismaClientUnknownRequestError) {
       return super.catch(exception, host);
     }
@@ -90,30 +80,13 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
       return super.catch(exception, host);
     }
 
-    super.catch(new HttpException({ statusCode, message }, statusCode), host);
-  }
-
-  private catchClientUnknownRequestError(
-    exception: Prisma.PrismaClientUnknownRequestError,
-    host: ArgumentsHost,
-  ) {
-    const statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
-    const message = ` ${this.exceptionShortMessage(exception.message)}`;
-
-    if (!Object.keys(this.errorCodesStatusMapping).includes(exception.name)) {
-      return super.catch(exception, host);
-    }
-
-    super.catch(new HttpException({ statusCode, message }, statusCode), host);
-  }
-
-  private catchNotFoundError(
-    { message }: Prisma.NotFoundError,
-    host: ArgumentsHost,
-  ) {
-    const statusCode = HttpStatus.NOT_FOUND;
-
-    super.catch(new HttpException({ statusCode, message }, statusCode), host);
+    super.catch(
+      new HttpException({ statusCode, message }, statusCode, {
+        description: `${exception.meta}`,
+        cause: exception,
+      }),
+      host,
+    );
   }
 
   private exceptionShortMessage(message: string): string {
