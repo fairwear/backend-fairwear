@@ -1,5 +1,7 @@
 import { UserRole, UserRoleToUser } from '@prisma/client';
+import * as argon2 from 'argon2';
 import { BrandEntity } from '../../src/brand/entities/brand.entity';
+import { BrandPostVoteEntry } from '../../src/brandpost/dto/request/entry/brandpost-vote.dto';
 import { BrandPostToItemEntity } from '../../src/brandpost/entities/brandpost-to-item.entity';
 import { BrandPostToTopicEntity } from '../../src/brandpost/entities/brandpost-to-topic.entity';
 import { BrandPostVoteEntity } from '../../src/brandpost/entities/brandpost-vote.entity';
@@ -9,10 +11,8 @@ import { ItemEntity } from '../../src/item/entity/item-entity';
 import { ReportEntity } from '../../src/report/entities/report.entity';
 import { TopicEntity } from '../../src/topic/entities/topic.entity';
 import { UserEntity } from '../../src/user/entities/user.entity';
-import { BrandPostVoteEntry } from '../../src/brandpost/dto/request/entry/brandpost-vote.dto';
 
 export class DataFactory {
-  [x: string]: any;
   public static instance: DataFactory;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   public constructor() {}
@@ -85,6 +85,20 @@ export class DataFactory {
 
     return user;
   }
+  public getValidAdminUser() {
+    const user: UserEntity = new UserEntity();
+    user.username = 'marius';
+    user.password = 'marius123';
+    user.email = 'marius@gmail.com';
+    user.name = 'Marius';
+    user.surname = 'Aurelijauskas';
+    user.createdAt = new Date();
+    user.updatedAt = null;
+    user.deletedAt = null;
+    user.roles = [];
+
+    return user;
+  }
 
   public getUserList() {
     const userList: UserEntity[] = [];
@@ -106,6 +120,7 @@ export class DataFactory {
     user3.name = 'Test name 3';
     user3.surname = 'Test surname 3';
     user3.roles = [];
+
     userList.push(user1);
     userList.push(user2);
     userList.push(user3);
@@ -113,7 +128,30 @@ export class DataFactory {
     return userList;
   }
 
-  public getUserListSeed() {
+  public getAdminUserList() {
+    const userList: UserEntity[] = [];
+
+    const user1: UserEntity = this.getValidAdminUser();
+
+    const user2: UserEntity = new UserEntity();
+
+    user2.username = 'monika';
+    user2.password = 'monikal123';
+    user2.email = 'monikali@gmail.com';
+    user2.name = 'Monika';
+    user2.surname = 'Lileikaite';
+    user2.createdAt = new Date();
+    user2.updatedAt = null;
+    user2.deletedAt = null;
+    user2.roles = [];
+
+    userList.push(user1);
+    userList.push(user2);
+
+    return userList;
+  }
+
+  public async getUserListSeed() {
     const userList: UserEntity[] = [];
 
     const user1: UserEntity = this.getValidUser();
@@ -219,7 +257,13 @@ export class DataFactory {
     userList.push(user11);
     userList.push(user12);
 
-    return userList;
+    const newUserList = userList.map(async (user) => {
+      const hashedPassword = await argon2.hash('password');
+      user.password = hashedPassword;
+      return user;
+    });
+
+    return await Promise.all(newUserList);
   }
 
   // ------------User Role Test Data--------------------
