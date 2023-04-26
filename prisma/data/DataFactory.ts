@@ -1,4 +1,4 @@
-import { UserRoleToUser, UserRole } from '@prisma/client';
+import { UserRole, UserRoleToUser } from '@prisma/client';
 import { BrandEntity } from '../../src/brand/entities/brand.entity';
 import { BrandPostToItemEntity } from '../../src/brandpost/entities/brandpost-to-item.entity';
 import { BrandPostToTopicEntity } from '../../src/brandpost/entities/brandpost-to-topic.entity';
@@ -97,7 +97,6 @@ export class DataFactory {
     user2.email = 'Test email 2';
     user2.name = 'Test name 2';
     user2.surname = 'Test surname 2';
-    user2.password = 'Test password 2';
     user2.roles = [];
 
     const user3: UserEntity = new UserEntity();
@@ -106,11 +105,119 @@ export class DataFactory {
     user3.email = 'Test email 3';
     user3.name = 'Test name 3';
     user3.surname = 'Test surname 3';
-    user3.password = 'Test password 3';
     user3.roles = [];
     userList.push(user1);
     userList.push(user2);
     userList.push(user3);
+
+    return userList;
+  }
+
+  public getUserListSeed() {
+    const userList: UserEntity[] = [];
+
+    const user1: UserEntity = this.getValidUser();
+
+    const user2: UserEntity = new UserEntity();
+    user2.username = 'fairwear';
+    user2.password = 'fairwear';
+    user2.email = 'fairwear@gmail.com';
+    user2.name = 'Fair';
+    user2.surname = 'Wear';
+    user2.roles = [];
+
+    const user3: UserEntity = new UserEntity();
+    user3.username = 'kernius';
+    user3.password = 'kerniusss';
+    user3.email = 'kernius@email.com';
+    user3.name = 'Kernius';
+    user3.surname = 'Survila';
+    user3.roles = [];
+
+    const user4: UserEntity = new UserEntity();
+    user4.username = 'dominykas';
+    user4.password = 'dominykas:)';
+    user4.email = 'dominykas@gmail.com';
+    user4.name = 'Dominykas';
+    user4.surname = 'Kazlauskas';
+    user4.roles = [];
+
+    const user5: UserEntity = new UserEntity();
+    user5.username = 'mortamm';
+    user5.password = 'mortamm221';
+    user5.email = 'mortam@gmail.com';
+    user5.name = 'Morta';
+    user5.surname = 'Matelyte';
+    user5.roles = [];
+
+    const user6: UserEntity = new UserEntity();
+    user6.username = 'marius';
+    user6.password = 'marius123';
+    user6.email = 'marius@gmail.com';
+    user6.name = 'Marius';
+    user6.surname = 'Aurelijauskas';
+    user6.roles = [];
+
+    const user7: UserEntity = new UserEntity();
+    user7.username = 'martynas12';
+    user7.password = 'martynas123';
+    user7.email = 'martynasgl@gmail.com';
+    user7.name = 'Martynas';
+    user7.surname = 'Glodenis';
+    user7.roles = [];
+
+    const user8: UserEntity = new UserEntity();
+    user8.username = 'vaidas';
+    user8.password = 'vaidas123';
+    user8.email = 'vaidasku@gmail.com';
+    user8.name = 'Vaidas';
+    user8.surname = 'Kuizinas';
+    user8.roles = [];
+
+    const user9: UserEntity = new UserEntity();
+    user9.username = 'tomas';
+    user9.password = 'tomas123';
+    user9.email = 'tomasd@gmail.com';
+    user9.name = 'Tomas';
+    user9.surname = 'Daukantas';
+    user9.roles = [];
+
+    const user10: UserEntity = new UserEntity();
+    user10.username = 'monika';
+    user10.password = 'monikal123';
+    user10.email = 'monikali@gmail.com';
+    user10.name = 'Monika';
+    user10.surname = 'Lileikaite';
+    user10.roles = [];
+
+    const user11: UserEntity = new UserEntity();
+    user11.username = 'mindaugas';
+    user11.password = 'mindaugas123';
+    user11.email = 'mindaugasglod@gmail.com';
+    user11.name = 'Mindaugas';
+    user11.surname = 'Glodenis';
+    user11.roles = [];
+
+    const user12: UserEntity = new UserEntity();
+    user12.username = 'mariamonika';
+    user12.password = 'mariamonika123';
+    user12.email = 'monikammar@gmail.com';
+    user12.name = 'Monika';
+    user12.surname = 'Mairaite';
+    user12.roles = [];
+
+    userList.push(user1);
+    userList.push(user2);
+    userList.push(user3);
+    userList.push(user4);
+    userList.push(user5);
+    userList.push(user6);
+    userList.push(user7);
+    userList.push(user8);
+    userList.push(user9);
+    userList.push(user10);
+    userList.push(user11);
+    userList.push(user12);
 
     return userList;
   }
@@ -125,6 +232,24 @@ export class DataFactory {
     return userRole;
   }
 
+  public getBasicUserRole() {
+    const userRole: UserRole = {
+      id: 2,
+      name: 'USER',
+    };
+
+    return userRole;
+  }
+
+  public getAdminUserRole() {
+    const userRole: UserRole = {
+      id: 3,
+      name: 'ADMIN',
+    };
+
+    return userRole;
+  }
+
   public getValidRoleToUser() {
     const roleToUser: UserRoleToUser = {
       userId: 1,
@@ -133,6 +258,7 @@ export class DataFactory {
 
     return roleToUser;
   }
+
   // -------------Report Test Data-------------------
   public getValidReport() {
     const report: ReportEntity = new ReportEntity();
@@ -202,6 +328,205 @@ export class DataFactory {
     return itemList;
   }
 
+  public getItemSeed() {
+    const itemList: ItemEntity[] = [];
+
+    const item1: ItemEntity = this.getValidItem();
+
+    const item2: ItemEntity = new ItemEntity();
+    item2.name = 'T-shirt';
+    item2.brandId = 2;
+    item2.userId = 2;
+    item2.createdAt = new Date('2021-02-01T00:00:00.000Z');
+    item2.updatedAt = new Date('2021-02-04T00:00:00.000Z');
+    item2.deletedAt = null;
+
+    const item3: ItemEntity = new ItemEntity();
+    item3.name = 'Jeans';
+    item3.brandId = 3;
+    item3.userId = 3;
+    item3.createdAt = new Date('2021-03-01T00:00:00.000Z');
+    item3.updatedAt = new Date('2021-03-04T00:00:00.000Z');
+    item3.deletedAt = new Date('2021-03-05T00:00:00.000Z');
+
+    const item4: ItemEntity = new ItemEntity();
+    item4.name = 'Long sleeve shirt';
+    item4.brandId = 4;
+    item4.userId = 4;
+    item4.createdAt = new Date('2021-04-01T00:00:00.000Z');
+    item4.updatedAt = new Date('2021-04-04T00:00:00.000Z');
+    item4.deletedAt = null;
+
+    const item5: ItemEntity = new ItemEntity();
+    item5.name = 'Short sleeve shirt';
+    item5.brandId = 5;
+    item5.userId = 5;
+    item5.createdAt = new Date('2021-05-01T00:00:00.000Z');
+    item5.updatedAt = new Date('2021-05-04T00:00:00.000Z');
+    item5.deletedAt = new Date('2021-05-05T00:00:00.000Z');
+
+    const item6: ItemEntity = new ItemEntity();
+    item6.name = 'Sweater';
+    item6.brandId = 6;
+    item6.userId = 6;
+    item6.createdAt = new Date('2021-06-01T00:00:00.000Z');
+    item6.updatedAt = new Date('2021-06-04T00:00:00.000Z');
+    item6.deletedAt = null;
+
+    const item7: ItemEntity = new ItemEntity();
+    item7.name = 'Hoodie';
+    item7.brandId = 7;
+    item7.userId = 7;
+    item7.createdAt = new Date('2021-07-01T00:00:00.000Z');
+    item7.updatedAt = null;
+    item7.deletedAt = null;
+
+    const item8: ItemEntity = new ItemEntity();
+    item8.name = 'Jacket';
+    item8.brandId = 8;
+    item8.userId = 8;
+    item8.createdAt = new Date('2021-08-01T00:00:00.000Z');
+    item8.updatedAt = null;
+    item8.deletedAt = new Date('2021-08-05T00:00:00.000Z');
+
+    const item9: ItemEntity = new ItemEntity();
+    item9.name = 'Coat';
+    item9.brandId = 2;
+    item9.userId = 7;
+    item9.createdAt = new Date('2021-09-01T00:00:00.000Z');
+    item9.updatedAt = null;
+    item9.deletedAt = null;
+
+    const item10: ItemEntity = new ItemEntity();
+    item10.name = 'Sweatpants';
+    item10.brandId = 3;
+    item10.userId = 8;
+    item10.createdAt = new Date('2021-10-01T00:00:00.000Z');
+    item10.updatedAt = null;
+    item10.deletedAt = new Date('2021-10-05T00:00:00.000Z');
+
+    const item11: ItemEntity = new ItemEntity();
+    item11.name = 'Shorts';
+    item11.brandId = 4;
+    item11.userId = 9;
+    item11.createdAt = new Date('2021-11-01T00:00:00.000Z');
+    item11.updatedAt = new Date('2021-11-04T00:00:00.000Z');
+    item11.deletedAt = null;
+
+    const item12: ItemEntity = new ItemEntity();
+    item12.name = 'Midi Skirt';
+    item12.brandId = 5;
+    item12.userId = 10;
+    item12.createdAt = new Date('2021-12-01T00:00:00.000Z');
+    item12.updatedAt = new Date('2021-12-04T00:00:00.000Z');
+    item12.deletedAt = new Date('2021-12-05T00:00:00.000Z');
+
+    const item13: ItemEntity = new ItemEntity();
+    item13.name = 'Mini Dress';
+    item13.brandId = 6;
+    item13.userId = 5;
+    item13.createdAt = new Date('2022-01-01T00:00:00.000Z');
+    item13.updatedAt = new Date('2022-01-04T00:00:00.000Z');
+    item13.deletedAt = null;
+
+    const item14: ItemEntity = new ItemEntity();
+    item14.name = 'Maxi Dress';
+    item14.brandId = 7;
+    item14.userId = 6;
+    item14.createdAt = new Date('2022-02-01T00:00:00.000Z');
+    item14.updatedAt = null;
+    item14.deletedAt = null;
+
+    const item15: ItemEntity = new ItemEntity();
+    item15.name = 'Polo Shirt';
+    item15.brandId = 8;
+    item15.userId = 7;
+    item15.createdAt = new Date('2022-03-01T00:00:00.000Z');
+    item15.updatedAt = null;
+    item15.deletedAt = new Date('2022-03-05T00:00:00.000Z');
+
+    const item16: ItemEntity = new ItemEntity();
+    item16.name = 'T-Shirt';
+    item16.brandId = 2;
+    item16.userId = 8;
+    item16.createdAt = new Date('2022-04-01T00:00:00.000Z');
+    item16.updatedAt = null;
+    item16.deletedAt = null;
+
+    const item17: ItemEntity = new ItemEntity();
+    item17.name = 'Pleated Pants';
+    item17.brandId = 3;
+    item17.userId = 9;
+    item17.createdAt = new Date('2022-05-01T00:00:00.000Z');
+    item17.updatedAt = new Date('2022-05-04T00:00:00.000Z');
+    item17.deletedAt = null;
+
+    const item18: ItemEntity = new ItemEntity();
+    item18.name = 'Puffer Jacket';
+    item18.brandId = 4;
+    item18.userId = 10;
+    item18.createdAt = new Date('2022-06-01T00:00:00.000Z');
+    item18.updatedAt = new Date('2022-06-04T00:00:00.000Z');
+    item18.deletedAt = new Date('2022-06-05T00:00:00.000Z');
+
+    const item19: ItemEntity = new ItemEntity();
+    item19.name = 'Bomber Jacket';
+    item19.brandId = 5;
+    item19.userId = 5;
+    item19.createdAt = new Date('2022-07-01T00:00:00.000Z');
+    item19.updatedAt = null;
+    item19.deletedAt = null;
+
+    const item20: ItemEntity = new ItemEntity();
+    item20.name = 'Mock Neck Sweater';
+    item20.brandId = 6;
+    item20.userId = 6;
+    item20.createdAt = new Date('2022-08-01T00:00:00.000Z');
+    item20.updatedAt = null;
+    item20.deletedAt = new Date('2022-08-05T00:00:00.000Z');
+
+    const item21: ItemEntity = new ItemEntity();
+    item21.name = 'Crew Neck Sweater';
+    item21.brandId = 7;
+    item21.userId = 4;
+    item21.createdAt = new Date('2022-09-01T00:00:00.000Z');
+    item21.updatedAt = new Date('2022-09-04T00:00:00.000Z');
+    item21.deletedAt = null;
+
+    const item22: ItemEntity = new ItemEntity();
+    item22.name = 'Turtleneck Sweater';
+    item22.brandId = 8;
+    item22.userId = 5;
+    item22.createdAt = new Date('2022-10-01T00:00:00.000Z');
+    item22.updatedAt = null;
+    item22.deletedAt = null;
+
+    itemList.push(item1);
+    itemList.push(item2);
+    itemList.push(item3);
+    itemList.push(item4);
+    itemList.push(item5);
+    itemList.push(item6);
+    itemList.push(item7);
+    itemList.push(item8);
+    itemList.push(item9);
+    itemList.push(item10);
+    itemList.push(item11);
+    itemList.push(item12);
+    itemList.push(item13);
+    itemList.push(item14);
+    itemList.push(item15);
+    itemList.push(item16);
+    itemList.push(item17);
+    itemList.push(item18);
+    itemList.push(item19);
+    itemList.push(item20);
+    itemList.push(item21);
+    itemList.push(item22);
+
+    return itemList;
+  }
+
   // ---------------Brand Test Data-----------------
 
   public getValidBrand() {
@@ -209,6 +534,8 @@ export class DataFactory {
     brand.name = 'Test name 1';
     brand.userId = 1;
     brand.createdAt = new Date('2021-01-01T00:00:00.000Z');
+    brand.updatedAt = null;
+    brand.deletedAt = null;
 
     return brand;
   }
@@ -220,13 +547,111 @@ export class DataFactory {
 
     const brand2: BrandEntity = new BrandEntity();
     brand2.name = 'Test name 2';
+    brand2.userId = 2;
+    brand2.createdAt = new Date('2021-02-01T00:00:00.000Z');
+    brand2.updatedAt = new Date('2021-02-04T00:00:00.000Z');
+    brand2.deletedAt = null;
 
     const brand3: BrandEntity = new BrandEntity();
     brand3.name = 'Test name 3';
+    brand3.userId = 3;
+    brand3.createdAt = new Date('2021-03-01T00:00:00.000Z');
+    brand3.updatedAt = new Date('2021-03-04T00:00:00.000Z');
+    brand3.deletedAt = new Date('2021-03-05T00:00:00.000Z');
 
     brandList.push(brand1);
     brandList.push(brand2);
     brandList.push(brand3);
+
+    return brandList;
+  }
+
+  public getBrandsSeed() {
+    const brandList: BrandEntity[] = [];
+
+    const brand1: BrandEntity = this.getValidBrand();
+
+    const brand2: BrandEntity = new BrandEntity();
+    brand2.name = 'Test name 2';
+    brand2.userId = 2;
+    brand2.createdAt = new Date('2021-02-01T00:00:00.000Z');
+    brand2.updatedAt = new Date('2021-02-04T00:00:00.000Z');
+    brand2.deletedAt = null;
+
+    const brand3: BrandEntity = new BrandEntity();
+    brand3.name = 'Test name 3';
+    brand3.userId = 3;
+    brand3.createdAt = new Date('2021-03-01T00:00:00.000Z');
+    brand3.updatedAt = new Date('2021-03-04T00:00:00.000Z');
+    brand3.deletedAt = new Date('2021-03-05T00:00:00.000Z');
+
+    const brand4: BrandEntity = new BrandEntity();
+    brand4.name = 'Test name 4';
+    brand4.userId = 4;
+    brand4.createdAt = new Date('2021-04-01T00:00:00.000Z');
+    brand4.updatedAt = new Date('2021-04-04T00:00:00.000Z');
+    brand4.deletedAt = new Date('2021-04-05T00:00:00.000Z');
+
+    const brand5: BrandEntity = new BrandEntity();
+    brand5.name = 'Test name 5';
+    brand5.userId = 5;
+    brand5.createdAt = new Date('2021-05-01T00:00:00.000Z');
+    brand5.updatedAt = new Date('2021-05-04T00:00:00.000Z');
+    brand5.deletedAt = new Date('2021-05-05T00:00:00.000Z');
+
+    const brand6: BrandEntity = new BrandEntity();
+    brand6.name = 'H&M';
+    brand6.userId = 6;
+    brand6.createdAt = new Date('2021-06-01T00:00:00.000Z');
+    brand6.updatedAt = null;
+    brand6.deletedAt = null;
+
+    const brand7: BrandEntity = new BrandEntity();
+    brand7.name = 'Zara';
+    brand7.userId = 7;
+    brand7.createdAt = new Date('2021-07-01T00:00:00.000Z');
+    brand7.updatedAt = null;
+    brand7.deletedAt = new Date('2021-07-05T00:00:00.000Z');
+
+    const brand8: BrandEntity = new BrandEntity();
+    brand8.name = 'Adidas';
+    brand8.userId = 8;
+    brand8.createdAt = new Date('2021-08-01T00:00:00.000Z');
+    brand8.updatedAt = new Date('2021-08-04T00:00:00.000Z');
+    brand8.deletedAt = null;
+
+    const brand9: BrandEntity = new BrandEntity();
+    brand9.name = 'Nike';
+    brand9.userId = 9;
+    brand9.createdAt = new Date('2021-09-01T00:00:00.000Z');
+    brand9.updatedAt = null;
+    brand9.deletedAt = null;
+
+    const brand10: BrandEntity = new BrandEntity();
+    brand10.name = 'Puma';
+    brand10.userId = 10;
+    brand10.createdAt = new Date('2021-10-01T00:00:00.000Z');
+    brand10.updatedAt = null;
+    brand10.deletedAt = null;
+
+    const brand11: BrandEntity = new BrandEntity();
+    brand11.name = 'Reebok';
+    brand11.userId = 3;
+    brand11.createdAt = new Date('2021-11-01T00:00:00.000Z');
+    brand11.updatedAt = null;
+    brand11.deletedAt = null;
+
+    brandList.push(brand1);
+    brandList.push(brand2);
+    brandList.push(brand3);
+    brandList.push(brand4);
+    brandList.push(brand5);
+    brandList.push(brand6);
+    brandList.push(brand7);
+    brandList.push(brand8);
+    brandList.push(brand9);
+    brandList.push(brand10);
+    brandList.push(brand11);
 
     return brandList;
   }
@@ -254,6 +679,61 @@ export class DataFactory {
     topicList.push(topic1);
     topicList.push(topic2);
     topicList.push(topic3);
+
+    return topicList;
+  }
+
+  public getTopicsSeed() {
+    const topicList: TopicEntity[] = [];
+
+    const topic1: TopicEntity = this.getValidTopic();
+
+    const topic2: TopicEntity = new TopicEntity();
+    topic2.name = 'Test name 2';
+    topic2.topicId = 2;
+
+    const topic3: TopicEntity = new TopicEntity();
+    topic3.name = 'Test name 3';
+    topic3.topicId = 2;
+
+    const topic4: TopicEntity = new TopicEntity();
+    topic4.name = 'Animal Cruelty';
+    topic4.topicId = null;
+
+    const topic5: TopicEntity = new TopicEntity();
+    topic5.name = 'Child Labor';
+    topic5.topicId = null;
+
+    const topic6: TopicEntity = new TopicEntity();
+    topic6.name = 'Subtopic 2';
+    topic6.topicId = 5;
+
+    const topic7: TopicEntity = new TopicEntity();
+    topic7.name = 'Unethical Labor Practices';
+    topic7.topicId = null;
+
+    const topic8: TopicEntity = new TopicEntity();
+    topic8.name = 'Environmental Impact';
+    topic8.topicId = null;
+
+    const topic9: TopicEntity = new TopicEntity();
+    topic9.name = 'Subtopic 3';
+    topic9.topicId = 8;
+
+    const topic10 = new TopicEntity();
+    topic10.name = 'Subtopic 1';
+    topic10.topicId = 4;
+
+    topicList.push(topic1);
+    topicList.push(topic2);
+    topicList.push(topic3);
+    topicList.push(topic4);
+    topicList.push(topic5);
+    topicList.push(topic6);
+    topicList.push(topic7);
+    topicList.push(topic8);
+    topicList.push(topic9);
+    topicList.push(topic10);
 
     return topicList;
   }
@@ -359,6 +839,57 @@ export class DataFactory {
     brandPostList.push(brandPost3);
 
     return brandPostList;
+  }
+
+  public getBrandPostSeed() {
+    const BrandPostList: BrandPostEntity[] = [];
+
+    const brandPost1: BrandPostEntity = new BrandPostEntity();
+    brandPost1.body = 'Test body 1';
+    brandPost1.authorId = 1;
+    brandPost1.brandId = 1;
+    brandPost1.createdAt = new Date('2021-01-01T00:00:00.000Z');
+    brandPost1.deletedAt = null;
+    brandPost1.topics = [this.getValidBrandPostToTopic()];
+    brandPost1.relatedItems = [this.getValidBrandPostToItem()];
+    brandPost1.votes = [this.getValidBrandPostUpvote()];
+
+    const brandPost2: BrandPostEntity = new BrandPostEntity();
+    brandPost2.body = 'Test body 2';
+    brandPost2.authorId = 2;
+    brandPost2.brandId = 2;
+    brandPost2.createdAt = new Date('2021-02-01T00:00:00.000Z');
+    brandPost2.deletedAt = new Date('2021-02-02T00:00:00.000Z');
+    brandPost2.topics = [this.getValidBrandPostToTopic()];
+    brandPost2.relatedItems = [this.getValidBrandPostToItem()];
+    brandPost2.votes = [this.getValidBrandPostUpvote()];
+
+    const brandPost3: BrandPostEntity = new BrandPostEntity();
+    brandPost3.body = 'Test body 3';
+    brandPost3.authorId = 3;
+    brandPost3.brandId = 3;
+    brandPost3.createdAt = new Date('2021-03-01T00:00:00.000Z');
+    brandPost3.deletedAt = null;
+    brandPost3.topics = [this.getValidBrandPostToTopic()];
+    brandPost3.relatedItems = [this.getValidBrandPostToItem()];
+    brandPost3.votes = [this.getValidBrandPostUpvote()];
+
+    const brandPost4: BrandPostEntity = new BrandPostEntity();
+    brandPost4.body = 'Test body 4';
+    brandPost4.authorId = 4;
+    brandPost4.brandId = 4;
+    brandPost4.createdAt = new Date('2021-04-01T00:00:00.000Z');
+    brandPost4.deletedAt = null;
+    brandPost4.topics = [this.getValidBrandPostToTopic()];
+    brandPost4.relatedItems = [this.getValidBrandPostToItem()];
+    brandPost4.votes = [this.getValidBrandPostUpvote()];
+
+    BrandPostList.push(brandPost1);
+    BrandPostList.push(brandPost2);
+    BrandPostList.push(brandPost3);
+    BrandPostList.push(brandPost4);
+
+    return BrandPostList;
   }
   // ---------------Other-----------------
 }
