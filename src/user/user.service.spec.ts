@@ -47,7 +47,9 @@ describe('UserService', () => {
   it('should fail to create a user', async () => {
     const user = dataFactory.getValidUser();
     prismaService.user.create.mockRejectedValueOnce(new Error('error'));
-    await expect(service.create(user)).rejects.toThrowError('error');
+    await expect(service.create(user)).rejects.toThrowError(
+      'User already exists!',
+    );
     expect(prismaService.user.create).toHaveBeenCalledTimes(1);
   });
 
@@ -132,7 +134,9 @@ describe('UserService', () => {
   it('should fail to update a user', async () => {
     const user = dataFactory.getValidUser();
     prismaService.user.update.mockRejectedValueOnce(new Error('error'));
-    await expect(service.update(1, user)).rejects.toThrowError('error');
+    await expect(service.update(1, user)).rejects.toThrowError(
+      'User Not Found',
+    );
     expect(prismaService.user.update).toHaveBeenCalledTimes(1);
   });
 
