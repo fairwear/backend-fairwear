@@ -164,8 +164,70 @@ export const main = async () => {
   });
 
   console.log('Successfully created topics');
+
+//--------------------------------
+// Item test data
+
+let items = dataFactory.getItemSeed();
+items.forEach(async (item) => {
+  await prisma.item.upsert({
+    where: { name: item.name },
+    update: {},
+    create: {
+      name: item.name,
+      createdAt: item.createdAt,
+      updatedAt: item.updatedAt,
+      deletedAt: item.deletedAt,
+      brand: {
+        connect: {
+          id: item.brandId,
+        },
+      },
+      createdBy: {
+        connect: {
+          id: item.userId,
+        },
+      },
+    },
+
+});
+});
+
+console.log('Successfully created items');
+
+//--------------------------------
+// BrandPost test data
+
+let brandPosts = dataFactory.getBrandPostSeed();
+brandPosts.forEach(async (brandPost) => {
+  await prisma.brandPost.upsert({
+    where: { body: brandPost.body },
+    update: {},
+    create: {
+      body: brandPost.body,
+      createdAt: brandPost.createdAt,
+      deletedAt: brandPost.deletedAt,
+      brand: {
+        connect: {
+          id: brandPost.brandId,
+        },
+      },
+      author: {
+        connect: {
+          id: brandPost.authorId,
+        },
+      },
+},
+});
+});
+
+console.log('Successfully created brand posts');
+
 };
+
 main();
+
+
 
 // .catch((e) => {
 // 	console.error(e);

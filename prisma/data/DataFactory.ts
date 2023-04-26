@@ -328,6 +328,206 @@ export class DataFactory {
     return itemList;
   }
 
+  public getItemSeed() {
+    const itemList: ItemEntity[] = [];
+
+    const item1: ItemEntity = this.getValidItem();
+
+    const item2: ItemEntity = new ItemEntity();
+    item2.name = 'T-shirt';
+    item2.brandId = 2;
+    item2.userId = 2;
+    item2.createdAt = new Date('2021-02-01T00:00:00.000Z');
+    item2.updatedAt = new Date('2021-02-04T00:00:00.000Z');
+    item2.deletedAt = null;
+
+    const item3: ItemEntity = new ItemEntity();
+    item3.name = 'Jeans';
+    item3.brandId = 3;
+    item3.userId = 3;
+    item3.createdAt = new Date('2021-03-01T00:00:00.000Z');
+    item3.updatedAt = new Date('2021-03-04T00:00:00.000Z');
+    item3.deletedAt = new Date('2021-03-05T00:00:00.000Z');
+
+    const item4: ItemEntity = new ItemEntity();
+    item4.name = 'Long sleeve shirt';
+    item4.brandId = 4;
+    item4.userId = 4;
+    item4.createdAt = new Date('2021-04-01T00:00:00.000Z');
+    item4.updatedAt = new Date('2021-04-04T00:00:00.000Z');
+    item4.deletedAt = null;
+
+    const item5: ItemEntity = new ItemEntity();
+    item5.name = 'Short sleeve shirt';
+    item5.brandId = 5;
+    item5.userId = 5;
+    item5.createdAt = new Date('2021-05-01T00:00:00.000Z');
+    item5.updatedAt = new Date('2021-05-04T00:00:00.000Z');
+    item5.deletedAt = new Date('2021-05-05T00:00:00.000Z');
+
+    const item6: ItemEntity = new ItemEntity();
+    item6.name = 'Sweater';
+    item6.brandId = 6;
+    item6.userId = 6;
+    item6.createdAt = new Date('2021-06-01T00:00:00.000Z');
+    item6.updatedAt = new Date('2021-06-04T00:00:00.000Z');
+    item6.deletedAt = null;
+
+    const item7: ItemEntity = new ItemEntity();
+    item7.name = 'Hoodie';
+    item7.brandId = 7;
+    item7.userId = 7;
+    item7.createdAt = new Date('2021-07-01T00:00:00.000Z');
+    item7.updatedAt = null;
+    item7.deletedAt = null;
+
+    const item8: ItemEntity = new ItemEntity();
+    item8.name = 'Jacket';
+    item8.brandId = 8;
+    item8.userId = 8;
+    item8.createdAt = new Date('2021-08-01T00:00:00.000Z');
+    item8.updatedAt = null;
+    item8.deletedAt = new Date('2021-08-05T00:00:00.000Z');
+
+    const item9: ItemEntity = new ItemEntity();
+    item9.name = 'Coat';
+    item9.brandId = 2;
+    item9.userId = 7;
+    item9.createdAt = new Date('2021-09-01T00:00:00.000Z');
+    item9.updatedAt = null;
+    item9.deletedAt = null;
+
+    const item10: ItemEntity = new ItemEntity();
+    item10.name = 'Sweatpants';
+    item10.brandId = 3;
+    item10.userId = 8;
+    item10.createdAt = new Date('2021-10-01T00:00:00.000Z');
+    item10.updatedAt = null;
+    item10.deletedAt = new Date('2021-10-05T00:00:00.000Z');
+
+    const item11: ItemEntity = new ItemEntity();
+    item11.name = 'Shorts';
+    item11.brandId = 4;
+    item11.userId = 9;
+    item11.createdAt = new Date('2021-11-01T00:00:00.000Z');
+    item11.updatedAt = new Date('2021-11-04T00:00:00.000Z');
+    item11.deletedAt = null;
+
+    const item12: ItemEntity = new ItemEntity();
+    item12.name = 'Midi Skirt';
+    item12.brandId = 5;
+    item12.userId = 10;
+    item12.createdAt = new Date('2021-12-01T00:00:00.000Z');
+    item12.updatedAt = new Date('2021-12-04T00:00:00.000Z');
+    item12.deletedAt = new Date('2021-12-05T00:00:00.000Z');
+
+    const item13: ItemEntity = new ItemEntity();
+    item13.name = 'Mini Dress';
+    item13.brandId = 6;
+    item13.userId = 5;
+    item13.createdAt = new Date('2022-01-01T00:00:00.000Z');
+    item13.updatedAt = new Date('2022-01-04T00:00:00.000Z');
+    item13.deletedAt = null;
+
+    const item14: ItemEntity = new ItemEntity();
+    item14.name = 'Maxi Dress';
+    item14.brandId = 7;
+    item14.userId = 6;
+    item14.createdAt = new Date('2022-02-01T00:00:00.000Z');
+    item14.updatedAt = null;
+    item14.deletedAt = null;
+
+    const item15: ItemEntity = new ItemEntity();
+    item15.name = 'Polo Shirt';
+    item15.brandId = 8;
+    item15.userId = 7;
+    item15.createdAt = new Date('2022-03-01T00:00:00.000Z');
+    item15.updatedAt = null;
+    item15.deletedAt = new Date('2022-03-05T00:00:00.000Z');
+
+    const item16: ItemEntity = new ItemEntity();
+    item16.name = 'T-Shirt';
+    item16.brandId = 2;
+    item16.userId = 8;
+    item16.createdAt = new Date('2022-04-01T00:00:00.000Z');
+    item16.updatedAt = null;
+    item16.deletedAt = null;
+
+    const item17: ItemEntity = new ItemEntity();
+    item17.name = 'Pleated Pants';
+    item17.brandId = 3;
+    item17.userId = 9;
+    item17.createdAt = new Date('2022-05-01T00:00:00.000Z');
+    item17.updatedAt = new Date('2022-05-04T00:00:00.000Z');
+    item17.deletedAt = null;
+
+    const item18: ItemEntity = new ItemEntity();
+    item18.name = 'Puffer Jacket';
+    item18.brandId = 4;
+    item18.userId = 10;
+    item18.createdAt = new Date('2022-06-01T00:00:00.000Z');
+    item18.updatedAt = new Date('2022-06-04T00:00:00.000Z');
+    item18.deletedAt = new Date('2022-06-05T00:00:00.000Z');
+    
+    const item19: ItemEntity = new ItemEntity();
+    item19.name = 'Bomber Jacket';
+    item19.brandId = 5;
+    item19.userId = 5;
+    item19.createdAt = new Date('2022-07-01T00:00:00.000Z');
+    item19.updatedAt = null;
+    item19.deletedAt = null;
+
+    const item20: ItemEntity = new ItemEntity();
+    item20.name = 'Mock Neck Sweater';
+    item20.brandId = 6;
+    item20.userId = 6;
+    item20.createdAt = new Date('2022-08-01T00:00:00.000Z');
+    item20.updatedAt = null;
+    item20.deletedAt = new Date('2022-08-05T00:00:00.000Z');
+    
+    const item21: ItemEntity = new ItemEntity();
+    item21.name = 'Crew Neck Sweater';
+    item21.brandId = 7;
+    item21.userId = 4;
+    item21.createdAt = new Date('2022-09-01T00:00:00.000Z');
+    item21.updatedAt = new Date('2022-09-04T00:00:00.000Z');
+    item21.deletedAt = null;
+
+    const item22: ItemEntity = new ItemEntity();
+    item22.name = 'Turtleneck Sweater';
+    item22.brandId = 8;
+    item22.userId = 5;
+    item22.createdAt = new Date('2022-10-01T00:00:00.000Z');
+    item22.updatedAt = null;
+    item22.deletedAt = null;
+
+
+    itemList.push(item1);
+    itemList.push(item2);
+    itemList.push(item3);
+    itemList.push(item4);
+    itemList.push(item5);
+    itemList.push(item6);
+    itemList.push(item7);
+    itemList.push(item8);
+    itemList.push(item9);
+    itemList.push(item10);
+    itemList.push(item11);
+    itemList.push(item12);
+    itemList.push(item13);
+    itemList.push(item14);
+    itemList.push(item15);
+    itemList.push(item16);
+    itemList.push(item17);
+    itemList.push(item18);
+    itemList.push(item19);
+    itemList.push(item20);
+    itemList.push(item21);
+    itemList.push(item22);
+
+    return itemList;
+  }
+
   // ---------------Brand Test Data-----------------
 
   public getValidBrand() {
@@ -366,6 +566,7 @@ export class DataFactory {
 
     return brandList;
   }
+
 
   public getBrandsSeed() {
     const brandList: BrandEntity[] = [];
@@ -640,6 +841,59 @@ export class DataFactory {
     brandPostList.push(brandPost3);
 
     return brandPostList;
+  }
+
+  public getBrandPostSeed () {
+    const BrandPostList: BrandPostEntity[] = [];
+
+    const brandPost1: BrandPostEntity = new BrandPostEntity();
+    brandPost1.body = 'Test body 1';
+    brandPost1.authorId = 1;
+    brandPost1.brandId = 1;
+    brandPost1.createdAt = new Date('2021-01-01T00:00:00.000Z');
+    brandPost1.deletedAt = null;
+    brandPost1.topics = [this.getValidBrandPostToTopic()];
+    brandPost1.relatedItems = [this.getValidBrandPostToItem()];
+    brandPost1.votes = [this.getValidBrandPostUpvote()];
+    
+    const brandPost2: BrandPostEntity = new BrandPostEntity();
+    brandPost2.body = 'Test body 2';
+    brandPost2.authorId = 2;
+    brandPost2.brandId = 2;
+    brandPost2.createdAt = new Date('2021-02-01T00:00:00.000Z');
+    brandPost2.deletedAt = new Date('2021-02-02T00:00:00.000Z');
+    brandPost2.topics = [this.getValidBrandPostToTopic()];
+    brandPost2.relatedItems = [this.getValidBrandPostToItem()];
+    brandPost2.votes = [this.getValidBrandPostUpvote()];
+    
+    const brandPost3: BrandPostEntity = new BrandPostEntity();
+    brandPost3.body = 'Test body 3';
+    brandPost3.authorId = 3;
+    brandPost3.brandId = 3;
+    brandPost3.createdAt = new Date('2021-03-01T00:00:00.000Z');
+    brandPost3.deletedAt = null;
+    brandPost3.topics = [this.getValidBrandPostToTopic()];
+    brandPost3.relatedItems = [this.getValidBrandPostToItem()];
+    brandPost3.votes = [this.getValidBrandPostUpvote()];
+    
+    const brandPost4: BrandPostEntity = new BrandPostEntity();
+    brandPost4.body = 'Test body 4';
+    brandPost4.authorId = 4;
+    brandPost4.brandId = 4;
+    brandPost4.createdAt = new Date('2021-04-01T00:00:00.000Z');
+    brandPost4.deletedAt = null;
+    brandPost4.topics = [this.getValidBrandPostToTopic()];
+    brandPost4.relatedItems = [this.getValidBrandPostToItem()];
+    brandPost4.votes = [this.getValidBrandPostUpvote()];
+
+    
+    BrandPostList.push(brandPost1);
+    BrandPostList.push(brandPost2);
+    BrandPostList.push(brandPost3);
+    BrandPostList.push(brandPost4);
+
+    return BrandPostList;
+
   }
   // ---------------Other-----------------
 }
