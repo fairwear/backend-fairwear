@@ -24,7 +24,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "generate": true,
+    "seed": "ts-node prisma/seed.ts",
+    "seed:prod": "node dist/prisma/seed"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
