@@ -5,6 +5,7 @@ import {
   BrandPost,
   BrandPostToItem,
 } from '@prisma/client';
+import { BrandEntity } from '../../brand/entities/brand.entity';
 
 export class BrandPostEntity {
   @ApiProperty({ type: Number, description: 'BrandPost ID' })
@@ -24,6 +25,9 @@ export class BrandPostEntity {
 
   @ApiProperty({ type: Date, description: 'BrandPost Author ID' })
   authorId: number;
+
+  @ApiProperty({ type: BrandEntity, description: 'Brand Entity' })
+  brand: BrandEntity;
 
   @ApiProperty({
     type: () => Array<BrandPostVote>,

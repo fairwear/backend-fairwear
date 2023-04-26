@@ -1,3 +1,4 @@
+import { BrandMapper } from '../../brand/mapper/brand.mapper';
 import { CreateBrandPostDto } from '../dto/request/create-brandpost.dto';
 import { ResponseBrandPostDto } from '../dto/response/response-brandpost.dto';
 import { BrandPostToItemEntity } from '../entities/brandpost-to-item.entity';
@@ -39,6 +40,7 @@ export class BrandPostMapper {
     response.votes = entity.votes.map((vote) => vote.vote);
     response.topics = entity.topics;
     response.relatedItems = entity.relatedItems;
+    response.brand = BrandMapper.toResponse(entity.brand);
 
     return response;
   }

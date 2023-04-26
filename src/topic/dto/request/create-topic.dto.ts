@@ -6,4 +6,7 @@ export class CreateTopicDto {
 
   @ApiPropertyOptional({ type: Number })
   topicId: number | null;
+
+  @ApiProperty({ type: Date })
+  createdAt: Date;
 }

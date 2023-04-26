@@ -4,7 +4,10 @@ import { ItemResponse } from '../dto/response/response-item.dto';
 import { ItemEntity } from '../entity/item-entity';
 
 export class ItemMapper {
-  public static toEntity(request: CreateItemDto | UpdateItemDto) {
+  public static toEntity(
+    request: CreateItemDto | UpdateItemDto,
+    userId: number,
+  ) {
     const entity = new ItemEntity();
 
     if (request instanceof UpdateItemDto) {
@@ -13,7 +16,7 @@ export class ItemMapper {
     }
     entity.name = request.name;
     entity.brandId = request.brandId;
-    entity.userId = request.userId;
+    entity.userId = userId;
     if (request instanceof CreateItemDto) {
       entity.createdAt = request.createdAt;
     }

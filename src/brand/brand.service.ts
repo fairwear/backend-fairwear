@@ -46,13 +46,8 @@ export class BrandService {
 
   async update(id: number, entity: BrandEntity) {
     const isUserAdmin = this.authService.isUserAdmin(entity.userId);
-    const brand = await this.prisma.brand.findUniqueOrThrow({
-      where: {
-        id: id,
-      },
-    });
 
-    if (!isUserAdmin && brand.userId !== entity.userId) {
+    if (!isUserAdmin) {
       throw new UnauthorizedException(
         'You are not authorized to perform this action',
       );
@@ -72,13 +67,8 @@ export class BrandService {
 
   async softDelete(id: number, userId: number) {
     const isUserAdmin = this.authService.isUserAdmin(userId);
-    const entity = await this.prisma.brand.findUniqueOrThrow({
-      where: {
-        id: id,
-      },
-    });
 
-    if (!isUserAdmin && entity.userId !== userId) {
+    if (!isUserAdmin) {
       throw new UnauthorizedException(
         'You are not authorized to perform this action',
       );

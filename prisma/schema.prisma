@@ -95,6 +95,10 @@ model Topic {
   id              Int                @id @default(autoincrement()) @db.Integer
   name            String             @unique
   topicId         Int?               @unique @map("topic_id")
+  // ------ Timestamps ------
+  createdAt       DateTime           @default(now()) @map("created_at")
+  updatedAt       DateTime?          @updatedAt @map("updated_at")
+  deletedAt       DateTime?          @map("deleted_at")
   // ------ Relationships ------
   topic           Topic?             @relation("TopicSubtopic", fields: [topicId], references: [id])
   subtopic        Topic[]            @relation("TopicSubtopic")

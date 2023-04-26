@@ -1,9 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ReportEntity } from './entities/report.entity';
 import { PrismaService } from '../prisma/prisma.service';
+import { AuthService } from '../auth/auth.service';
 @Injectable()
 export class ReportService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private authService: AuthService,
+  ) {}
   async create(entity: ReportEntity) {
     const response = await this.prisma.report.create({
       data: {
@@ -46,19 +50,25 @@ export class ReportService {
     return report;
   }
 
-  async update(id: number, entity: ReportEntity) {
-    const report = await this.prisma.report.update({
+  async update(id: number, entity: ReportEntity, userId: number) {
+    const isUserAdmin = this.authService.isUserAdmin(userId);
+
+    if (!isUserAdmin) {
+      throw new UnauthorizedException(
+        'You are not authorized to perform this action',
+      );
+    }
+
+    const updatedReport = await this.prisma.report.update({
       where: {
         id: id,
       },
       data: {
-        authorId: entity.authorId,
         reportReason: entity.reportReason,
-        createdAt: entity.createdAt,
         comment: entity.comment,
         status: entity.status,
       },
     });
-    return report;
+    return updatedReport;
   }
 }
