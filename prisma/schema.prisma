@@ -179,7 +179,7 @@ model Report {
 model BrandPost {
   // ------ Fields ------
   id           Int                @id @default(autoincrement()) @db.Integer
-  body         String
+  body         String             @unique
   brandId      Int                @map("brand_id")
   authorId     Int                @map("author_id")
   // ------ Timestamps ------
