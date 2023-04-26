@@ -468,7 +468,7 @@ export class DataFactory {
     item18.createdAt = new Date('2022-06-01T00:00:00.000Z');
     item18.updatedAt = new Date('2022-06-04T00:00:00.000Z');
     item18.deletedAt = new Date('2022-06-05T00:00:00.000Z');
-    
+
     const item19: ItemEntity = new ItemEntity();
     item19.name = 'Bomber Jacket';
     item19.brandId = 5;
@@ -484,7 +484,7 @@ export class DataFactory {
     item20.createdAt = new Date('2022-08-01T00:00:00.000Z');
     item20.updatedAt = null;
     item20.deletedAt = new Date('2022-08-05T00:00:00.000Z');
-    
+
     const item21: ItemEntity = new ItemEntity();
     item21.name = 'Crew Neck Sweater';
     item21.brandId = 7;
@@ -500,7 +500,6 @@ export class DataFactory {
     item22.createdAt = new Date('2022-10-01T00:00:00.000Z');
     item22.updatedAt = null;
     item22.deletedAt = null;
-
 
     itemList.push(item1);
     itemList.push(item2);
@@ -566,7 +565,6 @@ export class DataFactory {
 
     return brandList;
   }
-
 
   public getBrandsSeed() {
     const brandList: BrandEntity[] = [];
@@ -843,7 +841,7 @@ export class DataFactory {
     return brandPostList;
   }
 
-  public getBrandPostSeed () {
+  public getBrandPostSeed() {
     const BrandPostList: BrandPostEntity[] = [];
 
     const brandPost1: BrandPostEntity = new BrandPostEntity();
@@ -855,7 +853,7 @@ export class DataFactory {
     brandPost1.topics = [this.getValidBrandPostToTopic()];
     brandPost1.relatedItems = [this.getValidBrandPostToItem()];
     brandPost1.votes = [this.getValidBrandPostUpvote()];
-    
+
     const brandPost2: BrandPostEntity = new BrandPostEntity();
     brandPost2.body = 'Test body 2';
     brandPost2.authorId = 2;
@@ -865,7 +863,7 @@ export class DataFactory {
     brandPost2.topics = [this.getValidBrandPostToTopic()];
     brandPost2.relatedItems = [this.getValidBrandPostToItem()];
     brandPost2.votes = [this.getValidBrandPostUpvote()];
-    
+
     const brandPost3: BrandPostEntity = new BrandPostEntity();
     brandPost3.body = 'Test body 3';
     brandPost3.authorId = 3;
@@ -875,7 +873,7 @@ export class DataFactory {
     brandPost3.topics = [this.getValidBrandPostToTopic()];
     brandPost3.relatedItems = [this.getValidBrandPostToItem()];
     brandPost3.votes = [this.getValidBrandPostUpvote()];
-    
+
     const brandPost4: BrandPostEntity = new BrandPostEntity();
     brandPost4.body = 'Test body 4';
     brandPost4.authorId = 4;
@@ -886,14 +884,12 @@ export class DataFactory {
     brandPost4.relatedItems = [this.getValidBrandPostToItem()];
     brandPost4.votes = [this.getValidBrandPostUpvote()];
 
-    
     BrandPostList.push(brandPost1);
     BrandPostList.push(brandPost2);
     BrandPostList.push(brandPost3);
     BrandPostList.push(brandPost4);
 
     return BrandPostList;
-
   }
   // ---------------Other-----------------
 }
