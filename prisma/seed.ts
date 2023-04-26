@@ -1,7 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { DataFactory } from './data/DataFactory';
 import { UserEntity } from 'src/user/entities/user.entity';
-import e from 'express';
+import { DataFactory } from './data/DataFactory';
 
 export const prisma = new PrismaClient();
 const dataFactory: DataFactory = DataFactory.getInstance();
@@ -12,9 +11,9 @@ export const main = async () => {
   // ----------------------------
   // User Role test data
 
-  let userR = dataFactory.getBasicUserRole();
-  let adminR = dataFactory.getAdminUserRole();
-  let userRole = await prisma.userRole.upsert({
+  const userR = dataFactory.getBasicUserRole();
+  const adminR = dataFactory.getAdminUserRole();
+  const userRole = await prisma.userRole.upsert({
     where: {
       name: userR.name,
     },
@@ -23,7 +22,7 @@ export const main = async () => {
       name: userR.name,
     },
   });
-  let adminRole = await prisma.userRole.upsert({
+  const adminRole = await prisma.userRole.upsert({
     where: {
       name: adminR.name,
     },
@@ -36,8 +35,8 @@ export const main = async () => {
   // ----------------------------
   // User test data
 
-  let users = dataFactory.getUserListSeed();
-  let res1 = users.map(async (user: UserEntity) => {
+  const users = await dataFactory.getUserListSeed();
+  const res1 = users.map(async (user: UserEntity) => {
     return await prisma.user.upsert({
       where: {
         username: user.username,
@@ -61,8 +60,8 @@ export const main = async () => {
   });
 
   await Promise.all(res1);
-  let lastThreeUsers = await Promise.all(res1.slice(-3));
-  let userIds = lastThreeUsers.map((user) => {
+  const lastThreeUsers = await Promise.all(res1.slice(-3));
+  const userIds = lastThreeUsers.map((user) => {
     return user.id;
   });
 
@@ -79,8 +78,9 @@ export const main = async () => {
       },
     },
   });
-  let roles = [userRole, adminRole];
-  let user = await dataFactory.getValidUser();
+  const roles = [userRole, adminRole];
+  const user = dataFactory.getValidUser();
+
   await prisma.user.upsert({
     where: { username: user.username },
     update: {},
@@ -101,14 +101,48 @@ export const main = async () => {
     },
   });
 
-  await Promise.all(res1);
+  await Promise.all([res1]);
+
+  const adminUsers = dataFactory.getAdminUserList();
+  const res2 = adminUsers.map(async (user: UserEntity) => {
+    return await prisma.user.upsert({
+      where: {
+        username: user.username,
+      },
+      update: {
+        roles: {
+          createMany: {
+            data: {
+              roleId: adminRole.id,
+            },
+          },
+        },
+      },
+      create: {
+        username: user.username,
+        password: user.password,
+        email: user.email,
+        name: user.name,
+        surname: user.surname,
+        roles: {
+          createMany: {
+            data: {
+              roleId: adminRole.id,
+            },
+          },
+        },
+      },
+    });
+  });
+
+  await Promise.all(res2);
 
   console.log('User data seed success!');
 
   // --------------------------------
   // Email Template test data
 
-  let emailTemplates = dataFactory.getEmailTemplateList();
+  const emailTemplates = dataFactory.getEmailTemplateList();
   emailTemplates.forEach(async (emailTemplate) => {
     await prisma.emailTemplate.upsert({
       where: { name: emailTemplate.name },
@@ -130,7 +164,7 @@ export const main = async () => {
   // Brand test data
 
   await Promise.all(res1);
-  let brands = dataFactory.getBrandsSeed();
+  const brands = dataFactory.getBrandsSeed();
   brands.forEach(async (brand) => {
     await prisma.brand.upsert({
       where: { name: brand.name },
@@ -152,7 +186,7 @@ export const main = async () => {
   //--------------------------------
   // Topic test data
 
-  let topics = dataFactory.getTopicsSeed();
+  const topics = dataFactory.getTopicsSeed();
   topics.forEach(async (topic) => {
     await prisma.topic.upsert({
       where: { name: topic.name },
@@ -168,7 +202,7 @@ export const main = async () => {
   //--------------------------------
   // Item test data
 
-  let items = dataFactory.getItemSeed();
+  const items = dataFactory.getItemSeed();
   items.forEach(async (item) => {
     await prisma.item.upsert({
       where: { name: item.name },
@@ -197,7 +231,7 @@ export const main = async () => {
   //--------------------------------
   // BrandPost test data
 
-  let brandPosts = dataFactory.getBrandPostSeed();
+  const brandPosts = dataFactory.getBrandPostSeed();
   brandPosts.forEach(async (brandPost) => {
     await prisma.brandPost.upsert({
       where: { body: brandPost.body },
@@ -223,13 +257,12 @@ export const main = async () => {
   console.log('Successfully created brand posts');
 };
 
-main();
-
-// .catch((e) => {
-// 	console.error(e);
-// 	process.exit(1);
-// })
-// .finally(async () => {
-// 	await Promise.all([]);
-// 	await prisma.$disconnect();
-// });
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await Promise.all([]);
+    await prisma.$disconnect();
+  });
