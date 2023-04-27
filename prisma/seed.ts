@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, UserRoleToUser } from '@prisma/client';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { DataFactory } from './data/DataFactory';
 
@@ -103,7 +103,15 @@ export const main = async () => {
 
   await Promise.all([res1]);
 
-  const adminUsers = dataFactory.getAdminUserList();
+  const tempAdminUsers = dataFactory.getAdminUserList();
+  const adminUsers = tempAdminUsers.filter((user) => {
+    const userRoleToUser: UserRoleToUser = {
+      userId: user.id,
+      roleId: adminRole.id,
+    };
+    return user.roles.includes(userRoleToUser);
+  });
+
   const res2 = adminUsers.map(async (user: UserEntity) => {
     return await prisma.user.upsert({
       where: {
