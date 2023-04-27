@@ -1,6 +1,5 @@
-import { HttpException, Injectable } from '@nestjs/common';
-import { F_OK } from 'constants';
-import { createReadStream, readFileSync, access } from 'fs';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { createReadStream, existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 @Injectable()
@@ -31,45 +30,45 @@ export class FileService {
 
   imageBuffer(fileName: string) {
     try {
-      access(`/uploads/${fileName}`, F_OK, (err: NodeJS.ErrnoException) => {
-        if (err) throw new Error(`Error [${err.code}]: ${err.message}`);
-      });
-      return readFileSync(join(process.cwd(), `/uploads/${fileName}`));
+      if (existsSync(join(process.cwd(), `/uploads/${fileName}`))) {
+        return readFileSync(join(process.cwd(), `/uploads/${fileName}`));
+      }
+      throw new Error('File not found ');
     } catch (err) {
-      throw new HttpException(err.message, 404);
+      throw new NotFoundException(err.message);
     }
   }
 
   imageStream(fileName: string) {
     try {
-      access(`/uploads/${fileName}`, F_OK, (err: NodeJS.ErrnoException) => {
-        if (err) throw new Error(`Error [${err.code}]: ${err.message}`);
-      });
-      return createReadStream(join(process.cwd(), `/uploads/${fileName}`));
+      if (existsSync(join(process.cwd(), `/uploads/${fileName}`))) {
+        return createReadStream(join(process.cwd(), `/uploads/${fileName}`));
+      }
+      throw new Error('File not found');
     } catch (err) {
-      throw new HttpException(err.message, 404);
+      throw new NotFoundException(err.message);
     }
   }
 
   fileBuffer(fileName: string) {
     try {
-      access(`/uploads/${fileName}`, F_OK, (err: NodeJS.ErrnoException) => {
-        if (err) throw new Error(`Error [${err.code}]: ${err.message}`);
-      });
-      return readFileSync(join(process.cwd(), `/uploads/${fileName}`));
+      if (existsSync(join(process.cwd(), `/uploads/${fileName}`))) {
+        return readFileSync(join(process.cwd(), `/uploads/${fileName}`));
+      }
+      throw new Error('File not found');
     } catch (err) {
-      throw new HttpException(err.message, 404);
+      throw new NotFoundException(err.message);
     }
   }
 
   fileStream(fileName: string) {
     try {
-      access(`/uploads/${fileName}`, F_OK, (err: NodeJS.ErrnoException) => {
-        if (err) throw new Error(`Error [${err.code}]: ${err.message}`);
-      });
-      return createReadStream(join(process.cwd(), `/uploads/${fileName}`));
+      if (existsSync(join(process.cwd(), `/uploads/${fileName}`))) {
+        return createReadStream(join(process.cwd(), `/uploads/${fileName}`));
+      }
+      throw new Error('File not found');
     } catch (err) {
-      throw new HttpException(err.message, 404);
+      throw new NotFoundException(err.message);
     }
   }
 }
