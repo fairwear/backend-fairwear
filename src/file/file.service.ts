@@ -29,18 +29,22 @@ export class FileService {
   }
 
   imageBuffer(fileName: string) {
+    if (!fileName) return null;
     return readFileSync(join(process.cwd(), `/uploads/${fileName}`));
   }
 
   imageStream(fileName: string) {
+    if (!fileName) return null;
     return createReadStream(join(process.cwd(), `/uploads/${fileName}`));
   }
 
   fileBuffer(fileName: string) {
+    if (!fileName) return null;
     return readFileSync(join(process.cwd(), `/uploads/${fileName}`));
   }
 
   fileStream(fileName: string) {
+    if (!fileName) return null;
     return createReadStream(join(process.cwd(), `/uploads/${fileName}`));
   }
 }
