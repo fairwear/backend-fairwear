@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  Headers,
   Param,
   Post,
   Res,
@@ -8,7 +9,6 @@ import {
   UploadedFile,
   UploadedFiles,
   UseInterceptors,
-  Headers,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';

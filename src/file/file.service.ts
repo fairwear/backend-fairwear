@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { createReadStream, readFileSync } from 'fs';
+import { HttpException, Injectable } from '@nestjs/common';
+import { F_OK } from 'constants';
+import { createReadStream, readFileSync, access } from 'fs';
 import { join } from 'path';
 
 @Injectable()
@@ -29,22 +30,46 @@ export class FileService {
   }
 
   imageBuffer(fileName: string) {
-    if (!fileName) return null;
-    return readFileSync(join(process.cwd(), `/uploads/${fileName}`));
+    try {
+      access(`/uploads/${fileName}`, F_OK, (err: NodeJS.ErrnoException) => {
+        if (err) throw new Error(`Error [${err.code}]: ${err.message}`);
+      });
+      return readFileSync(join(process.cwd(), `/uploads/${fileName}`));
+    } catch (err) {
+      throw new HttpException(err.message, 404);
+    }
   }
 
   imageStream(fileName: string) {
-    if (!fileName) return null;
-    return createReadStream(join(process.cwd(), `/uploads/${fileName}`));
+    try {
+      access(`/uploads/${fileName}`, F_OK, (err: NodeJS.ErrnoException) => {
+        if (err) throw new Error(`Error [${err.code}]: ${err.message}`);
+      });
+      return createReadStream(join(process.cwd(), `/uploads/${fileName}`));
+    } catch (err) {
+      throw new HttpException(err.message, 404);
+    }
   }
 
   fileBuffer(fileName: string) {
-    if (!fileName) return null;
-    return readFileSync(join(process.cwd(), `/uploads/${fileName}`));
+    try {
+      access(`/uploads/${fileName}`, F_OK, (err: NodeJS.ErrnoException) => {
+        if (err) throw new Error(`Error [${err.code}]: ${err.message}`);
+      });
+      return readFileSync(join(process.cwd(), `/uploads/${fileName}`));
+    } catch (err) {
+      throw new HttpException(err.message, 404);
+    }
   }
 
   fileStream(fileName: string) {
-    if (!fileName) return null;
-    return createReadStream(join(process.cwd(), `/uploads/${fileName}`));
+    try {
+      access(`/uploads/${fileName}`, F_OK, (err: NodeJS.ErrnoException) => {
+        if (err) throw new Error(`Error [${err.code}]: ${err.message}`);
+      });
+      return createReadStream(join(process.cwd(), `/uploads/${fileName}`));
+    } catch (err) {
+      throw new HttpException(err.message, 404);
+    }
   }
 }
