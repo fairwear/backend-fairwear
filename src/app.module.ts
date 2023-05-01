@@ -11,6 +11,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ReportModule } from './report/report.module';
 import { UserRoleModule } from './user-role/user-role.module';
 import { UserModule } from './user/user.module';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { UserModule } from './user/user.module';
     ReportModule,
     BrandpostModule,
     AuthModule,
+    FileModule,
   ],
   controllers: [AppController],
   providers: [AppService],
