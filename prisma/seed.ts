@@ -61,7 +61,7 @@ export const main = async () => {
 
   await Promise.all(res1);
   const lastThreeUsers = await Promise.all(res1.slice(-3));
-  const userIds = lastThreeUsers.map((user) => {
+  const userIds = lastThreeUsers.map((user: { id: any; }) => {
     return user.id;
   });
 
@@ -71,7 +71,7 @@ export const main = async () => {
     create: {
       users: {
         createMany: {
-          data: userIds.map((id) => ({
+          data: userIds.map((id: any) => ({
             userId: id,
           })),
         },
@@ -104,7 +104,7 @@ export const main = async () => {
   await Promise.all([res1]);
 
   const tempAdminUsers = dataFactory.getAdminUserList();
-  const adminUsers = tempAdminUsers.filter((user) => {
+  const adminUsers = tempAdminUsers.filter((user: { id: any; roles: UserRoleToUser[]; }) => {
     const userRoleToUser: UserRoleToUser = {
       userId: user.id,
       roleId: adminRole.id,
@@ -151,7 +151,7 @@ export const main = async () => {
   // Email Template test data
 
   const emailTemplates = dataFactory.getEmailTemplateList();
-  emailTemplates.forEach(async (emailTemplate) => {
+  emailTemplates.forEach(async (emailTemplate: { name: any; subject: any; body: any; createdAt: any; updatedAt: any; deletedAt: any; }) => {
     await prisma.emailTemplate.upsert({
       where: { name: emailTemplate.name },
       update: {},
@@ -173,7 +173,7 @@ export const main = async () => {
 
   await Promise.all(res1);
   const brands = dataFactory.getBrandsSeed();
-  brands.forEach(async (brand) => {
+  brands.forEach(async (brand: { name: any; userId: any; createdAt: any; }) => {
     await prisma.brand.upsert({
       where: { name: brand.name },
       update: {},
@@ -211,7 +211,7 @@ export const main = async () => {
   // Item test data
 
   const items = dataFactory.getItemSeed();
-  items.forEach(async (item) => {
+  items.forEach(async (item: { name: any; createdAt: any; updatedAt: any; deletedAt: any; brandId: any; userId: any; }) => {
     await prisma.item.upsert({
       where: { name: item.name },
       update: {},
@@ -240,7 +240,7 @@ export const main = async () => {
   // BrandPost test data
 
   const brandPosts = dataFactory.getBrandPostSeed();
-  brandPosts.forEach(async (brandPost) => {
+  brandPosts.forEach(async (brandPost: { body: any; createdAt: any; deletedAt: any; brandId: any; authorId: any; }) => {
     await prisma.brandPost.upsert({
       where: { body: brandPost.body },
       update: {},
