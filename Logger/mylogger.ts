@@ -1,5 +1,6 @@
 import { LoggerService } from '@nestjs/common';
 import * as winston from 'winston';
+// import 'winston-daily-rotate-file';
 
 export class MyLogger implements LoggerService {
   private logger: winston.Logger;
@@ -11,7 +12,7 @@ export class MyLogger implements LoggerService {
         winston.format.timestamp(),
         winston.format.json(),
       ),
-      defaultMeta: { service: 'logger.sevice.ts' },
+      defaultMeta: { service: 'LoggerService' },
       transports: [
         new winston.transports.Console({
           format: winston.format.combine(
@@ -20,7 +21,15 @@ export class MyLogger implements LoggerService {
           ),
         }),
         new winston.transports.File({
-          filename: 'error.log',
+          filename: './Logger/app.log',
+          level: 'info',
+          format: winston.format.combine(
+            winston.format.timestamp(),
+            winston.format.json(),
+          ),
+        }),
+        new winston.transports.File({
+          filename: './Logger/error.log',
           level: 'error',
           format: winston.format.combine(
             winston.format.timestamp(),
@@ -31,37 +40,25 @@ export class MyLogger implements LoggerService {
     });
   }
 
-  /**
-   * Write a 'log' level log.
-   */
   log(message: any, ...optionalParams: any[]) {
     this.logger.log('info', message, ...optionalParams);
   }
 
-  /**
-   * Write an 'error' level log.
-   */
-  error(message: any, ...optionalParams: any[]) {
-    this.logger.error(message, ...optionalParams);
+  error(message: any, trace: string) {
+    this.logger.error(message, { trace });
+    if (trace) {
+      this.logger.error(trace);
+    }
   }
 
-  /**
-   * Write a 'warn' level log.
-   */
   warn(message: any, ...optionalParams: any[]) {
     this.logger.warn(message, ...optionalParams);
   }
 
-  /**
-   * Write a 'debug' level log.
-   */
   debug?(message: any, ...optionalParams: any[]) {
     this.logger.debug(message, ...optionalParams);
   }
 
-  /**
-   * Write a 'verbose' level log.
-   */
   verbose?(message: any, ...optionalParams: any[]) {
     this.logger.verbose(message, ...optionalParams);
   }

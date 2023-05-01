@@ -6,6 +6,7 @@ import { UserService } from '../user/user.service';
 import { UserRoleService } from '../user-role/user-role.service';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
+import { MyLogger } from 'Logger/mylogger';
 
 @Module({
   controllers: [BrandController],
@@ -16,6 +17,7 @@ import { PrismaService } from '../prisma/prisma.service';
     UserRoleService,
     JwtService,
     PrismaService,
+    MyLogger
   ],
 })
 export class BrandModule {}

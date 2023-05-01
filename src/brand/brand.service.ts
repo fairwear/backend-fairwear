@@ -2,12 +2,14 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { BrandEntity } from './entities/brand.entity';
+import { MyLogger } from 'Logger/mylogger';
 
 @Injectable()
 export class BrandService {
   constructor(
     private prisma: PrismaService,
     private authService: AuthService,
+    private readonly logger: MyLogger
   ) {}
 
   async create(entity: BrandEntity) {
@@ -27,12 +29,16 @@ export class BrandService {
   }
 
   async findById(id: number) {
-    const brand = await this.prisma.brand.findUniqueOrThrow({
-      where: {
-        id: id,
-      },
-    });
-    return brand;
+    try{
+      const brand = await this.prisma.brand.findUniqueOrThrow({
+        where: {
+          id: id,
+        },
+      });
+      return brand;
+  } catch (error) {
+    this.logger.error(error.message, error.stack);
+}
   }
 
   async findByName(name: string) {

@@ -4,9 +4,11 @@ import * as dotenv from 'dotenv';
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './exception/AllExceptionsFilter';
 import { PrismaClientExceptionFilter } from './exception/PrismaExceptionFilter';
+import { LoggerService } from 'Logger/logger.service';
+import { MyLogger } from 'Logger/mylogger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { logger: new MyLogger() });
 
   dotenv.config({ path: '.env' });
 
@@ -30,6 +32,10 @@ async function bootstrap() {
     new AllExceptionsFilter(httpAdapterHost),
     new PrismaClientExceptionFilter(httpAdapter),
   );
+
+  await LoggerService.start();
+  app.useLogger(new MyLogger);
+
 
   await app.listen(8080);
 }

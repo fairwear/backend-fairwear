@@ -52,6 +52,7 @@ export class BrandPostService {
   }
 
   async findById(id: number): Promise<BrandPostEntity> {
+
     const entity = this.prisma.brandPost.findUniqueOrThrow({
       where: {
         id,
@@ -65,7 +66,7 @@ export class BrandPostService {
     });
 
     return entity;
-  }
+}
 
   async softDelete(id: number, userId: number): Promise<BrandPostEntity> {
     const entity = await this.prisma.brandPost.findUniqueOrThrow({
