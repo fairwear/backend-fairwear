@@ -4,6 +4,9 @@ import { PrismaService } from '../prisma/prisma.service';
 import { BrandPostVoteEntry } from './dto/request/entry/brandpost-vote.dto';
 import { BrandPostEntity } from './entities/brandpost.entity';
 
+const REPORT_PENALTY_WEIGHT = 0.2;
+const CONFIDENCE_LEVEL = 1.96;
+
 @Injectable()
 export class BrandPostService {
   constructor(
@@ -13,10 +16,13 @@ export class BrandPostService {
   async create(entity: BrandPostEntity): Promise<BrandPostEntity> {
     const createdEntity = await this.prisma.brandPost.create({
       data: {
+        title: entity.title,
         body: entity.body,
         createdAt: entity.createdAt,
         brandId: entity.brandId,
         authorId: entity.authorId,
+        //TODO: Remove this when we have a proper way to handle this
+        postScore: 1,
         topics: {
           create: entity.topics.map((topic) => ({
             topicId: topic.topicId,
@@ -179,4 +185,79 @@ export class BrandPostService {
 
     return postVotes;
   }
+  // 1. Calculate the total votes (V) for each post by adding the upvotes (U) and downvotes (D).
+  // 2. Calculate the proportion of upvotes (p) by dividing the upvotes (U) by the total votes (V).
+  // 3. Determine an acceptable confidence level (z), such as 1.96 for a 95% confidence interval.
+
+  async calculateScore(id: number) {
+    const entity = await this.prisma.brandPost.findUniqueOrThrow({
+      where: {
+        id,
+      },
+      include: {
+        votes: true,
+        author: true,
+        reports: true,
+      },
+    });
+
+    const upvoteCount = entity.votes.filter(
+      (vote) => vote.vote === 'UPVOTE',
+    ).length;
+
+    const downvoteCount = entity.votes.filter(
+      (vote) => vote.vote === 'DOWNVOTE',
+    ).length;
+
+    const totalVoteCount = upvoteCount + downvoteCount;
+
+    const lowerBound = this.getLowerBound(
+      upvoteCount,
+      CONFIDENCE_LEVEL,
+      totalVoteCount,
+    );
+
+    const reportCount = entity.reports.length;
+
+    const penaltyFactor = this.getPenaltyFactor(upvoteCount, reportCount);
+
+    const finalScore = this.getFinalScore(lowerBound, penaltyFactor);
+
+    const updatedEntity = await this.prisma.brandPost.update({
+      where: {
+        id,
+      },
+      data: {
+        postScore: finalScore,
+      },
+    });
+
+    return updatedEntity;
+  }
+
+  getLowerBound = (
+    upvoteCount: number,
+    confidenceLevel: number,
+    totalVoteCount: number,
+  ) => {
+    //TODO: multiply each vote by the user's trust score
+    return (
+      (upvoteCount +
+        Math.pow(confidenceLevel, 2) / (2 * totalVoteCount) -
+        confidenceLevel *
+          Math.sqrt(
+            (upvoteCount * (1 - upvoteCount)) / totalVoteCount +
+              Math.pow(confidenceLevel, 2) / (4 * Math.pow(totalVoteCount, 2)),
+          )) /
+      (1 + Math.pow(confidenceLevel, 2) / totalVoteCount)
+    );
+  };
+
+  getPenaltyFactor = (upvoteCount: number, reportCount: number) => {
+    return upvoteCount * (reportCount / (reportCount + REPORT_PENALTY_WEIGHT));
+  };
+
+  getFinalScore = (lowerBound: number, penaltyFactor: number) => {
+    return lowerBound - penaltyFactor;
+  };
 }

@@ -4,6 +4,8 @@ import { PrismaService } from '../prisma/prisma.service';
 import { UserResponse } from './dto/response/user.response.dto';
 import { UserEntity } from './entities/user.entity';
 
+const DEFAULT_USER_TRUST_SCORE = 0.5;
+
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
@@ -40,6 +42,7 @@ export class UserService {
         surname: response.surname,
         roles: response.roles,
         refreshToken: response.refreshToken,
+        userTrustScore: response.userTrustScore,
         createdAt: response.createdAt,
         updatedAt: response.updatedAt,
         deletedAt: response.deletedAt,
@@ -65,6 +68,7 @@ export class UserService {
         surname: user.surname,
         roles: user.roles,
         refreshToken: user.refreshToken,
+        userTrustScore: user.userTrustScore,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
         deletedAt: user.deletedAt,
@@ -212,5 +216,68 @@ export class UserService {
     currentUser.surname = user.surname;
 
     return currentUser;
+  }
+
+  async calculateUserTrustScore(userId: number) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      include: {
+        posts: {
+          include: {
+            votes: true,
+          },
+        },
+        votes: true,
+      },
+    });
+    if (!user) {
+      throw new NotFoundException(`User with id ${userId} not found!`);
+    }
+    const upvotesReceived = user.posts.reduce((acc, post) => {
+      const upvotes = post.votes.filter((vote) => vote.vote === 'UPVOTE');
+      return acc + upvotes.length;
+    }, 0);
+    const downvotesReceived = user.posts.reduce((acc, post) => {
+      const downvotes = post.votes.filter((vote) => vote.vote === 'DOWNVOTE');
+      return acc + downvotes.length;
+    }, 0);
+    const upvotesGiven = user.votes.filter(
+      (vote) => vote.vote === 'UPVOTE',
+    ).length;
+    const downvotesGiven = user.votes.filter(
+      (vote) => vote.vote === 'DOWNVOTE',
+    ).length;
+    const userStatus = 0;
+    const userProfession = 0;
+    const userKnowledge = 0;
+    const userEngagement = 0;
+
+    const W_UVR = 0.3;
+    const W_DVR = 0.2;
+    const W_UVG = 0.1;
+    const W_DVG = 0.1;
+    const W_SPK = 0.2;
+    const W_ENG = 0.1;
+
+    const normalized_upvotes_received = upvotesReceived / 10;
+    const normalized_downvotes_received = downvotesReceived / 10;
+    const normalized_upvotes_given = upvotesGiven / 10;
+    const normalized_downvotes_given = downvotesGiven / 10;
+    const normalized_status_profession_knowledge =
+      (userStatus + userProfession + userKnowledge) / 3;
+    const normalized_engagement = userEngagement / 10;
+
+    const UTS =
+      DEFAULT_USER_TRUST_SCORE +
+      W_UVR * normalized_upvotes_received +
+      W_DVR * normalized_downvotes_received +
+      W_UVG * normalized_upvotes_given +
+      W_DVG * normalized_downvotes_given +
+      W_SPK * normalized_status_profession_knowledge +
+      W_ENG * normalized_engagement;
+
+    return UTS;
   }
 }

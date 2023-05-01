@@ -38,6 +38,7 @@ export class UserMapper {
     response.surname = entity.surname;
     response.roles = entity.roles;
     response.refreshToken = entity.refreshToken;
+    response.userTrustScore = entity.userTrustScore;
     response.createdAt = entity.createdAt;
     response.updatedAt = entity.updatedAt;
     response.deletedAt = entity.deletedAt;
