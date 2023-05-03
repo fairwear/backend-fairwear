@@ -21,8 +21,6 @@ export class BrandPostService {
         createdAt: entity.createdAt,
         brandId: entity.brandId,
         authorId: entity.authorId,
-        //TODO: Remove this when we have a proper way to handle this
-        postScore: 1,
         topics: {
           create: entity.topics.map((topic) => ({
             topicId: topic.topicId,
@@ -38,8 +36,30 @@ export class BrandPostService {
       include: {
         topics: true,
         relatedItems: true,
-        votes: true,
+        votes: {
+          include: {
+            user: {
+              include: {
+                roles: true,
+              },
+            },
+          },
+        },
         brand: true,
+        author: {
+          include: {
+            roles: true,
+          },
+        },
+        reports: {
+          include: {
+            author: {
+              include: {
+                roles: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -51,8 +71,30 @@ export class BrandPostService {
       include: {
         topics: true,
         relatedItems: true,
-        votes: true,
+        votes: {
+          include: {
+            user: {
+              include: {
+                roles: true,
+              },
+            },
+          },
+        },
         brand: true,
+        reports: {
+          include: {
+            author: {
+              include: {
+                roles: true,
+              },
+            },
+          },
+        },
+        author: {
+          include: {
+            roles: true,
+          },
+        },
       },
     });
   }
@@ -65,8 +107,30 @@ export class BrandPostService {
       include: {
         topics: true,
         relatedItems: true,
-        votes: true,
+        votes: {
+          include: {
+            user: {
+              include: {
+                roles: true,
+              },
+            },
+          },
+        },
         brand: true,
+        reports: {
+          include: {
+            author: {
+              include: {
+                roles: true,
+              },
+            },
+          },
+        },
+        author: {
+          include: {
+            roles: true,
+          },
+        },
       },
     });
 
@@ -96,8 +160,30 @@ export class BrandPostService {
       include: {
         topics: true,
         relatedItems: true,
-        votes: true,
+        votes: {
+          include: {
+            user: {
+              include: {
+                roles: true,
+              },
+            },
+          },
+        },
         brand: true,
+        reports: {
+          include: {
+            author: {
+              include: {
+                roles: true,
+              },
+            },
+          },
+        },
+        author: {
+          include: {
+            roles: true,
+          },
+        },
       },
     });
 
@@ -109,16 +195,22 @@ export class BrandPostService {
     userId: number,
     voteEntry: BrandPostVoteEntry,
   ): Promise<BrandPostEntity> {
-    const entity = await this.prisma.brandPost.findUniqueOrThrow({
+    const initialPostEntity = await this.prisma.brandPost.findUniqueOrThrow({
       where: {
         id: id,
       },
       include: {
-        votes: true,
+        votes: {
+          include: {
+            user: true,
+          },
+        },
       },
     });
 
-    const existingVote = entity.votes.find((vote) => vote.userId === userId);
+    const existingVote = initialPostEntity.votes.find(
+      (vote) => vote.userId === userId,
+    );
 
     if (existingVote) {
       if (existingVote.vote === voteEntry.vote) {
@@ -153,19 +245,41 @@ export class BrandPostService {
       });
     }
 
-    const createdEntity = this.prisma.brandPost.findUniqueOrThrow({
+    const updatedPostEntity = this.prisma.brandPost.findUniqueOrThrow({
       where: {
         id: id,
       },
       include: {
         topics: true,
         relatedItems: true,
-        votes: true,
+        votes: {
+          include: {
+            user: {
+              include: {
+                roles: true,
+              },
+            },
+          },
+        },
         brand: true,
+        reports: {
+          include: {
+            author: {
+              include: {
+                roles: true,
+              },
+            },
+          },
+        },
+        author: {
+          include: {
+            roles: true,
+          },
+        },
       },
     });
 
-    return createdEntity;
+    return updatedPostEntity;
   }
 
   async getVotes(id: number): Promise<{ upvotes: number; downvotes: number }> {
@@ -185,9 +299,8 @@ export class BrandPostService {
 
     return postVotes;
   }
-  // 1. Calculate the total votes (V) for each post by adding the upvotes (U) and downvotes (D).
-  // 2. Calculate the proportion of upvotes (p) by dividing the upvotes (U) by the total votes (V).
-  // 3. Determine an acceptable confidence level (z), such as 1.96 for a 95% confidence interval.
+
+  // ---------------------------- Algorithm ----------------------------
 
   async calculateScore(id: number) {
     const entity = await this.prisma.brandPost.findUniqueOrThrow({
@@ -195,31 +308,37 @@ export class BrandPostService {
         id,
       },
       include: {
-        votes: true,
-        author: true,
-        reports: true,
+        votes: {
+          include: {
+            user: {
+              include: {
+                roles: true,
+              },
+            },
+          },
+        },
+        author: {
+          include: {
+            roles: true,
+          },
+        },
+        reports: {
+          include: {
+            author: {
+              include: {
+                roles: true,
+              },
+            },
+          },
+        },
+        brand: true,
+        topics: true,
+        relatedItems: true,
       },
     });
 
-    const upvoteCount = entity.votes.filter(
-      (vote) => vote.vote === 'UPVOTE',
-    ).length;
-
-    const downvoteCount = entity.votes.filter(
-      (vote) => vote.vote === 'DOWNVOTE',
-    ).length;
-
-    const totalVoteCount = upvoteCount + downvoteCount;
-
-    const lowerBound = this.getLowerBound(
-      upvoteCount,
-      CONFIDENCE_LEVEL,
-      totalVoteCount,
-    );
-
-    const reportCount = entity.reports.length;
-
-    const penaltyFactor = this.getPenaltyFactor(upvoteCount, reportCount);
+    const lowerBound = this.getLowerBoundWithUserTrustScore(entity);
+    const penaltyFactor = this.getPenaltyFactorWithUserTrustScore(entity);
 
     const finalScore = this.getFinalScore(lowerBound, penaltyFactor);
 
@@ -235,12 +354,13 @@ export class BrandPostService {
     return updatedEntity;
   }
 
+  // ---------------------------- Lower Bound ----------------------------
+
   getLowerBound = (
     upvoteCount: number,
     confidenceLevel: number,
     totalVoteCount: number,
   ) => {
-    //TODO: multiply each vote by the user's trust score
     return (
       (upvoteCount +
         Math.pow(confidenceLevel, 2) / (2 * totalVoteCount) -
@@ -253,10 +373,49 @@ export class BrandPostService {
     );
   };
 
+  getLowerBoundWithUserTrustScore = (brandPost: BrandPostEntity) => {
+    const normalizedVotes = brandPost.votes.map(
+      (vote) => vote.user.userTrustScore * 1,
+    );
+    const normalizedUpvotes = brandPost.votes.map((vote) =>
+      vote.vote === 'UPVOTE' ? vote.user.userTrustScore * 1 : 0,
+    );
+
+    const normalizedVoteCount = normalizedVotes.reduce((a, b) => a + b, 0);
+    const normalizedUpvoteCount = normalizedUpvotes.reduce((a, b) => a + b, 0);
+
+    const lowerBound = this.getLowerBound(
+      normalizedUpvoteCount,
+      CONFIDENCE_LEVEL,
+      normalizedVoteCount,
+    );
+
+    return lowerBound;
+  };
+  // ---------------------------- Penalty Factor ----------------------------
   getPenaltyFactor = (upvoteCount: number, reportCount: number) => {
     return upvoteCount * (reportCount / (reportCount + REPORT_PENALTY_WEIGHT));
   };
 
+  getPenaltyFactorWithUserTrustScore = (brandPost: BrandPostEntity) => {
+    const normalizedVotes = brandPost.votes.map(
+      (vote) => vote.user.userTrustScore * 1,
+    );
+    const normalizedReports = brandPost.reports.map(
+      (report) => report.author.userTrustScore * 1,
+    );
+
+    const normalizedVoteCount = normalizedVotes.reduce((a, b) => a + b, 0);
+    const normalizedReportCount = normalizedReports.reduce((a, b) => a + b, 0);
+
+    const penaltyFactor = this.getPenaltyFactor(
+      normalizedVoteCount,
+      normalizedReportCount,
+    );
+
+    return penaltyFactor;
+  };
+  // ---------------------------- Final Score ----------------------------
   getFinalScore = (lowerBound: number, penaltyFactor: number) => {
     return lowerBound - penaltyFactor;
   };

@@ -245,7 +245,10 @@ export const main = async () => {
       where: { body: brandPost.body },
       update: {},
       create: {
+        title: brandPost.title,
         body: brandPost.body,
+        references: brandPost.references,
+        postScore: brandPost.postScore,
         createdAt: brandPost.createdAt,
         deletedAt: brandPost.deletedAt,
         brand: {

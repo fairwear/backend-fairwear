@@ -23,7 +23,6 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   const httpAdapterHost = app.get(HttpAdapterHost);
-  // const { httpAdapter } = app.get(HttpAdapterHost);
   const httpAdapter = httpAdapterHost.httpAdapter;
 
   app.useGlobalFilters(
