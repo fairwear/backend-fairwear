@@ -261,6 +261,39 @@ export const main = async () => {
             id: brandPost.authorId,
           },
         },
+        votes: {
+          createMany: {
+            data: brandPost.votes.map((vote) => ({
+              vote: vote.vote,
+              userId: vote.userId,
+            })),
+          },
+        },
+        topics: {
+          createMany: {
+            data: brandPost.topics.map((topic) => ({
+              topicId: topic.topicId,
+            })),
+          },
+        },
+        reports: {
+          createMany: {
+            data: brandPost.reports.map((report) => ({
+              reportId: report.id,
+              reportReason: report.reportReason,
+              resolvedAt: report.resolvedAt,
+              resolvedById: report.resolvedById,
+              authorId: report.authorId,
+            })),
+          },
+        },
+        relatedItems: {
+          createMany: {
+            data: brandPost.relatedItems.map((item) => ({
+              itemId: item.itemId,
+            })),
+          },
+        },
       },
     });
   });
