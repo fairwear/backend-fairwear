@@ -72,5 +72,5 @@ COPY --chown=node:node --from=build /usr/src/app/prisma ./prisma
 EXPOSE 8080
 
 # Run the app
-CMD [ "npm", "run", "start:migrate:prod" ]
+CMD [ "npm", "run", "start:migrate:seed:prod" ]
 
