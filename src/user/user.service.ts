@@ -5,6 +5,11 @@ import { UserResponse } from './dto/response/user.response.dto';
 import { UserEntity } from './entities/user.entity';
 
 const DEFAULT_USER_TRUST_SCORE = 0.5;
+const W_UVR = 0.3;
+const W_DVR = 0.2;
+const W_SPK = 0.2;
+const W_ENG = 0.1;
+const W_RPU = 0.2;
 
 @Injectable()
 export class UserService {
@@ -218,8 +223,8 @@ export class UserService {
     return currentUser;
   }
 
-  async calculateUserTrustScore(userId: number) {
-    const user = await this.prisma.user.findUnique({
+  calculateUserTrustScore = async (userId: number) => {
+    const user = await this.prisma.user.findUniqueOrThrow({
       where: {
         id: userId,
       },
@@ -227,14 +232,17 @@ export class UserService {
         posts: {
           include: {
             votes: true,
+            reports: {
+              include: {
+                author: true,
+              },
+            },
           },
         },
         votes: true,
       },
     });
-    if (!user) {
-      throw new NotFoundException(`User with id ${userId} not found!`);
-    }
+
     const upvotesReceived = user.posts.reduce((acc, post) => {
       const upvotes = post.votes.filter((vote) => vote.vote === 'UPVOTE');
       return acc + upvotes.length;
@@ -243,41 +251,64 @@ export class UserService {
       const downvotes = post.votes.filter((vote) => vote.vote === 'DOWNVOTE');
       return acc + downvotes.length;
     }, 0);
-    const upvotesGiven = user.votes.filter(
-      (vote) => vote.vote === 'UPVOTE',
-    ).length;
-    const downvotesGiven = user.votes.filter(
-      (vote) => vote.vote === 'DOWNVOTE',
-    ).length;
+
+    const postedInLastMonth = user.posts.filter((post) => {
+      const postDate = new Date(post.createdAt);
+      const currentDate = new Date();
+      const monthAgo = new Date();
+      monthAgo.setMonth(currentDate.getMonth() - 1);
+      return postDate > monthAgo;
+    }).length;
+
+    const reportsReceivedCount = user.posts
+      .map((post) => {
+        return post.reports.map((report) => report.author.userTrustScore * 1);
+      })
+      .map((report) => report.reduce((acc, curr) => acc + curr, 0))
+      .reduce((acc, curr) => acc + curr, 0);
+
+    // TODO: get user status, profession and knowledge
     const userStatus = 0;
     const userProfession = 0;
     const userKnowledge = 0;
-    const userEngagement = 0;
 
-    const W_UVR = 0.3;
-    const W_DVR = 0.2;
-    const W_UVG = 0.1;
-    const W_DVG = 0.1;
-    const W_SPK = 0.2;
-    const W_ENG = 0.1;
+    const finalUTS = this.getFinalUserTrustScore(
+      upvotesReceived,
+      downvotesReceived,
+      postedInLastMonth,
+      reportsReceivedCount,
+      userStatus,
+      userProfession,
+      userKnowledge,
+    );
 
-    const normalized_upvotes_received = upvotesReceived / 10;
-    const normalized_downvotes_received = downvotesReceived / 10;
-    const normalized_upvotes_given = upvotesGiven / 10;
-    const normalized_downvotes_given = downvotesGiven / 10;
+    return finalUTS;
+  };
+
+  getFinalUserTrustScore = (
+    upvotesReceived: number,
+    downvotesReceived: number,
+    userEngagement: number,
+    reportsOnUserPosts: number,
+    userStatus: number,
+    userProfession: number,
+    userKnowledge: number,
+  ) => {
+    const normalized_upvotes_received = upvotesReceived / 100;
+    const normalized_downvotes_received = downvotesReceived / 100;
     const normalized_status_profession_knowledge =
       (userStatus + userProfession + userKnowledge) / 3;
     const normalized_engagement = userEngagement / 10;
+    const normalized_reports_on_user_posts = reportsOnUserPosts / 5;
 
-    const UTS =
+    const finalUTS =
       DEFAULT_USER_TRUST_SCORE +
       W_UVR * normalized_upvotes_received +
       W_DVR * normalized_downvotes_received +
-      W_UVG * normalized_upvotes_given +
-      W_DVG * normalized_downvotes_given +
       W_SPK * normalized_status_profession_knowledge +
-      W_ENG * normalized_engagement;
+      W_ENG * normalized_engagement +
+      W_RPU * normalized_reports_on_user_posts;
 
-    return UTS;
-  }
+    return finalUTS;
+  };
 }
