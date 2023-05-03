@@ -302,7 +302,14 @@ export class BrandPostService {
 
   // ---------------------------- Algorithm ----------------------------
 
-  async calculateScore(id: number) {
+  calculateScoreForAllPosts = async () => {
+    const entities = await this.prisma.brandPost.findMany();
+    return await Promise.all(
+      entities.map(async (entity) => await this.calculateScoreById(entity.id)),
+    );
+  };
+
+  async calculateScoreById(id: number) {
     const entity = await this.prisma.brandPost.findUniqueOrThrow({
       where: {
         id,

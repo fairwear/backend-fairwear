@@ -223,7 +223,16 @@ export class UserService {
     return currentUser;
   }
 
-  calculateUserTrustScore = async (userId: number) => {
+  // ---------------------------- Algorithm ----------------------------
+
+  calculateAllUserTrustScores = async () => {
+    const users = await this.prisma.user.findMany();
+    return await Promise.all(
+      users.map((user) => this.calculateUserTrustScoreById(user.id)),
+    );
+  };
+
+  calculateUserTrustScoreById = async (userId: number) => {
     const user = await this.prisma.user.findUniqueOrThrow({
       where: {
         id: userId,
@@ -282,7 +291,14 @@ export class UserService {
       userKnowledge,
     );
 
-    return finalUTS;
+    return await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        userTrustScore: finalUTS,
+      },
+    });
   };
 
   getFinalUserTrustScore = (
