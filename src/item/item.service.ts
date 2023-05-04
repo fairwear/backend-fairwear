@@ -13,6 +13,8 @@ export class ItemService {
     const item = await this.prisma.item.create({
       data: {
         name: entity.name,
+        imageUrl: entity.imageUrl,
+        barcode: entity.barcode,
         brandId: entity.brandId,
         userId: entity.userId,
         createdAt: entity.createdAt,
@@ -39,6 +41,15 @@ export class ItemService {
     const item = await this.prisma.item.findUniqueOrThrow({
       where: {
         name: name,
+      },
+    });
+    return item;
+  }
+
+  async findByBarcode(barcode: string) {
+    const item = await this.prisma.item.findUniqueOrThrow({
+      where: {
+        barcode: barcode,
       },
     });
     return item;
