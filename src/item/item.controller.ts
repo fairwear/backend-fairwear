@@ -44,13 +44,13 @@ export class ItemController {
     return ItemMapper.toResponse(entity);
   }
 
-  @Get(':name')
+  @Get('/name/:name')
   async findByName(@Param('name') name: string) {
     const entity = await this.itemService.findByName(name);
     return ItemMapper.toResponse(entity);
   }
 
-  @Get(':barcode')
+  @Get('/barcode/:barcode')
   async findByBarcode(@Param('barcode') barcode: string) {
     const entity = await this.itemService.findByBarcode(barcode);
     return ItemMapper.toResponse(entity);
