@@ -25,6 +25,9 @@ export class UserEntity {
   @ApiProperty({ type: String })
   refreshToken: string | null;
 
+  @ApiProperty({ type: Number })
+  userTrustScore: number;
+
   @ApiProperty({ type: Date })
   createdAt: Date;
 

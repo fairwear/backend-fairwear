@@ -8,7 +8,7 @@ export class ReportService {
     private prisma: PrismaService,
     private authService: AuthService,
   ) {}
-  async create(entity: ReportEntity) {
+  async create(entity: ReportEntity): Promise<ReportEntity> {
     const response = await this.prisma.report.create({
       data: {
         authorId: entity.authorId,
@@ -20,37 +20,52 @@ export class ReportService {
         resolvedAt: entity.resolvedAt,
         postId: entity.postId,
       },
+      include: {
+        author: {
+          include: {
+            roles: true,
+          },
+        },
+      },
     });
 
-    const reportEntity: ReportEntity = {
-      id: response.id,
-      authorId: response.authorId,
-      postId: response.postId,
-      reportReason: response.reportReason,
-      createdAt: response.createdAt,
-      comment: response.comment,
-      status: response.status,
-      resolvedById: response.resolvedById,
-      resolvedAt: response.resolvedAt,
-    };
-    return reportEntity;
+    return response;
   }
 
   async findAll() {
-    const reports = await this.prisma.report.findMany();
+    const reports = await this.prisma.report.findMany({
+      include: {
+        author: {
+          include: {
+            roles: true,
+          },
+        },
+      },
+    });
     return reports;
   }
 
-  async findById(id: number) {
+  async findById(id: number): Promise<ReportEntity> {
     const report = await this.prisma.report.findUniqueOrThrow({
       where: {
         id: id,
+      },
+      include: {
+        author: {
+          include: {
+            roles: true,
+          },
+        },
       },
     });
     return report;
   }
 
-  async update(id: number, entity: ReportEntity, userId: number) {
+  async update(
+    id: number,
+    entity: ReportEntity,
+    userId: number,
+  ): Promise<ReportEntity> {
     const isUserAdmin = this.authService.isUserAdmin(userId);
 
     if (!isUserAdmin) {
@@ -67,6 +82,13 @@ export class ReportService {
         reportReason: entity.reportReason,
         comment: entity.comment,
         status: entity.status,
+      },
+      include: {
+        author: {
+          include: {
+            roles: true,
+          },
+        },
       },
     });
     return updatedReport;

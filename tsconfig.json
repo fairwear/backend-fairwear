@@ -27,7 +27,6 @@
   "exclude": [
     "dist",
     "tests",
-    "**/*.spec.ts",
     "node_modules",
     "prisma/generated/dto",
     "prisma/generated/nestjs-dto"

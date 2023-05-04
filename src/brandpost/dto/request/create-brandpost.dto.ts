@@ -2,8 +2,14 @@ import { ApiProperty } from '@nestjs/swagger';
 import { BrandPostToTopicEntryDto } from './entry/brandpost-to-topic-entry.dto';
 
 export class CreateBrandPostDto {
+  @ApiProperty({ type: String, description: 'BrandPost Title' })
+  title: string;
+
   @ApiProperty({ type: String, description: 'BrandPost Body' })
   body: string;
+
+  @ApiProperty({ type: Array<string>, description: 'BrandPost References' })
+  references: string[];
 
   @ApiProperty({ type: Date, description: 'BrandPost Brand ID' })
   brandId: number;

@@ -7,6 +7,9 @@ export class BrandEntity {
   @ApiProperty({ type: String })
   name: string;
 
+  @ApiPropertyOptional({ type: String, nullable: true })
+  imageUrl: string | null;
+
   @ApiProperty({ type: Number })
   userId: number;
 

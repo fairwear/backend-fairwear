@@ -71,6 +71,7 @@ model User {
   name            String
   surname         String
   refreshToken    String?          @map("refresh_token")
+  userTrustScore  Float            @default(0.5) @map("user_trust_score")
   // ------ Timestamps ------
   createdAt       DateTime         @default(now()) @map("created_at")
   updatedAt       DateTime?        @updatedAt @map("updated_at")
@@ -125,6 +126,7 @@ model Item {
   name      String            @unique
   userId    Int               @map("user_id")
   brandId   Int               @map("brand_id")
+  imageUrl  String?           @map("image_url")
   // ------ Timestamps ------
   createdAt DateTime          @default(now()) @map("created_at")
   updatedAt DateTime?         @updatedAt @map("updated_at")
@@ -142,6 +144,7 @@ model Brand {
   id           Int            @id @default(autoincrement()) @db.Integer
   name         String         @unique
   userId       Int            @map("user_id")
+  imageUrl     String?        @map("image_url")
   // ------ Timestamps ------
   createdAt    DateTime       @default(now()) @map("created_at")
   updatedAt    DateTime?      @updatedAt @map("updated_at")
@@ -179,9 +182,12 @@ model Report {
 model BrandPost {
   // ------ Fields ------
   id           Int                @id @default(autoincrement()) @db.Integer
+  title        String
   body         String             @unique
   brandId      Int                @map("brand_id")
   authorId     Int                @map("author_id")
+  postScore    Float              @default(0) @map("post_score")
+  references   String[]
   // ------ Timestamps ------
   createdAt    DateTime           @default(now()) @map("created_at")
   deletedAt    DateTime?          @map("deleted_at")

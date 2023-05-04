@@ -6,8 +6,17 @@ export class ResponseBrandPostDto {
   @ApiProperty({ type: Number, description: 'BrandPost ID' })
   id: number;
 
+  @ApiProperty({ type: String, description: 'BrandPost Title' })
+  title: string;
+
   @ApiProperty({ type: String, description: 'BrandPost Body' })
   body: string;
+
+  @ApiProperty({ type: Number, description: 'BrandPost Score' })
+  postScore: number;
+
+  @ApiProperty({ type: Array<string>, description: 'BrandPost References' })
+  references: string[];
 
   @ApiProperty({ type: Date, description: 'BrandPost Creation Date' })
   createdAt: Date;
