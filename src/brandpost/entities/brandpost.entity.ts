@@ -4,6 +4,7 @@ import {
   BrandPostVote,
   BrandPost,
   BrandPostToItem,
+  Brand,
 } from '@prisma/client';
 import { BrandEntity } from '../../brand/entities/brand.entity';
 import { UserEntity } from '../../user/entities/user.entity';
@@ -43,7 +44,7 @@ export class BrandPostEntity {
   references: BrandPostReferenceEntity[];
 
   @ApiProperty({ type: BrandEntity, description: 'Brand Entity' })
-  brand: BrandEntity;
+  brand: BrandEntity | Brand;
 
   @ApiProperty({
     type: () => Array<ReportEntity>,

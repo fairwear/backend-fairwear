@@ -101,7 +101,13 @@ export class BrandPostService {
             },
           },
         },
-        brand: true,
+        brand: {
+          include: {
+            items: true,
+            posts: true,
+            topics: true,
+          },
+        },
         author: {
           include: {
             roles: true,
