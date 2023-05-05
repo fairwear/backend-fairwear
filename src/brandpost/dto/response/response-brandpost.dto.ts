@@ -1,5 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BrandPostToItem, BrandPostToTopic, VoteEnum } from '@prisma/client';
+import {
+  Brand,
+  BrandPostToItem,
+  BrandPostToTopic,
+  VoteEnum,
+} from '@prisma/client';
 import { BrandResponse } from '../../../brand/dto/response/response-brand.dto';
 import { BrandPostReferenceEntity } from '../../entities/brandpost-reference.entity.ts';
 import { BrandPostVoteEntity } from '../../entities/brandpost-vote.entity';
@@ -30,7 +35,7 @@ export class ResponseBrandPostDto {
   deletedAt: Date | null;
 
   @ApiProperty({ type: BrandResponse, description: 'Brand' })
-  brand: BrandResponse;
+  brand: Brand;
 
   @ApiProperty({ type: Number, description: 'BrandPost Brand ID' })
   brandId: number;

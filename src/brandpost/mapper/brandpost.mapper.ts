@@ -1,5 +1,3 @@
-import { BrandEntity } from '../../brand/entities/brand.entity';
-import { BrandMapper } from '../../brand/mapper/brand.mapper';
 import { CreateBrandPostDto } from '../dto/request/create-brandpost.dto';
 import { ResponseBrandPostDto } from '../dto/response/response-brandpost.dto';
 import { BrandPostToItemEntity } from '../entities/brandpost-to-item.entity';
@@ -46,9 +44,7 @@ export class BrandPostMapper {
     response.votes = entity.votes;
     response.topics = entity.topics;
     response.relatedItems = entity.relatedItems;
-    if (entity instanceof BrandPostEntity) {
-      response.brand = BrandMapper.toResponse(entity.brand as BrandEntity);
-    }
+    response.brand = entity.brand;
     response.createdAt = entity.createdAt;
     response.deletedAt = entity.deletedAt;
 
