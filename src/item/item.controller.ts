@@ -38,6 +38,12 @@ export class ItemController {
     return ItemMapper.toResponseList(entities);
   }
 
+  @Get('search/:query')
+  async search(@Param('query') query: string) {
+    const entities = await this.itemService.search(query);
+    return ItemMapper.toResponseList(entities);
+  }
+
   @Get(':id')
   async findById(@Param('id') id: string) {
     const entity = await this.itemService.findById(+id);

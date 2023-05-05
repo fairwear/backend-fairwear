@@ -77,22 +77,17 @@ export class BrandPostService {
 
   async search(query: string): Promise<BrandPostEntity[]> {
     const brandPosts = await this.prisma.brandPost.findMany({
+      take: 6,
       where: {
-        OR: [
-          {
-            title: {
-              contains: query,
-              mode: 'insensitive',
-            },
-          },
-          {
-            body: {
-              contains: query,
-              mode: 'insensitive',
-            },
-          },
-        ],
         deletedAt: null,
+      },
+
+      orderBy: {
+        _relevance: {
+          fields: ['title', 'body'],
+          search: query,
+          sort: 'desc',
+        },
       },
       include: {
         topics: true,

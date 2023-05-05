@@ -26,6 +26,24 @@ export class ItemService {
     return items;
   }
 
+  async search(query: string): Promise<ItemEntity[]> {
+    const items = await this.prisma.item.findMany({
+      take: 6,
+      where: {
+        deletedAt: null,
+      },
+      orderBy: {
+        _relevance: {
+          fields: ['name'],
+          search: query,
+          sort: 'desc',
+        },
+      },
+    });
+
+    return items;
+  }
+
   async findById(id: number) {
     const item = await this.prisma.item.findUniqueOrThrow({
       where: {
