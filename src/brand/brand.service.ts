@@ -22,23 +22,40 @@ export class BrandService {
   }
 
   async findAll() {
-    const brands = await this.prisma.brand.findMany();
+    const brands = await this.prisma.brand.findMany({
+      where: {
+        deletedAt: null,
+      },
+    });
+    return brands;
+  }
+
+  async search(query: string) {
+    const brands = await this.prisma.brand.findMany({
+      where: {
+        name: {
+          contains: query,
+          mode: 'insensitive',
+        },
+        deletedAt: null,
+      },
+    });
     return brands;
   }
 
   async findById(id: number) {
-    const brand = await this.prisma.brand.findUniqueOrThrow({
+    const brand = await this.prisma.brand.findFirstOrThrow({
       where: {
-        id: id,
+        AND: [{ id: id }, { deletedAt: null }],
       },
     });
     return brand;
   }
 
   async findByName(name: string) {
-    const brand = await this.prisma.brand.findUniqueOrThrow({
+    const brand = await this.prisma.brand.findFirstOrThrow({
       where: {
-        name: name,
+        AND: [{ name }, { deletedAt: null }],
       },
     });
     return brand;

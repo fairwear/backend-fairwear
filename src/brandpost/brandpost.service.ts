@@ -21,6 +21,14 @@ export class BrandPostService {
         createdAt: entity.createdAt,
         brandId: entity.brandId,
         authorId: entity.authorId,
+        references: {
+          createMany: {
+            data: entity.references.map((reference) => ({
+              ...reference,
+            })),
+          },
+        },
+
         topics: {
           create: entity.topics.map((topic) => ({
             topicId: topic.topicId,
@@ -60,14 +68,71 @@ export class BrandPostService {
             },
           },
         },
+        references: true,
       },
     });
 
     return createdEntity;
   }
 
+  async search(query: string): Promise<BrandPostEntity[]> {
+    const brandPosts = await this.prisma.brandPost.findMany({
+      where: {
+        OR: [
+          {
+            title: {
+              contains: query,
+              mode: 'insensitive',
+            },
+          },
+          {
+            body: {
+              contains: query,
+              mode: 'insensitive',
+            },
+          },
+        ],
+        deletedAt: null,
+      },
+      include: {
+        topics: true,
+        relatedItems: true,
+        votes: {
+          include: {
+            user: {
+              include: {
+                roles: true,
+              },
+            },
+          },
+        },
+        brand: true,
+        author: {
+          include: {
+            roles: true,
+          },
+        },
+        reports: {
+          include: {
+            author: {
+              include: {
+                roles: true,
+              },
+            },
+          },
+        },
+        references: true,
+      },
+    });
+
+    return this.sortPostsByScore(brandPosts);
+  }
+
   async findAll(): Promise<BrandPostEntity[]> {
     const brandPosts = await this.prisma.brandPost.findMany({
+      where: {
+        deletedAt: null,
+      },
       include: {
         topics: true,
         relatedItems: true,
@@ -95,15 +160,16 @@ export class BrandPostService {
             roles: true,
           },
         },
+        references: true,
       },
     });
     return this.sortPostsByScore(brandPosts);
   }
 
   async findById(id: number): Promise<BrandPostEntity> {
-    const entity = this.prisma.brandPost.findUniqueOrThrow({
+    const entity = this.prisma.brandPost.findFirstOrThrow({
       where: {
-        id,
+        AND: [{ id }, { deletedAt: null }],
       },
       include: {
         topics: true,
@@ -132,6 +198,7 @@ export class BrandPostService {
             roles: true,
           },
         },
+        references: true,
       },
     });
 
@@ -185,6 +252,7 @@ export class BrandPostService {
             roles: true,
           },
         },
+        references: true,
       },
     });
 
@@ -196,9 +264,9 @@ export class BrandPostService {
     userId: number,
     voteEntry: BrandPostVoteEntry,
   ): Promise<BrandPostEntity> {
-    const initialPostEntity = await this.prisma.brandPost.findUniqueOrThrow({
+    const initialPostEntity = await this.prisma.brandPost.findFirstOrThrow({
       where: {
-        id: id,
+        AND: [{ id }, { deletedAt: null }],
       },
       include: {
         votes: {
@@ -246,9 +314,9 @@ export class BrandPostService {
       });
     }
 
-    const updatedPostEntity = this.prisma.brandPost.findUniqueOrThrow({
+    const updatedPostEntity = this.prisma.brandPost.findFirstOrThrow({
       where: {
-        id: id,
+        AND: [{ id }, { deletedAt: null }],
       },
       include: {
         topics: true,
@@ -277,6 +345,7 @@ export class BrandPostService {
             roles: true,
           },
         },
+        references: true,
       },
     });
 
@@ -342,6 +411,7 @@ export class BrandPostService {
         brand: true,
         topics: true,
         relatedItems: true,
+        references: true,
       },
     });
 

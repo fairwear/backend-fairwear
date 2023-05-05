@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -181,25 +182,42 @@ model Report {
 
 model BrandPost {
   // ------ Fields ------
-  id           Int                @id @default(autoincrement()) @db.Integer
+  id           Int                  @id @default(autoincrement()) @db.Integer
   title        String
-  body         String             @unique
-  brandId      Int                @map("brand_id")
-  authorId     Int                @map("author_id")
-  postScore    Float              @default(0) @map("post_score")
-  references   String[]
+  body         String               @unique
+  brandId      Int                  @map("brand_id")
+  authorId     Int                  @map("author_id")
+  postScore    Float                @default(0) @map("post_score")
   // ------ Timestamps ------
-  createdAt    DateTime           @default(now()) @map("created_at")
-  deletedAt    DateTime?          @map("deleted_at")
+  createdAt    DateTime             @default(now()) @map("created_at")
+  deletedAt    DateTime?            @map("deleted_at")
   // ------ Relationships ------
-  brand        Brand              @relation(fields: [brandId], references: [id])
-  author       User               @relation(fields: [authorId], references: [id])
+  brand        Brand                @relation(fields: [brandId], references: [id])
+  author       User                 @relation(fields: [authorId], references: [id])
   votes        BrandPostVote[]
   topics       BrandPostToTopic[]
   relatedItems BrandPostToItem[]
   reports      Report[]
+  references   BrandPostReference[]
 
   @@map("brand_post")
+}
+
+model BrandPostReference {
+  // ------ Fields ------
+  id        Int       @id @default(autoincrement()) @db.Integer
+  title     String
+  postId    Int       @map("post_id")
+  body      String?
+  sourceUrl String?   @map("source_url")
+  // ------ Timestamps ------
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  // ------ Relationships ------
+  post      BrandPost @relation(fields: [postId], references: [id])
+
+  @@map("brand_post_reference")
 }
 
 model EmailTemplate {
