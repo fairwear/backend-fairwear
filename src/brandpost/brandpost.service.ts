@@ -67,7 +67,7 @@ export class BrandPostService {
   }
 
   async findAll(): Promise<BrandPostEntity[]> {
-    return this.prisma.brandPost.findMany({
+    const brandPosts = await this.prisma.brandPost.findMany({
       include: {
         topics: true,
         relatedItems: true,
@@ -97,6 +97,7 @@ export class BrandPostService {
         },
       },
     });
+    return this.sortPostsByScore(brandPosts);
   }
 
   async findById(id: number): Promise<BrandPostEntity> {
@@ -425,5 +426,10 @@ export class BrandPostService {
   // ---------------------------- Final Score ----------------------------
   getFinalScore = (lowerBound: number, penaltyFactor: number) => {
     return lowerBound - penaltyFactor;
+  };
+
+  // ---------------------------- Sort ----------------------------
+  sortPostsByScore = (posts: BrandPostEntity[]) => {
+    return posts.sort((a, b) => b.postScore - a.postScore);
   };
 }
