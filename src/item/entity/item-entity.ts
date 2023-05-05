@@ -10,6 +10,9 @@ export class ItemEntity {
   @ApiProperty({ type: String, nullable: true })
   imageUrl: string | null;
 
+  @ApiProperty({ type: String, nullable: true })
+  barcode: string | null;
+
   @ApiProperty({ type: Number })
   brandId: number;
 

@@ -15,6 +15,8 @@ export class ItemMapper {
       entity.updatedAt = request.updatedAt;
     }
     entity.name = request.name;
+    entity.imageUrl = request.imageUrl;
+    entity.barcode = request.barcode;
     entity.brandId = request.brandId;
     entity.userId = userId;
     if (request instanceof CreateItemDto) {
@@ -28,6 +30,8 @@ export class ItemMapper {
     const response = new ItemResponse();
     response.id = entity.id;
     response.name = entity.name;
+    response.imageUrl = entity.imageUrl;
+    response.barcode = entity.barcode;
     response.brandId = entity.brandId;
     response.userId = entity.userId;
     response.createdAt = entity.createdAt;
