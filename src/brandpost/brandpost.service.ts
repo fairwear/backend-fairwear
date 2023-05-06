@@ -69,6 +69,9 @@ export class BrandPostService {
 
   async findAll(): Promise<BrandPostEntity[]> {
     return this.prisma.brandPost.findMany({
+      where: {
+        deletedAt: null,
+      },
       include: {
         topics: true,
         relatedItems: true,
