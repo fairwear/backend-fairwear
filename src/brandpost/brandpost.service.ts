@@ -21,6 +21,14 @@ export class BrandPostService {
         createdAt: entity.createdAt,
         brandId: entity.brandId,
         authorId: entity.authorId,
+        references: {
+          createMany: {
+            data: entity.references.map((reference) => ({
+              ...reference,
+            })),
+          },
+        },
+
         topics: {
           create: entity.topics.map((topic) => ({
             topicId: topic.topicId,
@@ -60,14 +68,72 @@ export class BrandPostService {
             },
           },
         },
+        references: true,
       },
     });
 
     return createdEntity;
   }
 
+  async search(query: string): Promise<BrandPostEntity[]> {
+    const brandPosts = await this.prisma.brandPost.findMany({
+      take: 6,
+      where: {
+        deletedAt: null,
+      },
+
+      orderBy: {
+        _relevance: {
+          fields: ['title', 'body'],
+          search: query,
+          sort: 'desc',
+        },
+      },
+      include: {
+        topics: true,
+        relatedItems: true,
+        votes: {
+          include: {
+            user: {
+              include: {
+                roles: true,
+              },
+            },
+          },
+        },
+        brand: {
+          include: {
+            items: true,
+            posts: true,
+            topics: true,
+          },
+        },
+        author: {
+          include: {
+            roles: true,
+          },
+        },
+        reports: {
+          include: {
+            author: {
+              include: {
+                roles: true,
+              },
+            },
+          },
+        },
+        references: true,
+      },
+    });
+
+    return this.sortPostsByScore(brandPosts);
+  }
+
   async findAll(): Promise<BrandPostEntity[]> {
-    return this.prisma.brandPost.findMany({
+    const brandPosts = await this.prisma.brandPost.findMany({
+      where: {
+        deletedAt: null,
+      },
       include: {
         topics: true,
         relatedItems: true,
@@ -95,14 +161,16 @@ export class BrandPostService {
             roles: true,
           },
         },
+        references: true,
       },
     });
+    return this.sortPostsByScore(brandPosts);
   }
 
   async findById(id: number): Promise<BrandPostEntity> {
-    const entity = this.prisma.brandPost.findUniqueOrThrow({
+    const entity = this.prisma.brandPost.findFirstOrThrow({
       where: {
-        id,
+        AND: [{ id }, { deletedAt: null }],
       },
       include: {
         topics: true,
@@ -131,6 +199,7 @@ export class BrandPostService {
             roles: true,
           },
         },
+        references: true,
       },
     });
 
@@ -184,6 +253,7 @@ export class BrandPostService {
             roles: true,
           },
         },
+        references: true,
       },
     });
 
@@ -195,9 +265,9 @@ export class BrandPostService {
     userId: number,
     voteEntry: BrandPostVoteEntry,
   ): Promise<BrandPostEntity> {
-    const initialPostEntity = await this.prisma.brandPost.findUniqueOrThrow({
+    const initialPostEntity = await this.prisma.brandPost.findFirstOrThrow({
       where: {
-        id: id,
+        AND: [{ id }, { deletedAt: null }],
       },
       include: {
         votes: {
@@ -245,9 +315,9 @@ export class BrandPostService {
       });
     }
 
-    const updatedPostEntity = this.prisma.brandPost.findUniqueOrThrow({
+    const updatedPostEntity = this.prisma.brandPost.findFirstOrThrow({
       where: {
-        id: id,
+        AND: [{ id }, { deletedAt: null }],
       },
       include: {
         topics: true,
@@ -276,6 +346,7 @@ export class BrandPostService {
             roles: true,
           },
         },
+        references: true,
       },
     });
 
@@ -341,6 +412,7 @@ export class BrandPostService {
         brand: true,
         topics: true,
         relatedItems: true,
+        references: true,
       },
     });
 
@@ -425,5 +497,10 @@ export class BrandPostService {
   // ---------------------------- Final Score ----------------------------
   getFinalScore = (lowerBound: number, penaltyFactor: number) => {
     return lowerBound - penaltyFactor;
+  };
+
+  // ---------------------------- Sort ----------------------------
+  sortPostsByScore = (posts: BrandPostEntity[]) => {
+    return posts.sort((a, b) => b.postScore - a.postScore);
   };
 }
