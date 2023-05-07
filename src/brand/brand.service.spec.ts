@@ -82,36 +82,36 @@ describe('BrandService', () => {
 
   it('should successfuly find a brand by id', async () => {
     const brand = dataFactory.getValidBrand();
-    prismaService.brand.findUniqueOrThrow.mockResolvedValueOnce(brand);
+    prismaService.brand.findFirstOrThrow.mockResolvedValueOnce(brand);
     const result = await service.findById(brand.id);
-    expect(prismaService.brand.findUniqueOrThrow).toHaveBeenCalledTimes(1);
+    expect(prismaService.brand.findFirstOrThrow).toHaveBeenCalledTimes(1);
     expect(result).toBeDefined();
     expect(result).toEqual(brand);
   });
 
   it('should fail to find a brand by id', async () => {
-    prismaService.brand.findUniqueOrThrow.mockRejectedValueOnce(
+    prismaService.brand.findFirstOrThrow.mockRejectedValueOnce(
       new Error('error'),
     );
     await expect(service.findById(1)).rejects.toThrowError('error');
-    expect(prismaService.brand.findUniqueOrThrow).toHaveBeenCalledTimes(1);
+    expect(prismaService.brand.findFirstOrThrow).toHaveBeenCalledTimes(1);
   });
 
   it('should successfuly find a brand by name', async () => {
     const brand = dataFactory.getValidBrand();
-    prismaService.brand.findUniqueOrThrow.mockResolvedValueOnce(brand);
+    prismaService.brand.findFirstOrThrow.mockResolvedValueOnce(brand);
     const result = await service.findByName(brand.name);
-    expect(prismaService.brand.findUniqueOrThrow).toHaveBeenCalledTimes(1);
+    expect(prismaService.brand.findFirstOrThrow).toHaveBeenCalledTimes(1);
     expect(result).toBeDefined();
     expect(result).toEqual(brand);
   });
 
   it('should fail to find a brand by name', async () => {
-    prismaService.brand.findUniqueOrThrow.mockRejectedValueOnce(
+    prismaService.brand.findFirstOrThrow.mockRejectedValueOnce(
       new Error('error'),
     );
     await expect(service.findByName('name')).rejects.toThrowError('error');
-    expect(prismaService.brand.findUniqueOrThrow).toHaveBeenCalledTimes(1);
+    expect(prismaService.brand.findFirstOrThrow).toHaveBeenCalledTimes(1);
   });
 
   it('should successfuly update a brand', async () => {

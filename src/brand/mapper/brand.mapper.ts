@@ -1,3 +1,7 @@
+import { BrandPostEntity } from '../../brandpost/entities/brandpost.entity';
+import { BrandPostMapper } from '../../brandpost/mapper/brandpost.mapper';
+import { ItemMapper } from '../../item/mapper/item.mapper';
+import { TopicMapper } from '../../topic/mapper/topic.mapper';
 import { CreateBrandDto } from '../dto/request/create-brand.dto';
 import { UpdateBrandDto } from '../dto/request/update-brand.dto';
 import { BrandResponse } from '../dto/response/response-brand.dto';
@@ -15,6 +19,7 @@ export class BrandMapper {
       entity.updatedAt = request.updatedAt;
     }
     entity.name = request.name;
+    entity.imageUrl = request.imageUrl;
     entity.userId = userId;
     if (request instanceof CreateBrandDto) {
       entity.createdAt = request.createdAt;
@@ -27,9 +32,16 @@ export class BrandMapper {
     const response = new BrandResponse();
     response.id = entity.id;
     response.name = entity.name;
+    response.imageUrl = entity.imageUrl;
     response.createdAt = entity.createdAt;
     response.updatedAt = entity.updatedAt;
     response.deletedAt = entity.deletedAt;
+
+    response.items = ItemMapper.toResponseList(entity.items);
+    response.posts = BrandPostMapper.toResponseList(
+      entity.posts as BrandPostEntity[],
+    );
+    response.topics = TopicMapper.toResponseList(entity.topics);
 
     return response;
   }

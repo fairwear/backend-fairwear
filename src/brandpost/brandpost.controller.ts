@@ -41,6 +41,12 @@ export class BrandPostController {
     return BrandPostMapper.toResponseList(entities);
   }
 
+  @Get('search/:query')
+  async search(@Param('query') query: string): Promise<ResponseBrandPostDto[]> {
+    const entities = await this.brandpostService.search(query);
+    return BrandPostMapper.toResponseList(entities);
+  }
+
   @Get(':id')
   async findById(@Param('id') id: string): Promise<ResponseBrandPostDto> {
     const entity = await this.brandpostService.findById(+id);

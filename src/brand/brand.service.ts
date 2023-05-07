@@ -10,41 +10,130 @@ export class BrandService {
     private authService: AuthService,
   ) {}
 
-  async create(entity: BrandEntity) {
-    const brand = await this.prisma.brand.create({
+  async create(entity: BrandEntity): Promise<BrandEntity> {
+    const createdBrand = await this.prisma.brand.create({
       data: {
         name: entity.name,
         userId: entity.userId,
         createdAt: entity.createdAt,
       },
-    });
-    return brand;
-  }
-
-  async findAll() {
-    const brands = await this.prisma.brand.findMany();
-    return brands;
-  }
-
-  async findById(id: number) {
-    const brand = await this.prisma.brand.findUniqueOrThrow({
-      where: {
-        id: id,
+      include: {
+        items: true,
+        posts: true,
+        topics: {
+          select: {
+            topic: true,
+          },
+        },
       },
     });
+
+    const newTopics = createdBrand.topics.map((topic) => topic.topic);
+    const brand: BrandEntity = { ...createdBrand, topics: newTopics };
+
     return brand;
   }
 
-  async findByName(name: string) {
-    const brand = await this.prisma.brand.findUniqueOrThrow({
+  async findAll(): Promise<BrandEntity[]> {
+    const brands = await this.prisma.brand.findMany({
       where: {
-        name: name,
+        deletedAt: null,
+      },
+      include: {
+        items: true,
+        posts: true,
+        topics: {
+          select: {
+            topic: true,
+          },
+        },
       },
     });
-    return brand;
+    const mappedBrands = brands.map((brand) => {
+      const newTopics = brand.topics.map((topic) => topic.topic);
+      return { ...brand, topics: newTopics };
+    });
+
+    return mappedBrands;
   }
 
-  async update(id: number, entity: BrandEntity) {
+  async search(query: string): Promise<BrandEntity[]> {
+    const brands = await this.prisma.brand.findMany({
+      take: 6,
+      where: {
+        deletedAt: null,
+      },
+      orderBy: {
+        _relevance: {
+          fields: ['name'],
+          search: query,
+          sort: 'desc',
+        },
+      },
+      include: {
+        items: true,
+        posts: true,
+        topics: {
+          select: {
+            topic: true,
+          },
+        },
+      },
+    });
+
+    const mappedBrands = brands.map((brand) => {
+      const newTopics = brand.topics.map((topic) => topic.topic);
+      return { ...brand, topics: newTopics };
+    });
+
+    return mappedBrands;
+  }
+
+  async findById(id: number): Promise<BrandEntity> {
+    const brand = await this.prisma.brand.findFirstOrThrow({
+      where: {
+        AND: [{ id: id }, { deletedAt: null }],
+      },
+      include: {
+        items: true,
+        posts: true,
+        topics: {
+          select: {
+            topic: true,
+          },
+        },
+      },
+    });
+
+    const newTopics = brand.topics.map((topic) => topic.topic);
+    const mappedBrand: BrandEntity = { ...brand, topics: newTopics };
+
+    return mappedBrand;
+  }
+
+  async findByName(name: string): Promise<BrandEntity> {
+    const brand = await this.prisma.brand.findFirstOrThrow({
+      where: {
+        AND: [{ name }, { deletedAt: null }],
+      },
+      include: {
+        items: true,
+        posts: true,
+        topics: {
+          select: {
+            topic: true,
+          },
+        },
+      },
+    });
+
+    const newTopics = brand.topics.map((topic) => topic.topic);
+    const mappedBrand = { ...brand, topics: newTopics };
+
+    return mappedBrand;
+  }
+
+  async update(id: number, entity: BrandEntity): Promise<BrandEntity> {
     const isUserAdmin = this.authService.isUserAdmin(entity.userId);
 
     if (!isUserAdmin) {
@@ -61,11 +150,24 @@ export class BrandService {
         name: entity.name,
         updatedAt: entity.updatedAt,
       },
+      include: {
+        items: true,
+        posts: true,
+        topics: {
+          select: {
+            topic: true,
+          },
+        },
+      },
     });
-    return updatedBrand;
+
+    const newTopics = updatedBrand.topics.map((topic) => topic.topic);
+    const brand = { ...updatedBrand, topics: newTopics };
+
+    return brand;
   }
 
-  async softDelete(id: number, userId: number) {
+  async softDelete(id: number, userId: number): Promise<BrandEntity> {
     const isUserAdmin = this.authService.isUserAdmin(userId);
 
     if (!isUserAdmin) {
@@ -81,7 +183,20 @@ export class BrandService {
       data: {
         deletedAt: new Date(),
       },
+      include: {
+        items: true,
+        posts: true,
+        topics: {
+          select: {
+            topic: true,
+          },
+        },
+      },
     });
-    return deletedEntity;
+
+    const newTopics = deletedEntity.topics.map((topic) => topic.topic);
+    const brand = { ...deletedEntity, topics: newTopics };
+
+    return brand;
   }
 }

@@ -32,6 +32,12 @@ export class BrandController {
     return BrandMapper.toResponse(createdEntity);
   }
 
+  @Get('search/:query')
+  async search(@Param('query') query: string) {
+    const entities = await this.brandService.search(query);
+    return BrandMapper.toResponseList(entities);
+  }
+
   @Get()
   async findAll() {
     const entities = await this.brandService.findAll();

@@ -247,7 +247,13 @@ export const main = async () => {
       create: {
         title: brandPost.title,
         body: brandPost.body,
-        references: brandPost.references,
+        references: {
+          createMany: {
+            data: brandPost.references.map((reference) => ({
+              ...reference,
+            })),
+          },
+        },
         postScore: brandPost.postScore,
         createdAt: brandPost.createdAt,
         deletedAt: brandPost.deletedAt,
