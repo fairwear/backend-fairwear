@@ -399,7 +399,14 @@ export class BrandPostService {
 
     return postVotes;
   }
-
+  async getAuthorId(id: number): Promise<number> {
+    const entity = await this.prisma.brandPost.findUniqueOrThrow({
+      where: {
+        id,
+      },
+    });
+    return entity.authorId;
+  }
   // ---------------------------- Algorithm ----------------------------
 
   calculateScoreForAllPosts = async () => {
