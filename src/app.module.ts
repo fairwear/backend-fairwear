@@ -12,9 +12,13 @@ import { ReportModule } from './report/report.module';
 import { UserRoleModule } from './user-role/user-role.module';
 import { UserModule } from './user/user.module';
 import { FileModule } from './file/file.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
+    TasksModule,
     EmailtemplateModule,
     PrismaModule,
     ConfigModule.forRoot(),

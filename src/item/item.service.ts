@@ -13,6 +13,8 @@ export class ItemService {
     const item = await this.prisma.item.create({
       data: {
         name: entity.name,
+        imageUrl: entity.imageUrl,
+        barcode: entity.barcode,
         brandId: entity.brandId,
         userId: entity.userId,
         createdAt: entity.createdAt,
@@ -23,6 +25,24 @@ export class ItemService {
 
   async findAll() {
     const items = await this.prisma.item.findMany();
+    return items;
+  }
+
+  async search(query: string): Promise<ItemEntity[]> {
+    const items = await this.prisma.item.findMany({
+      take: 6,
+      where: {
+        deletedAt: null,
+      },
+      orderBy: {
+        _relevance: {
+          fields: ['name'],
+          search: query,
+          sort: 'desc',
+        },
+      },
+    });
+
     return items;
   }
 
@@ -39,6 +59,15 @@ export class ItemService {
     const item = await this.prisma.item.findUniqueOrThrow({
       where: {
         name: name,
+      },
+    });
+    return item;
+  }
+
+  async findByBarcode(barcode: string) {
+    const item = await this.prisma.item.findUniqueOrThrow({
+      where: {
+        barcode: barcode,
       },
     });
     return item;

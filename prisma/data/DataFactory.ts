@@ -580,6 +580,9 @@ export class DataFactory {
     brand.createdAt = new Date('2021-01-01T00:00:00.000Z');
     brand.updatedAt = null;
     brand.deletedAt = null;
+    brand.topics = [];
+    brand.items = [];
+    brand.posts = [];
 
     return brand;
   }
@@ -786,6 +789,7 @@ export class DataFactory {
 
   public getValidBrandPost() {
     const brandPost: BrandPostEntity = new BrandPostEntity();
+    brandPost.title = 'Test title 1';
     brandPost.body = 'Test body 1';
     brandPost.authorId = 1;
     brandPost.brandId = 1;
@@ -794,6 +798,10 @@ export class DataFactory {
     brandPost.topics = [this.getValidBrandPostToTopic()];
     brandPost.relatedItems = [this.getValidBrandPostToItem()];
     brandPost.votes = [this.getValidBrandPostUpvote()];
+    brandPost.postScore = 1;
+    brandPost.references = [];
+    brandPost.reports = [];
+    brandPost.relatedItems = [];
 
     return brandPost;
   }
@@ -859,6 +867,7 @@ export class DataFactory {
     const brandPost1: BrandPostEntity = this.getValidBrandPost();
 
     const brandPost2: BrandPostEntity = new BrandPostEntity();
+    brandPost2.title = 'Test title 2';
     brandPost2.body = 'Test body 2';
     brandPost2.authorId = 2;
     brandPost2.brandId = 2;
@@ -867,8 +876,13 @@ export class DataFactory {
     brandPost2.votes = [this.getValidBrandPostDownvote()];
     brandPost2.topics = [this.getValidBrandPostToTopic()];
     brandPost2.relatedItems = [];
+    brandPost2.postScore = -1;
+    brandPost2.references = [];
+    brandPost2.reports = [];
+    brandPost2.relatedItems = [];
 
     const brandPost3: BrandPostEntity = new BrandPostEntity();
+    brandPost3.title = 'Test title 3';
     brandPost3.body = 'Test body 3';
     brandPost3.authorId = 3;
     brandPost3.brandId = 3;
@@ -876,6 +890,10 @@ export class DataFactory {
     brandPost3.deletedAt = new Date('2021-03-02T00:00:00.000Z');
     brandPost3.votes = [];
     brandPost3.topics = [];
+    brandPost3.relatedItems = [];
+    brandPost3.postScore = 0;
+    brandPost3.references = [];
+    brandPost3.reports = [];
     brandPost3.relatedItems = [];
 
     brandPostList.push(brandPost1);
@@ -889,6 +907,7 @@ export class DataFactory {
     const BrandPostList: BrandPostEntity[] = [];
 
     const brandPost1: BrandPostEntity = new BrandPostEntity();
+    brandPost1.title = 'Test title 1';
     brandPost1.body = 'Test body 1';
     brandPost1.authorId = 1;
     brandPost1.brandId = 1;
@@ -897,8 +916,13 @@ export class DataFactory {
     brandPost1.topics = [this.getValidBrandPostToTopic()];
     brandPost1.relatedItems = [this.getValidBrandPostToItem()];
     brandPost1.votes = [this.getValidBrandPostUpvote()];
+    brandPost1.postScore = 2;
+    brandPost1.references = [];
+    brandPost1.reports = [];
+    brandPost1.relatedItems = [];
 
     const brandPost2: BrandPostEntity = new BrandPostEntity();
+    brandPost2.title = 'Test title 2';
     brandPost2.body = 'Test body 2';
     brandPost2.authorId = 2;
     brandPost2.brandId = 2;
@@ -907,8 +931,13 @@ export class DataFactory {
     brandPost2.topics = [this.getValidBrandPostToTopic()];
     brandPost2.relatedItems = [this.getValidBrandPostToItem()];
     brandPost2.votes = [this.getValidBrandPostUpvote()];
+    brandPost2.postScore = 1;
+    brandPost2.references = [];
+    brandPost2.reports = [];
+    brandPost2.relatedItems = [];
 
     const brandPost3: BrandPostEntity = new BrandPostEntity();
+    brandPost3.title = 'Test title 3';
     brandPost3.body = 'Test body 3';
     brandPost3.authorId = 3;
     brandPost3.brandId = 3;
@@ -917,8 +946,13 @@ export class DataFactory {
     brandPost3.topics = [this.getValidBrandPostToTopic()];
     brandPost3.relatedItems = [this.getValidBrandPostToItem()];
     brandPost3.votes = [this.getValidBrandPostUpvote()];
+    brandPost3.postScore = 1;
+    brandPost3.references = [];
+    brandPost3.reports = [];
+    brandPost3.relatedItems = [];
 
     const brandPost4: BrandPostEntity = new BrandPostEntity();
+    brandPost4.title = 'Test title 4';
     brandPost4.body = 'Test body 4';
     brandPost4.authorId = 4;
     brandPost4.brandId = 4;
@@ -927,6 +961,10 @@ export class DataFactory {
     brandPost4.topics = [this.getValidBrandPostToTopic()];
     brandPost4.relatedItems = [this.getValidBrandPostToItem()];
     brandPost4.votes = [this.getValidBrandPostUpvote()];
+    brandPost4.postScore = 1;
+    brandPost4.references = [];
+    brandPost4.reports = [];
+    brandPost4.relatedItems = [];
 
     BrandPostList.push(brandPost1);
     BrandPostList.push(brandPost2);

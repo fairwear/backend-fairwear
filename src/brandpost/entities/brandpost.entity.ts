@@ -4,12 +4,20 @@ import {
   BrandPostVote,
   BrandPost,
   BrandPostToItem,
+  Brand,
 } from '@prisma/client';
 import { BrandEntity } from '../../brand/entities/brand.entity';
+import { UserEntity } from '../../user/entities/user.entity';
+import { BrandPostVoteEntity } from './brandpost-vote.entity';
+import { ReportEntity } from '../../report/entities/report.entity';
+import { BrandPostReferenceEntity } from './brandpost-reference.entity.ts';
 
 export class BrandPostEntity {
   @ApiProperty({ type: Number, description: 'BrandPost ID' })
   id: number;
+
+  @ApiProperty({ type: String, description: 'BrandPost Title' })
+  title: string;
 
   @ApiProperty({ type: String, description: 'BrandPost Body' })
   body: string;
@@ -26,14 +34,32 @@ export class BrandPostEntity {
   @ApiProperty({ type: Date, description: 'BrandPost Author ID' })
   authorId: number;
 
+  @ApiProperty({ type: Number, description: 'BrandPost Score' })
+  postScore: number;
+
+  @ApiProperty({
+    type: Array<BrandPostReferenceEntity>,
+    description: 'BrandPost References',
+  })
+  references: BrandPostReferenceEntity[];
+
   @ApiProperty({ type: BrandEntity, description: 'Brand Entity' })
-  brand: BrandEntity;
+  brand: BrandEntity | Brand;
+
+  @ApiProperty({
+    type: () => Array<ReportEntity>,
+    description: 'BrandPost Reports',
+  })
+  reports: ReportEntity[];
+
+  @ApiProperty({})
+  author: UserEntity;
 
   @ApiProperty({
     type: () => Array<BrandPostVote>,
     description: 'BrandPost Votes',
   })
-  votes: BrandPostVote[];
+  votes: BrandPostVoteEntity[];
 
   @ApiProperty({
     type: Array<BrandPostToTopic>,

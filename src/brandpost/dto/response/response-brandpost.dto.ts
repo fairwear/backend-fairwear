@@ -1,13 +1,33 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BrandPostToItem, BrandPostToTopic, VoteEnum } from '@prisma/client';
+import {
+  Brand,
+  BrandPostToItem,
+  BrandPostToTopic,
+  VoteEnum,
+} from '@prisma/client';
 import { BrandResponse } from '../../../brand/dto/response/response-brand.dto';
+import { BrandPostReferenceEntity } from '../../entities/brandpost-reference.entity.ts';
+import { BrandPostVoteEntity } from '../../entities/brandpost-vote.entity';
+import UserInfoResponse from '../../../user/dto/response/user-info.response.dto';
 
 export class ResponseBrandPostDto {
   @ApiProperty({ type: Number, description: 'BrandPost ID' })
   id: number;
 
+  @ApiProperty({ type: String, description: 'BrandPost Title' })
+  title: string;
+
   @ApiProperty({ type: String, description: 'BrandPost Body' })
   body: string;
+
+  @ApiProperty({ type: Number, description: 'BrandPost Score' })
+  postScore: number;
+
+  @ApiProperty({
+    type: Array<BrandPostReferenceEntity>,
+    description: 'BrandPost References',
+  })
+  references: BrandPostReferenceEntity[];
 
   @ApiProperty({ type: Date, description: 'BrandPost Creation Date' })
   createdAt: Date;
@@ -16,10 +36,13 @@ export class ResponseBrandPostDto {
   deletedAt: Date | null;
 
   @ApiProperty({ type: BrandResponse, description: 'Brand' })
-  brand: BrandResponse;
+  brand: Brand;
+
+  @ApiProperty({ type: Number, description: 'BrandPost Brand ID' })
+  brandId: number;
 
   @ApiProperty({ type: () => Array<VoteEnum>, description: 'BrandPost Votes' })
-  votes: VoteEnum[];
+  votes: BrandPostVoteEntity[];
 
   @ApiProperty({
     type: Array<BrandPostToTopic>,
@@ -32,4 +55,7 @@ export class ResponseBrandPostDto {
     description: 'BrandPost Related Items',
   })
   relatedItems: BrandPostToItem[];
+
+  @ApiProperty({ type: UserInfoResponse, description: 'BrandPost Author' })
+  author: UserInfoResponse;
 }

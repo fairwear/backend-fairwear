@@ -62,19 +62,19 @@ describe('BrandpostService', () => {
 
   it('should return a brandpost by id', async () => {
     const brandpost = dataFactory.getValidBrandPost();
-    prismaService.brandPost.findUniqueOrThrow.mockResolvedValueOnce(brandpost);
+    prismaService.brandPost.findFirstOrThrow.mockResolvedValueOnce(brandpost);
     const result = await service.findById(brandpost.id);
-    expect(prismaService.brandPost.findUniqueOrThrow).toHaveBeenCalledTimes(1);
+    expect(prismaService.brandPost.findFirstOrThrow).toHaveBeenCalledTimes(1);
     expect(result).toBeDefined();
     expect(result).toEqual(brandpost);
   });
 
   it('should fail to return a brandpost by id', async () => {
-    prismaService.brandPost.findUniqueOrThrow.mockRejectedValueOnce(
+    prismaService.brandPost.findFirstOrThrow.mockRejectedValueOnce(
       new Error('error'),
     );
     await expect(service.findById(1)).rejects.toThrowError('error');
-    expect(prismaService.brandPost.findUniqueOrThrow).toHaveBeenCalledTimes(1);
+    expect(prismaService.brandPost.findFirstOrThrow).toHaveBeenCalledTimes(1);
   });
 
   it('should create a brandpost', async () => {
@@ -99,14 +99,14 @@ describe('BrandpostService', () => {
     const voteEntry = dataFactory.getValidBrandPostVoteEntry();
     const vote = dataFactory.getValidBrandPostUpvote();
 
-    prismaService.brandPost.findUniqueOrThrow.mockResolvedValueOnce(brandpost);
+    prismaService.brandPost.findFirstOrThrow.mockResolvedValueOnce(brandpost);
     prismaService.user.findUniqueOrThrow.mockResolvedValueOnce(user);
     prismaService.brandPostVote.update.mockResolvedValueOnce(vote);
-    prismaService.brandPost.findUniqueOrThrow.mockResolvedValueOnce(brandpost);
+    prismaService.brandPost.findFirstOrThrow.mockResolvedValueOnce(brandpost);
 
     const result = await service.vote(brandpost.id, user.id, voteEntry);
 
-    expect(prismaService.brandPost.findUniqueOrThrow).toHaveBeenCalledTimes(2);
+    expect(prismaService.brandPost.findFirstOrThrow).toHaveBeenCalledTimes(2);
     expect(prismaService.brandPostVote.update).toHaveBeenCalledTimes(1);
 
     expect(result).toBeDefined();
@@ -119,14 +119,14 @@ describe('BrandpostService', () => {
     const voteEntry = dataFactory.getValidBrandPostVoteEntry();
     const vote = dataFactory.getValidBrandPostDownvote();
 
-    prismaService.brandPost.findUniqueOrThrow.mockResolvedValueOnce(brandpost);
+    prismaService.brandPost.findFirstOrThrow.mockResolvedValueOnce(brandpost);
     prismaService.user.findUniqueOrThrow.mockResolvedValueOnce(user);
     prismaService.brandPostVote.update.mockResolvedValueOnce(vote);
-    prismaService.brandPost.findUniqueOrThrow.mockResolvedValueOnce(brandpost);
+    prismaService.brandPost.findFirstOrThrow.mockResolvedValueOnce(brandpost);
 
     const result = await service.vote(brandpost.id, user.id, voteEntry);
 
-    expect(prismaService.brandPost.findUniqueOrThrow).toHaveBeenCalledTimes(2);
+    expect(prismaService.brandPost.findFirstOrThrow).toHaveBeenCalledTimes(2);
     expect(prismaService.brandPostVote.update).toHaveBeenCalledTimes(1);
 
     expect(result).toBeDefined();
@@ -135,24 +135,24 @@ describe('BrandpostService', () => {
 
   it("should find a brandpost by it's id", async () => {
     const brandpost = dataFactory.getValidBrandPost();
-    prismaService.brandPost.findUniqueOrThrow.mockResolvedValueOnce(brandpost);
+    prismaService.brandPost.findFirstOrThrow.mockResolvedValueOnce(brandpost);
 
     const result = await service.findById(brandpost.id);
 
-    expect(prismaService.brandPost.findUniqueOrThrow).toHaveBeenCalledTimes(1);
+    expect(prismaService.brandPost.findFirstOrThrow).toHaveBeenCalledTimes(1);
 
     expect(result).toBeDefined();
     expect(result).toEqual(brandpost);
   });
 
   it("should fail to find a brandpost by it's id", async () => {
-    prismaService.brandPost.findUniqueOrThrow.mockRejectedValueOnce(
+    prismaService.brandPost.findFirstOrThrow.mockRejectedValueOnce(
       new Error('error'),
     );
 
     await expect(service.findById(1)).rejects.toThrowError('error');
 
-    expect(prismaService.brandPost.findUniqueOrThrow).toHaveBeenCalledTimes(1);
+    expect(prismaService.brandPost.findFirstOrThrow).toHaveBeenCalledTimes(1);
   });
 
   it('should softDelete a brandpost', async () => {

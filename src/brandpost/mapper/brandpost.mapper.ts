@@ -1,4 +1,4 @@
-import { BrandMapper } from '../../brand/mapper/brand.mapper';
+import { UserMapper } from '../../user/mapper/user.mapper';
 import { CreateBrandPostDto } from '../dto/request/create-brandpost.dto';
 import { ResponseBrandPostDto } from '../dto/response/response-brandpost.dto';
 import { BrandPostToItemEntity } from '../entities/brandpost-to-item.entity';
@@ -8,11 +8,13 @@ import { BrandPostEntity } from '../entities/brandpost.entity';
 export class BrandPostMapper {
   public static toEntity(request: CreateBrandPostDto, authorId: number) {
     const entity = new BrandPostEntity();
+    entity.title = request.title;
     entity.body = request.body;
     entity.createdAt = new Date();
     entity.deletedAt = null;
     entity.brandId = request.brandId;
     entity.authorId = authorId;
+    entity.references = request.references;
     entity.votes = [];
     entity.topics = request.topics.map((topic) => {
       const brandPostToTopic = new BrandPostToTopicEntity();
@@ -34,13 +36,19 @@ export class BrandPostMapper {
     const response = new ResponseBrandPostDto();
 
     response.id = entity.id;
+    response.title = entity.title;
     response.body = entity.body;
-    response.createdAt = entity.createdAt;
-    response.deletedAt = entity.deletedAt;
-    response.votes = entity.votes.map((vote) => vote.vote);
+    response.brandId = entity.brandId;
+    response.postScore = entity.postScore;
+    response.references = entity.references;
+    //TODO: Create and map votes to response
+    response.votes = entity.votes;
     response.topics = entity.topics;
     response.relatedItems = entity.relatedItems;
-    response.brand = BrandMapper.toResponse(entity.brand);
+    response.brand = entity.brand;
+    response.createdAt = entity.createdAt;
+    response.deletedAt = entity.deletedAt;
+    response.author = UserMapper.toUserInfoResponse(entity.author);
 
     return response;
   }

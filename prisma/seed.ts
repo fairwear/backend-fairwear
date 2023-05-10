@@ -245,7 +245,16 @@ export const main = async () => {
       where: { body: brandPost.body },
       update: {},
       create: {
+        title: brandPost.title,
         body: brandPost.body,
+        references: {
+          createMany: {
+            data: brandPost.references.map((reference) => ({
+              ...reference,
+            })),
+          },
+        },
+        postScore: brandPost.postScore,
         createdAt: brandPost.createdAt,
         deletedAt: brandPost.deletedAt,
         brand: {
@@ -256,6 +265,39 @@ export const main = async () => {
         author: {
           connect: {
             id: brandPost.authorId,
+          },
+        },
+        votes: {
+          createMany: {
+            data: brandPost.votes.map((vote) => ({
+              vote: vote.vote,
+              userId: vote.userId,
+            })),
+          },
+        },
+        topics: {
+          createMany: {
+            data: brandPost.topics.map((topic) => ({
+              topicId: topic.topicId,
+            })),
+          },
+        },
+        reports: {
+          createMany: {
+            data: brandPost.reports.map((report) => ({
+              reportId: report.id,
+              reportReason: report.reportReason,
+              resolvedAt: report.resolvedAt,
+              resolvedById: report.resolvedById,
+              authorId: report.authorId,
+            })),
+          },
+        },
+        relatedItems: {
+          createMany: {
+            data: brandPost.relatedItems.map((item) => ({
+              itemId: item.itemId,
+            })),
           },
         },
       },

@@ -38,17 +38,27 @@ export class ItemController {
     return ItemMapper.toResponseList(entities);
   }
 
+  @Get('search/:query')
+  async search(@Param('query') query: string) {
+    const entities = await this.itemService.search(query);
+    return ItemMapper.toResponseList(entities);
+  }
+
   @Get(':id')
   async findById(@Param('id') id: string) {
     const entity = await this.itemService.findById(+id);
-    if (!entity) return null;
     return ItemMapper.toResponse(entity);
   }
 
-  @Get(':name')
+  @Get('/name/:name')
   async findByName(@Param('name') name: string) {
     const entity = await this.itemService.findByName(name);
-    if (!entity) return null;
+    return ItemMapper.toResponse(entity);
+  }
+
+  @Get('/barcode/:barcode')
+  async findByBarcode(@Param('barcode') barcode: string) {
+    const entity = await this.itemService.findByBarcode(barcode);
     return ItemMapper.toResponse(entity);
   }
 
