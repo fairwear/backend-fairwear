@@ -1,4 +1,3 @@
-import { BrandPostEntity } from '../../brandpost/entities/brandpost.entity';
 import { BrandPostMapper } from '../../brandpost/mapper/brandpost.mapper';
 import { ItemMapper } from '../../item/mapper/item.mapper';
 import { TopicMapper } from '../../topic/mapper/topic.mapper';
@@ -38,9 +37,7 @@ export class BrandMapper {
     response.deletedAt = entity.deletedAt;
 
     response.items = ItemMapper.toResponseList(entity.items);
-    response.posts = BrandPostMapper.toResponseList(
-      entity.posts as BrandPostEntity[],
-    );
+    response.posts = BrandPostMapper.toResponseList(entity.posts);
     response.topics = TopicMapper.toResponseList(entity.topics);
 
     return response;
