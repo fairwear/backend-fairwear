@@ -1,29 +1,29 @@
 version: '3'
 
 services:
-  fairwear-db:
+  fairwear-db2:
     image: postgres:15
     restart: always
-    container_name: postgres
+    container_name: db-fairwear
     hostname: postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: fairwear
-    ports:
+    ports: 
       - '5432:5432'
     volumes:
       - .db:/var/lib/postgresql/
 
-  fairwear-test-db:
+  fairwear-db:
     image: postgres:15
     restart: always
-    container_name: test-postgres
+    container_name: db-
     hostname: test-postgres
     environment:
-      POSTGRES_USER: test
-      POSTGRES_PASSWORD: test
-      POSTGRES_DB: test-fairwear
+      POSTGRES_USER: fairwear
+      POSTGRES_PASSWORD: fairwear
+      POSTGRES_DB: fairwear
     ports:
       - '5435:5432'
     volumes:

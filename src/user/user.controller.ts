@@ -81,7 +81,9 @@ export class UserController {
 
   @Get('/username/:username')
   async findByUsername(@Param('username') username: string) {
-    return await this.userService.findByUsername(username);
+    UserMapper.toUserInfoResponse(
+      await this.userService.findByUsername(username),
+    );
   }
 
   @Delete(':id')

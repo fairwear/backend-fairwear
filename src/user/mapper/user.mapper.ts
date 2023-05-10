@@ -1,6 +1,7 @@
 import { UserRoleToUserEntity } from '../../user-role/entity/user-role-to-user.entity';
 import { CreateUserRequest } from '../dto/request/create-user.dto';
 import { UpdateUserRequest } from '../dto/request/update-user.dto';
+import UserInfoResponse from '../dto/response/user-info.response.dto';
 import { UserResponse } from '../dto/response/user.response.dto';
 import { UserEntity } from '../entities/user.entity';
 export class UserMapper {
@@ -44,6 +45,17 @@ export class UserMapper {
     response.deletedAt = entity.deletedAt;
 
     return response;
+  }
+
+  public static toUserInfoResponse(entity: UserEntity) {
+    const userInfoResponse = new UserInfoResponse();
+    userInfoResponse.name = entity.name;
+    userInfoResponse.surname = entity.surname;
+    userInfoResponse.username = entity.username;
+    userInfoResponse.email = entity.email;
+    userInfoResponse.userTrustScore = entity.userTrustScore;
+
+    return userInfoResponse;
   }
 
   public static toResponseList(entities: UserEntity[]) {

@@ -16,6 +16,7 @@ import { BrandPostVoteEntry } from './dto/request/entry/brandpost-vote.dto';
 import { BrandPostMapper } from './mapper/brandpost.mapper';
 import { BrandPostVoteResponseDto } from './dto/response/brandpost-vote-response.dto';
 import { ResponseBrandPostDto } from './dto/response/response-brandpost.dto';
+import { VoteEnum } from '@prisma/client';
 
 @ApiTags('BrandPost')
 @Controller('api/v1/brandpost')
@@ -77,5 +78,18 @@ export class BrandPostController {
   async getVotes(@Param('id') id: string): Promise<BrandPostVoteResponseDto> {
     const votes = await this.brandpostService.getVotes(+id);
     return votes;
+  }
+
+  @Get(':id/is-voted')
+  @UseGuards(JwtAuthGuard)
+  async getIsVoted(
+    @GetCurrentUserId() userId: number,
+    @Param() id: string,
+  ): Promise<{
+    isVoted: boolean;
+    vote: VoteEnum | undefined;
+  }> {
+    const isVoted = await this.brandpostService.getIsVoted(+id, userId);
+    return isVoted;
   }
 }

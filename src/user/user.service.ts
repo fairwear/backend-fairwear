@@ -154,6 +154,9 @@ export class UserService {
       where: {
         username: username,
       },
+      include: {
+        roles: true,
+      },
     });
   }
   async findByEmail(email: string) {

@@ -1,3 +1,4 @@
+import { UserMapper } from '../../user/mapper/user.mapper';
 import { CreateBrandPostDto } from '../dto/request/create-brandpost.dto';
 import { ResponseBrandPostDto } from '../dto/response/response-brandpost.dto';
 import { BrandPostToItemEntity } from '../entities/brandpost-to-item.entity';
@@ -47,6 +48,7 @@ export class BrandPostMapper {
     response.brand = entity.brand;
     response.createdAt = entity.createdAt;
     response.deletedAt = entity.deletedAt;
+    response.author = UserMapper.toUserInfoResponse(entity.author);
 
     return response;
   }
