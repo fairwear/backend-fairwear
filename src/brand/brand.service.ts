@@ -2,14 +2,12 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { BrandEntity } from './entities/brand.entity';
-import { MyLogger } from 'Logger/mylogger';
 
 @Injectable()
 export class BrandService {
   constructor(
     private prisma: PrismaService,
     private authService: AuthService,
-    private readonly logger: MyLogger,
   ) {}
 
   async create(entity: BrandEntity): Promise<BrandEntity> {
