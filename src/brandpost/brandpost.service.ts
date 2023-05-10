@@ -3,6 +3,7 @@ import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { BrandPostVoteEntry } from './dto/request/entry/brandpost-vote.dto';
 import { BrandPostEntity } from './entities/brandpost.entity';
+import { VoteEnum } from '@prisma/client';
 
 const REPORT_PENALTY_WEIGHT = 0.2;
 const CONFIDENCE_LEVEL = 1.96;
@@ -260,6 +261,34 @@ export class BrandPostService {
     return deletedEntity;
   }
 
+  async getIsVoted(
+    id: number,
+    userId: number,
+  ): Promise<{
+    isVoted: boolean;
+    vote: VoteEnum | undefined;
+  }> {
+    const entity = await this.prisma.brandPost.findFirstOrThrow({
+      where: {
+        AND: [{ id }, { deletedAt: null }],
+      },
+      include: {
+        votes: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+
+    const existingVote = entity.votes.find((vote) => vote.userId === userId);
+    const res = {
+      isVoted: !!existingVote,
+      vote: existingVote?.vote,
+    };
+    return res;
+  }
+
   async vote(
     id: number,
     userId: number,
@@ -370,7 +399,14 @@ export class BrandPostService {
 
     return postVotes;
   }
-
+  async getAuthorId(id: number): Promise<number> {
+    const entity = await this.prisma.brandPost.findUniqueOrThrow({
+      where: {
+        id,
+      },
+    });
+    return entity.authorId;
+  }
   // ---------------------------- Algorithm ----------------------------
 
   calculateScoreForAllPosts = async () => {
