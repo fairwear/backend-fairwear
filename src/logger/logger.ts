@@ -1,6 +1,5 @@
 import { LoggerService } from '@nestjs/common';
 import * as winston from 'winston';
-// import 'winston-daily-rotate-file';
 
 export class MyLogger implements LoggerService {
   private logger: winston.Logger;
@@ -21,7 +20,7 @@ export class MyLogger implements LoggerService {
           ),
         }),
         new winston.transports.File({
-          filename: './Logger/app.log',
+          filename: './logs/app.log',
           level: 'info',
           format: winston.format.combine(
             winston.format.timestamp(),
@@ -29,7 +28,7 @@ export class MyLogger implements LoggerService {
           ),
         }),
         new winston.transports.File({
-          filename: './Logger/error.log',
+          filename: './logs/error.log',
           level: 'error',
           format: winston.format.combine(
             winston.format.timestamp(),
@@ -44,7 +43,7 @@ export class MyLogger implements LoggerService {
     this.logger.log('info', message, ...optionalParams);
   }
 
-  error(message: any, trace: string) {
+  error(message: any, trace?: string) {
     this.logger.error(message, { trace });
     if (trace) {
       this.logger.error(trace);

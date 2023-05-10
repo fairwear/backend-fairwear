@@ -1,6 +1,7 @@
 import { PrismaClient, UserRoleToUser } from '@prisma/client';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { DataFactory } from './data/DataFactory';
+import { BrandPostEntity } from '../src/brandpost/entities/brandpost.entity';
 
 export const prisma = new PrismaClient();
 const dataFactory: DataFactory = DataFactory.getInstance();
@@ -260,77 +261,69 @@ export const main = async () => {
   // BrandPost test data
 
   const brandPosts = dataFactory.getBrandPostSeed();
-  brandPosts.forEach(
-    async (brandPost: {
-      body: any;
-      createdAt: any;
-      deletedAt: any;
-      brandId: any;
-      authorId: any;
-    }) => {
-      await prisma.brandPost.upsert({
-        where: { body: brandPost.body },
-        update: {},
-        create: {
-          title: brandPost.title,
-          body: brandPost.body,
-          references: {
-            createMany: {
-              data: brandPost.references.map((reference) => ({
-                ...reference,
-              })),
-            },
-          },
-          postScore: brandPost.postScore,
-          createdAt: brandPost.createdAt,
-          deletedAt: brandPost.deletedAt,
-          brand: {
-            connect: {
-              id: brandPost.brandId,
-            },
-          },
-          author: {
-            connect: {
-              id: brandPost.authorId,
-            },
-          },
-          votes: {
-            createMany: {
-              data: brandPost.votes.map((vote) => ({
-                vote: vote.vote,
-                userId: vote.userId,
-              })),
-            },
-          },
-          topics: {
-            createMany: {
-              data: brandPost.topics.map((topic) => ({
-                topicId: topic.topicId,
-              })),
-            },
-          },
-          reports: {
-            createMany: {
-              data: brandPost.reports.map((report) => ({
-                reportId: report.id,
-                reportReason: report.reportReason,
-                resolvedAt: report.resolvedAt,
-                resolvedById: report.resolvedById,
-                authorId: report.authorId,
-              })),
-            },
-          },
-          relatedItems: {
-            createMany: {
-              data: brandPost.relatedItems.map((item) => ({
-                itemId: item.itemId,
-              })),
-            },
+  brandPosts.forEach(async (brandPost: BrandPostEntity) => {
+    await prisma.brandPost.upsert({
+      where: { body: brandPost.body },
+      update: {},
+      create: {
+        title: brandPost.title,
+        body: brandPost.body,
+        references: {
+          createMany: {
+            data: brandPost.references.map((reference) => ({
+              ...reference,
+            })),
           },
         },
-      });
-    },
-  );
+        postScore: brandPost.postScore,
+        createdAt: brandPost.createdAt,
+        deletedAt: brandPost.deletedAt,
+        brand: {
+          connect: {
+            id: brandPost.brandId,
+          },
+        },
+        author: {
+          connect: {
+            id: brandPost.authorId,
+          },
+        },
+        votes: {
+          createMany: {
+            data: brandPost.votes.map((vote) => ({
+              vote: vote.vote,
+              userId: vote.userId,
+            })),
+          },
+        },
+        topics: {
+          createMany: {
+            data: brandPost.topics.map((topic) => ({
+              topicId: topic.topicId,
+            })),
+          },
+        },
+        reports: {
+          createMany: {
+            data: brandPost.reports.map((report) => ({
+              reportId: report.id,
+              reportReason: report.reportReason,
+              resolvedAt: report.resolvedAt,
+              resolvedById: report.resolvedById,
+              authorId: report.authorId,
+            })),
+          },
+        },
+        relatedItems: {
+          createMany: {
+            data: brandPost.relatedItems.map((item) => ({
+              itemId: item.itemId,
+            })),
+          },
+        },
+      },
+    });
+  });
 
   console.log('Successfully created brand posts');
 };

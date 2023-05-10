@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
-import { BrandService } from './brand.service';
-import { BrandController } from './brand.controller';
-import { AuthService } from '../auth/auth.service';
-import { UserService } from '../user/user.service';
-import { UserRoleService } from '../user-role/user-role.service';
 import { JwtService } from '@nestjs/jwt';
+import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { MyLogger } from 'Logger/mylogger';
+import { UserRoleService } from '../user-role/user-role.service';
+import { UserService } from '../user/user.service';
+import { BrandController } from './brand.controller';
+import { BrandService } from './brand.service';
 
 @Module({
   controllers: [BrandController],
@@ -17,7 +16,6 @@ import { MyLogger } from 'Logger/mylogger';
     UserRoleService,
     JwtService,
     PrismaService,
-    MyLogger,
   ],
 })
 export class BrandModule {}

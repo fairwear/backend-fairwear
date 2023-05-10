@@ -6,12 +6,12 @@ import {
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { Prisma } from '@prisma/client';
+import { PrismaClientUnknownRequestError } from '@prisma/client/runtime';
+
+import { MyLogger } from '../logger/logger';
 import ErrorCodesStatusMapping, {
   errorCodesStatusMap,
 } from './ErrorCodesStatusMapping';
-import { MyLogger } from 'Logger/mylogger';
-import { PrismaClientUnknownRequestError } from '@prisma/client/runtime';
-import { error } from 'winston';
 
 /**
  * {@link PrismaClientExceptionFilter}
@@ -29,11 +29,14 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
   private errorCodesStatusMapping: ErrorCodesStatusMapping =
     errorCodesStatusMap;
 
+  private logger: MyLogger;
+
   /**
    * @param applicationRef
    * @param errorCodesStatusMapping
    */
   constructor(
+    logger: MyLogger,
     applicationRef?: HttpServer,
     errorCodesStatusMapping?: ErrorCodesStatusMapping,
   ) {
@@ -44,6 +47,9 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         this.errorCodesStatusMapping,
         errorCodesStatusMapping,
       );
+    }
+    if (logger) {
+      this.logger = logger;
     }
   }
 
@@ -64,14 +70,13 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
       return this.catchClientKnownRequestError(exception, host);
     }
     if (exception instanceof Prisma.PrismaClientUnknownRequestError) {
+      this.logger.error(exception.message, exception.stack || exception.name);
       return super.catch(exception, host);
     }
     if (exception instanceof HttpException) {
+      this.logger.error(exception.message, exception.stack || exception.name);
       return super.catch(exception, host);
     }
-
-    const logger = new MyLogger();
-    logger.error('Error message', exception.stack);
   }
 
   private catchClientKnownRequestError(
@@ -82,6 +87,8 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
     const message = `[${exception.code}]: ${this.exceptionShortMessage(
       exception.message,
     )}`;
+
+    this.logger.error(message, exception.code);
 
     if (!Object.keys(this.errorCodesStatusMapping).includes(exception.code)) {
       return super.catch(exception, host);
@@ -98,7 +105,7 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
 
   private exceptionShortMessage(message: string): string {
     const shortMessage = message.substring(message.indexOf('→'));
-
+    this.logger.log(shortMessage);
     return shortMessage
       .substring(shortMessage.indexOf('\n'))
       .replace(/\n/g, '')
