@@ -8,6 +8,7 @@ import {
 import { BrandResponse } from '../../../brand/dto/response/response-brand.dto';
 import { BrandPostReferenceEntity } from '../../entities/brandpost-reference.entity.ts';
 import { BrandPostVoteEntity } from '../../entities/brandpost-vote.entity';
+import UserInfoResponse from '../../../user/dto/response/user-info.response.dto';
 
 export class ResponseBrandPostDto {
   @ApiProperty({ type: Number, description: 'BrandPost ID' })
@@ -54,4 +55,7 @@ export class ResponseBrandPostDto {
     description: 'BrandPost Related Items',
   })
   relatedItems: BrandPostToItem[];
+
+  @ApiProperty({ type: UserInfoResponse, description: 'BrandPost Author' })
+  author: UserInfoResponse;
 }

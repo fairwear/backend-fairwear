@@ -54,6 +54,8 @@ export class UserMapper {
     userInfoResponse.username = entity.username;
     userInfoResponse.email = entity.email;
     userInfoResponse.userTrustScore = entity.userTrustScore;
+
+    return userInfoResponse;
   }
 
   public static toResponseList(entities: UserEntity[]) {
