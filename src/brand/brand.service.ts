@@ -9,7 +9,7 @@ export class BrandService {
   constructor(
     private prisma: PrismaService,
     private authService: AuthService,
-    private readonly logger: MyLogger
+    private readonly logger: MyLogger,
   ) {}
 
   async create(entity: BrandEntity): Promise<BrandEntity> {

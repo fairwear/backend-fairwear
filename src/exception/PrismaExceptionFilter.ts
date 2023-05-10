@@ -20,7 +20,6 @@ import { error } from 'winston';
  */
 @Catch(Prisma.PrismaClientKnownRequestError, Prisma.NotFoundError, Error)
 export class PrismaClientExceptionFilter extends BaseExceptionFilter {
-
   /**
    * default error codes mapping
    *
@@ -54,28 +53,25 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
    * @returns
    */
   catch(
-      exception:
-        | Prisma.PrismaClientKnownRequestError
-        | PrismaClientUnknownRequestError
-        | HttpException
-        | any,
-      host: ArgumentsHost,
-    ) {
+    exception:
+      | Prisma.PrismaClientKnownRequestError
+      | PrismaClientUnknownRequestError
+      | HttpException
+      | any,
+    host: ArgumentsHost,
+  ) {
+    if (exception instanceof Prisma.PrismaClientKnownRequestError) {
+      return this.catchClientKnownRequestError(exception, host);
+    }
+    if (exception instanceof Prisma.PrismaClientUnknownRequestError) {
+      return super.catch(exception, host);
+    }
+    if (exception instanceof HttpException) {
+      return super.catch(exception, host);
+    }
 
-        if (exception instanceof Prisma.PrismaClientKnownRequestError) {
-          return this.catchClientKnownRequestError(exception, host);
-        }
-        if (exception instanceof Prisma.PrismaClientUnknownRequestError) {
-          return super.catch(exception, host);
-        }
-        if (exception instanceof HttpException) {
-          return super.catch(exception, host);
-        }
-
-        const logger = new MyLogger();
-        logger.error('Error message', exception.stack);
-         
-
+    const logger = new MyLogger();
+    logger.error('Error message', exception.stack);
   }
 
   private catchClientKnownRequestError(

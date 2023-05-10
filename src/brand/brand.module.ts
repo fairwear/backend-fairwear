@@ -17,7 +17,7 @@ import { MyLogger } from 'Logger/mylogger';
     UserRoleService,
     JwtService,
     PrismaService,
-    MyLogger
+    MyLogger,
   ],
 })
 export class BrandModule {}

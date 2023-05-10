@@ -205,7 +205,7 @@ export class BrandPostService {
     });
 
     return entity;
-}
+  }
 
   async softDelete(id: number, userId: number): Promise<BrandPostEntity> {
     const entity = await this.prisma.brandPost.findUniqueOrThrow({

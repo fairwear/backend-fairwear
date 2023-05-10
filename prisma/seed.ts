@@ -61,7 +61,7 @@ export const main = async () => {
 
   await Promise.all(res1);
   const lastThreeUsers = await Promise.all(res1.slice(-3));
-  const userIds = lastThreeUsers.map((user: { id: any; }) => {
+  const userIds = lastThreeUsers.map((user: { id: any }) => {
     return user.id;
   });
 
@@ -104,13 +104,15 @@ export const main = async () => {
   await Promise.all([res1]);
 
   const tempAdminUsers = dataFactory.getAdminUserList();
-  const adminUsers = tempAdminUsers.filter((user: { id: any; roles: UserRoleToUser[]; }) => {
-    const userRoleToUser: UserRoleToUser = {
-      userId: user.id,
-      roleId: adminRole.id,
-    };
-    return user.roles.includes(userRoleToUser);
-  });
+  const adminUsers = tempAdminUsers.filter(
+    (user: { id: any; roles: UserRoleToUser[] }) => {
+      const userRoleToUser: UserRoleToUser = {
+        userId: user.id,
+        roleId: adminRole.id,
+      };
+      return user.roles.includes(userRoleToUser);
+    },
+  );
 
   const res2 = adminUsers.map(async (user: UserEntity) => {
     return await prisma.user.upsert({
@@ -151,20 +153,29 @@ export const main = async () => {
   // Email Template test data
 
   const emailTemplates = dataFactory.getEmailTemplateList();
-  emailTemplates.forEach(async (emailTemplate: { name: any; subject: any; body: any; createdAt: any; updatedAt: any; deletedAt: any; }) => {
-    await prisma.emailTemplate.upsert({
-      where: { name: emailTemplate.name },
-      update: {},
-      create: {
-        name: emailTemplate.name,
-        subject: emailTemplate.subject,
-        body: emailTemplate.body,
-        createdAt: emailTemplate.createdAt,
-        updatedAt: emailTemplate.updatedAt,
-        deletedAt: emailTemplate.deletedAt,
-      },
-    });
-  });
+  emailTemplates.forEach(
+    async (emailTemplate: {
+      name: any;
+      subject: any;
+      body: any;
+      createdAt: any;
+      updatedAt: any;
+      deletedAt: any;
+    }) => {
+      await prisma.emailTemplate.upsert({
+        where: { name: emailTemplate.name },
+        update: {},
+        create: {
+          name: emailTemplate.name,
+          subject: emailTemplate.subject,
+          body: emailTemplate.body,
+          createdAt: emailTemplate.createdAt,
+          updatedAt: emailTemplate.updatedAt,
+          deletedAt: emailTemplate.deletedAt,
+        },
+      });
+    },
+  );
 
   console.log('Successfully created email templates');
 
@@ -173,7 +184,7 @@ export const main = async () => {
 
   await Promise.all(res1);
   const brands = dataFactory.getBrandsSeed();
-  brands.forEach(async (brand: { name: any; userId: any; createdAt: any; }) => {
+  brands.forEach(async (brand: { name: any; userId: any; createdAt: any }) => {
     await prisma.brand.upsert({
       where: { name: brand.name },
       update: {},
@@ -211,28 +222,37 @@ export const main = async () => {
   // Item test data
 
   const items = dataFactory.getItemSeed();
-  items.forEach(async (item: { name: any; createdAt: any; updatedAt: any; deletedAt: any; brandId: any; userId: any; }) => {
-    await prisma.item.upsert({
-      where: { name: item.name },
-      update: {},
-      create: {
-        name: item.name,
-        createdAt: item.createdAt,
-        updatedAt: item.updatedAt,
-        deletedAt: item.deletedAt,
-        brand: {
-          connect: {
-            id: item.brandId,
+  items.forEach(
+    async (item: {
+      name: any;
+      createdAt: any;
+      updatedAt: any;
+      deletedAt: any;
+      brandId: any;
+      userId: any;
+    }) => {
+      await prisma.item.upsert({
+        where: { name: item.name },
+        update: {},
+        create: {
+          name: item.name,
+          createdAt: item.createdAt,
+          updatedAt: item.updatedAt,
+          deletedAt: item.deletedAt,
+          brand: {
+            connect: {
+              id: item.brandId,
+            },
+          },
+          createdBy: {
+            connect: {
+              id: item.userId,
+            },
           },
         },
-        createdBy: {
-          connect: {
-            id: item.userId,
-          },
-        },
-      },
-    });
-  });
+      });
+    },
+  );
 
   console.log('Successfully created items');
 
@@ -240,69 +260,77 @@ export const main = async () => {
   // BrandPost test data
 
   const brandPosts = dataFactory.getBrandPostSeed();
-  brandPosts.forEach(async (brandPost: { body: any; createdAt: any; deletedAt: any; brandId: any; authorId: any; }) => {
-    await prisma.brandPost.upsert({
-      where: { body: brandPost.body },
-      update: {},
-      create: {
-        title: brandPost.title,
-        body: brandPost.body,
-        references: {
-          createMany: {
-            data: brandPost.references.map((reference) => ({
-              ...reference,
-            })),
+  brandPosts.forEach(
+    async (brandPost: {
+      body: any;
+      createdAt: any;
+      deletedAt: any;
+      brandId: any;
+      authorId: any;
+    }) => {
+      await prisma.brandPost.upsert({
+        where: { body: brandPost.body },
+        update: {},
+        create: {
+          title: brandPost.title,
+          body: brandPost.body,
+          references: {
+            createMany: {
+              data: brandPost.references.map((reference) => ({
+                ...reference,
+              })),
+            },
+          },
+          postScore: brandPost.postScore,
+          createdAt: brandPost.createdAt,
+          deletedAt: brandPost.deletedAt,
+          brand: {
+            connect: {
+              id: brandPost.brandId,
+            },
+          },
+          author: {
+            connect: {
+              id: brandPost.authorId,
+            },
+          },
+          votes: {
+            createMany: {
+              data: brandPost.votes.map((vote) => ({
+                vote: vote.vote,
+                userId: vote.userId,
+              })),
+            },
+          },
+          topics: {
+            createMany: {
+              data: brandPost.topics.map((topic) => ({
+                topicId: topic.topicId,
+              })),
+            },
+          },
+          reports: {
+            createMany: {
+              data: brandPost.reports.map((report) => ({
+                reportId: report.id,
+                reportReason: report.reportReason,
+                resolvedAt: report.resolvedAt,
+                resolvedById: report.resolvedById,
+                authorId: report.authorId,
+              })),
+            },
+          },
+          relatedItems: {
+            createMany: {
+              data: brandPost.relatedItems.map((item) => ({
+                itemId: item.itemId,
+              })),
+            },
           },
         },
-        postScore: brandPost.postScore,
-        createdAt: brandPost.createdAt,
-        deletedAt: brandPost.deletedAt,
-        brand: {
-          connect: {
-            id: brandPost.brandId,
-          },
-        },
-        author: {
-          connect: {
-            id: brandPost.authorId,
-          },
-        },
-        votes: {
-          createMany: {
-            data: brandPost.votes.map((vote) => ({
-              vote: vote.vote,
-              userId: vote.userId,
-            })),
-          },
-        },
-        topics: {
-          createMany: {
-            data: brandPost.topics.map((topic) => ({
-              topicId: topic.topicId,
-            })),
-          },
-        },
-        reports: {
-          createMany: {
-            data: brandPost.reports.map((report) => ({
-              reportId: report.id,
-              reportReason: report.reportReason,
-              resolvedAt: report.resolvedAt,
-              resolvedById: report.resolvedById,
-              authorId: report.authorId,
-            })),
-          },
-        },
-        relatedItems: {
-          createMany: {
-            data: brandPost.relatedItems.map((item) => ({
-              itemId: item.itemId,
-            })),
-          },
-        },
-      },
-    });
-  });
+      });
+    },
+  );
 
   console.log('Successfully created brand posts');
 };

@@ -33,8 +33,7 @@ async function bootstrap() {
   );
 
   await LoggerService.start();
-  app.useLogger(new MyLogger);
-
+  app.useLogger(new MyLogger());
 
   await app.listen(8080);
 }
