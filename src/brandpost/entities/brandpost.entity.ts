@@ -28,7 +28,7 @@ export class BrandPostEntity {
   @ApiPropertyOptional({ type: Date, description: 'BrandPost Deletion Date' })
   deletedAt: Date | null;
 
-  @ApiProperty({ type: Date, description: 'BrandPost Brand ID' })
+  @ApiProperty({ type: Number, description: 'BrandPost Brand ID' })
   brandId: number;
 
   @ApiProperty({ type: Date, description: 'BrandPost Author ID' })
