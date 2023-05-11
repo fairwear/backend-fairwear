@@ -8,7 +8,7 @@ import {
 export class MulterConfigService implements MulterOptionsFactory {
   createMulterOptions(): MulterModuleOptions {
     return {
-      dest: 'uploads',
+      dest: 'src/uploads',
       limits: {
         // 25MB
         fileSize: 1024 * 1024 * 25,

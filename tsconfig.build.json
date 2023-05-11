@@ -8,5 +8,5 @@
     "prisma/generated/**/*",
     "prisma/generated"
   ],
-  "include": ["src/**/*.ts", "prisma", "src/uploads", "src/logs"]
+  "include": ["src/**/*.ts", "prisma"]
 }

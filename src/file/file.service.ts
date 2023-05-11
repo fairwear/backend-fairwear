@@ -30,10 +30,10 @@ export class FileService {
 
   imageBuffer(fileName: string) {
     try {
-      if (existsSync(join(process.cwd(), `/uploads/${fileName}`))) {
-        return readFileSync(join(process.cwd(), `/uploads/${fileName}`));
+      if (existsSync(join(process.cwd(), `src/uploads/${fileName}`))) {
+        return readFileSync(join(process.cwd(), `src/uploads/${fileName}`));
       }
-      throw new Error('File not found ');
+      throw new Error('File not found');
     } catch (err) {
       throw new NotFoundException(err.message);
     }
@@ -41,8 +41,8 @@ export class FileService {
 
   imageStream(fileName: string) {
     try {
-      if (existsSync(join(process.cwd(), `/uploads/${fileName}`))) {
-        return createReadStream(join(process.cwd(), `/uploads/${fileName}`));
+      if (existsSync(join(process.cwd(), `src/uploads/${fileName}`))) {
+        return createReadStream(join(process.cwd(), `src/uploads/${fileName}`));
       }
       throw new Error('File not found');
     } catch (err) {
@@ -52,8 +52,8 @@ export class FileService {
 
   fileBuffer(fileName: string) {
     try {
-      if (existsSync(join(process.cwd(), `/uploads/${fileName}`))) {
-        return readFileSync(join(process.cwd(), `/uploads/${fileName}`));
+      if (existsSync(join(process.cwd(), `src/uploads/${fileName}`))) {
+        return readFileSync(join(process.cwd(), `src/uploads/${fileName}`));
       }
       throw new Error('File not found');
     } catch (err) {
@@ -63,8 +63,8 @@ export class FileService {
 
   fileStream(fileName: string) {
     try {
-      if (existsSync(join(process.cwd(), `/uploads/${fileName}`))) {
-        return createReadStream(join(process.cwd(), `/uploads/${fileName}`));
+      if (existsSync(join(process.cwd(), `src/uploads/${fileName}`))) {
+        return createReadStream(join(process.cwd(), `src/uploads/${fileName}`));
       }
       throw new Error('File not found');
     } catch (err) {
