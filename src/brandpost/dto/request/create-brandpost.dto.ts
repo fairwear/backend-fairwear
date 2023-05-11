@@ -10,17 +10,26 @@ export class CreateBrandPostDto {
   body: string;
 
   @ApiProperty({
-    type: Array<BrandPostReferenceEntity>,
+    type: BrandPostReferenceEntity,
     description: 'BrandPost References',
+    isArray: true,
   })
   references: BrandPostReferenceEntity[];
 
-  @ApiProperty({ type: Date, description: 'BrandPost Brand ID' })
+  @ApiProperty({ type: Number, description: 'BrandPost Brand ID' })
   brandId: number;
 
-  @ApiProperty({ type: Array<number>, description: 'BrandPost Topics' })
+  @ApiProperty({
+    type: () => BrandPostToTopicEntryDto,
+    description: 'BrandPost Topics',
+    isArray: true,
+  })
   topics: BrandPostToTopicEntryDto[];
 
-  @ApiProperty({ type: Array<number>, description: 'BrandPost Related Items' })
+  @ApiProperty({
+    type: Number,
+    description: 'BrandPost Related Items',
+    isArray: true,
+  })
   itemIds: number[];
 }

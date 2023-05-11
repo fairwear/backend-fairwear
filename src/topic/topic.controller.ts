@@ -17,7 +17,7 @@ import { TopicMapper } from './mapper/topic.mapper';
 import { TopicService } from './topic.service';
 
 @ApiTags('topic')
-@Controller('api/v1topic')
+@Controller('api/v1/topic')
 export class TopicController {
   constructor(private readonly topicService: TopicService) {}
 

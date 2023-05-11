@@ -1,37 +1,40 @@
 version: "3"
 services:
-  db-fairwear:
-   image: postgres:15
-   container_name: fairwear
-   restart: always
-   hostname: fairwear
-   environment:
-     POSTGRES_USER: fairwear
-     POSTGRES_PASSWORD: fairwear
-     POSTGRES_DB: fairwear
-   volumes:
-     - .db:/var/lib/postgresql/
-   ports:
-      - "5432:5432"
-  
-  fairwear-backend:
-   image: fairwear/fairwear-backend
-   ports: 
-      - "8080:8080"
-   depends_on:
-      - db-fairwear
-   env_file:
-      - ./prod.env
-   container_name: fairwear-backend
+   db-fairwear:
+      container_name: fairwear
+      image: postgres:15
+      hostname: fairwear
+      restart: always
+      ports:
+         - "5432:5432"
+      volumes:
+         - .db:/var/lib/postgresql/
+      environment:
+         POSTGRES_USER: fairwear
+         POSTGRES_PASSWORD: fairwear
+         POSTGRES_DB: fairwear
 
-  fairwear-frontend:
-    image: fairwear/fairwear-frontend
-    ports: 
-       - "80:80"
-    depends_on:
-        - fairwear-backend
-    env_file:
-      - ./prod.front.env
-    container_name: fairwear-frontend
-    
-      
+   fairwear-backend:
+      container_name: fairwear-backend
+      image: fairwear/fairwear-backend
+      ports:
+         - "8080:8080"
+      volumes:
+         - uploads:/usr/src/app/uploads
+      depends_on:
+         - db-fairwear
+      env_file:
+         - ./prod.env
+
+   fairwear-frontend:
+      container_name: fairwear-frontend
+      image: fairwear/fairwear-frontend
+      ports:
+         - "80:80"
+      depends_on:
+         - fairwear-backend
+      env_file:
+         - ./prod.front.env
+
+volumes:
+   uploads:

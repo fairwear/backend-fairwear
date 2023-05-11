@@ -19,7 +19,37 @@ export class BrandService {
       },
       include: {
         items: true,
-        posts: true,
+        posts: {
+          include: {
+            references: true,
+            brand: true,
+            relatedItems: true,
+            reports: {
+              include: {
+                author: {
+                  include: {
+                    roles: true,
+                  },
+                },
+              },
+            },
+            author: {
+              include: {
+                roles: true,
+              },
+            },
+            votes: {
+              include: {
+                user: {
+                  include: {
+                    roles: true,
+                  },
+                },
+              },
+            },
+            topics: true,
+          },
+        },
         topics: {
           select: {
             topic: true,
@@ -41,7 +71,38 @@ export class BrandService {
       },
       include: {
         items: true,
-        posts: true,
+
+        posts: {
+          include: {
+            references: true,
+            brand: true,
+            relatedItems: true,
+            reports: {
+              include: {
+                author: {
+                  include: {
+                    roles: true,
+                  },
+                },
+              },
+            },
+            author: {
+              include: {
+                roles: true,
+              },
+            },
+            votes: {
+              include: {
+                user: {
+                  include: {
+                    roles: true,
+                  },
+                },
+              },
+            },
+            topics: true,
+          },
+        },
         topics: {
           select: {
             topic: true,
@@ -72,7 +133,37 @@ export class BrandService {
       },
       include: {
         items: true,
-        posts: true,
+        posts: {
+          include: {
+            references: true,
+            brand: true,
+            relatedItems: true,
+            reports: {
+              include: {
+                author: {
+                  include: {
+                    roles: true,
+                  },
+                },
+              },
+            },
+            author: {
+              include: {
+                roles: true,
+              },
+            },
+            votes: {
+              include: {
+                user: {
+                  include: {
+                    roles: true,
+                  },
+                },
+              },
+            },
+            topics: true,
+          },
+        },
         topics: {
           select: {
             topic: true,
@@ -96,7 +187,37 @@ export class BrandService {
       },
       include: {
         items: true,
-        posts: true,
+        posts: {
+          include: {
+            references: true,
+            brand: true,
+            relatedItems: true,
+            reports: {
+              include: {
+                author: {
+                  include: {
+                    roles: true,
+                  },
+                },
+              },
+            },
+            author: {
+              include: {
+                roles: true,
+              },
+            },
+            votes: {
+              include: {
+                user: {
+                  include: {
+                    roles: true,
+                  },
+                },
+              },
+            },
+            topics: true,
+          },
+        },
         topics: {
           select: {
             topic: true,
@@ -118,7 +239,37 @@ export class BrandService {
       },
       include: {
         items: true,
-        posts: true,
+        posts: {
+          include: {
+            references: true,
+            brand: true,
+            relatedItems: true,
+            reports: {
+              include: {
+                author: {
+                  include: {
+                    roles: true,
+                  },
+                },
+              },
+            },
+            author: {
+              include: {
+                roles: true,
+              },
+            },
+            votes: {
+              include: {
+                user: {
+                  include: {
+                    roles: true,
+                  },
+                },
+              },
+            },
+            topics: true,
+          },
+        },
         topics: {
           select: {
             topic: true,
@@ -152,7 +303,37 @@ export class BrandService {
       },
       include: {
         items: true,
-        posts: true,
+        posts: {
+          include: {
+            references: true,
+            brand: true,
+            relatedItems: true,
+            reports: {
+              include: {
+                author: {
+                  include: {
+                    roles: true,
+                  },
+                },
+              },
+            },
+            author: {
+              include: {
+                roles: true,
+              },
+            },
+            votes: {
+              include: {
+                user: {
+                  include: {
+                    roles: true,
+                  },
+                },
+              },
+            },
+            topics: true,
+          },
+        },
         topics: {
           select: {
             topic: true,
@@ -185,7 +366,37 @@ export class BrandService {
       },
       include: {
         items: true,
-        posts: true,
+        posts: {
+          include: {
+            references: true,
+            brand: true,
+            relatedItems: true,
+            reports: {
+              include: {
+                author: {
+                  include: {
+                    roles: true,
+                  },
+                },
+              },
+            },
+            author: {
+              include: {
+                roles: true,
+              },
+            },
+            votes: {
+              include: {
+                user: {
+                  include: {
+                    roles: true,
+                  },
+                },
+              },
+            },
+            topics: true,
+          },
+        },
         topics: {
           select: {
             topic: true,

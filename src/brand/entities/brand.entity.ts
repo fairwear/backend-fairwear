@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { BrandPost, Item, Topic } from '@prisma/client';
+import { Item, Topic } from '@prisma/client';
 import { BrandPostEntity } from '../../brandpost/entities/brandpost.entity';
 import { ItemEntity } from '../../item/entity/item-entity';
 import { TopicEntity } from '../../topic/entities/topic.entity';
@@ -21,7 +21,7 @@ export class BrandEntity {
   items: ItemEntity[] | Item[];
 
   @ApiProperty({ type: BrandPostEntity, isArray: true })
-  posts: BrandPostEntity[] | BrandPost[];
+  posts: BrandPostEntity[];
 
   @ApiProperty({ type: Array<TopicEntity>, isArray: true })
   topics: TopicEntity[] | Topic[];
