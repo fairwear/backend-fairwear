@@ -14,6 +14,7 @@ import { UserModule } from './user/user.module';
 import { FileModule } from './file/file.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TasksModule } from './tasks/tasks.module';
+import { TopicModule } from './topic/topic.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { TasksModule } from './tasks/tasks.module';
     BrandModule,
     ReportModule,
     BrandpostModule,
+    TopicModule,
     AuthModule,
     FileModule,
   ],

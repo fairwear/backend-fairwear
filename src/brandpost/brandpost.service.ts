@@ -455,18 +455,20 @@ export class BrandPostService {
     const lowerBound = this.getLowerBoundWithUserTrustScore(entity);
     const penaltyFactor = this.getPenaltyFactorWithUserTrustScore(entity);
 
-    const finalScore = this.getFinalScore(lowerBound, penaltyFactor);
+    const finalScore = await this.getFinalScore(lowerBound, penaltyFactor);
 
-    const updatedEntity = await this.prisma.brandPost.update({
-      where: {
-        id,
-      },
-      data: {
-        postScore: finalScore,
-      },
-    });
+    if (finalScore) {
+      const updatedEntity = await this.prisma.brandPost.update({
+        where: {
+          id,
+        },
+        data: {
+          postScore: finalScore,
+        },
+      });
 
-    return updatedEntity;
+      return updatedEntity;
+    }
   }
 
   // ---------------------------- Lower Bound ----------------------------
@@ -531,7 +533,7 @@ export class BrandPostService {
     return penaltyFactor;
   };
   // ---------------------------- Final Score ----------------------------
-  getFinalScore = (lowerBound: number, penaltyFactor: number) => {
+  getFinalScore = async (lowerBound: number, penaltyFactor: number) => {
     return lowerBound - penaltyFactor;
   };
 
