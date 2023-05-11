@@ -18,12 +18,7 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": true
   },
-  "include": [
-    "src/**/*.ts",
-    "prisma/",
-    "uploads/",
-    "logs/"
-  ],
+  "include": ["src/**/*.ts", "prisma/", "uploads/", "logs/"],
   "exclude": [
     "dist",
     "tests",
