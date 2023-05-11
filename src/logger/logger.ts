@@ -20,7 +20,7 @@ export class MyLogger implements LoggerService {
           ),
         }),
         new winston.transports.File({
-          filename: './logs/app.log',
+          filename: 'src/logs/app.log',
           level: 'info',
           format: winston.format.combine(
             winston.format.timestamp(),
@@ -28,8 +28,16 @@ export class MyLogger implements LoggerService {
           ),
         }),
         new winston.transports.File({
-          filename: './logs/error.log',
+          filename: 'src/logs/error.log',
           level: 'error',
+          format: winston.format.combine(
+            winston.format.timestamp(),
+            winston.format.json(),
+          ),
+        }),
+        new winston.transports.File({
+          filename: 'src/logs/warn.log',
+          level: 'warn',
           format: winston.format.combine(
             winston.format.timestamp(),
             winston.format.json(),
@@ -46,7 +54,8 @@ export class MyLogger implements LoggerService {
   error(message: any, trace?: string) {
     this.logger.error(message, { trace });
     if (trace) {
-      this.logger.error(trace);
+      //TODO: Do we need to log the trace?
+      // this.logger.error(trace);
     }
   }
 
