@@ -2,6 +2,7 @@ import { PrismaClient, UserRoleToUser } from '@prisma/client';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { DataFactory } from './data/DataFactory';
 import { BrandPostEntity } from '../src/brandpost/entities/brandpost.entity';
+import { ItemEntity } from '../src/item/entity/item-entity';
 
 export const prisma = new PrismaClient();
 const dataFactory: DataFactory = DataFactory.getInstance();
@@ -223,37 +224,30 @@ export const main = async () => {
   // Item test data
 
   const items = dataFactory.getItemSeed();
-  items.forEach(
-    async (item: {
-      name: any;
-      createdAt: any;
-      updatedAt: any;
-      deletedAt: any;
-      brandId: any;
-      userId: any;
-    }) => {
-      await prisma.item.upsert({
-        where: { name: item.name },
-        update: {},
-        create: {
-          name: item.name,
-          createdAt: item.createdAt,
-          updatedAt: item.updatedAt,
-          deletedAt: item.deletedAt,
-          brand: {
-            connect: {
-              id: item.brandId,
-            },
-          },
-          createdBy: {
-            connect: {
-              id: item.userId,
-            },
+  items.forEach(async (item: ItemEntity) => {
+    await prisma.item.upsert({
+      where: { name: item.name },
+      update: {},
+      create: {
+        name: item.name,
+        imageUrl: item.imageUrl,
+        barcode: item.barcode,
+        createdAt: item.createdAt,
+        updatedAt: item.updatedAt,
+        deletedAt: item.deletedAt,
+        brand: {
+          connect: {
+            id: item.brandId,
           },
         },
-      });
-    },
-  );
+        createdBy: {
+          connect: {
+            id: item.userId,
+          },
+        },
+      },
+    });
+  });
 
   console.log('Successfully created items');
 
