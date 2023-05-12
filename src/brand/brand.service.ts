@@ -26,6 +26,7 @@ export class BrandService {
             relatedItems: true,
             reports: {
               include: {
+                post: true,
                 author: {
                   include: {
                     roles: true,
@@ -79,6 +80,7 @@ export class BrandService {
             relatedItems: true,
             reports: {
               include: {
+                post: true,
                 author: {
                   include: {
                     roles: true,
@@ -140,6 +142,7 @@ export class BrandService {
             relatedItems: true,
             reports: {
               include: {
+                post: true,
                 author: {
                   include: {
                     roles: true,
@@ -194,6 +197,7 @@ export class BrandService {
             relatedItems: true,
             reports: {
               include: {
+                post: true,
                 author: {
                   include: {
                     roles: true,
@@ -246,6 +250,7 @@ export class BrandService {
             relatedItems: true,
             reports: {
               include: {
+                post: true,
                 author: {
                   include: {
                     roles: true,
@@ -310,6 +315,7 @@ export class BrandService {
             relatedItems: true,
             reports: {
               include: {
+                post: true,
                 author: {
                   include: {
                     roles: true,
@@ -373,6 +379,7 @@ export class BrandService {
             relatedItems: true,
             reports: {
               include: {
+                post: true,
                 author: {
                   include: {
                     roles: true,

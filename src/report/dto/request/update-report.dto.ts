@@ -1,14 +1,11 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateReportRequest } from './create-report.dto';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { ReportStatusEnum } from '@prisma/client';
+import { ReportResultEnum, ReportStatusEnum } from '@prisma/client';
 
 export class UpdateReportRequest extends PartialType(CreateReportRequest) {
   @ApiProperty({ type: Number })
   id: number;
-
-  @ApiProperty({ type: Date })
-  createdAt: Date;
 
   @ApiProperty({ type: String })
   reportReason: string;
@@ -18,4 +15,10 @@ export class UpdateReportRequest extends PartialType(CreateReportRequest) {
 
   @ApiProperty({})
   status: ReportStatusEnum;
+
+  @ApiProperty({})
+  reportResult: ReportResultEnum;
+
+  @ApiPropertyOptional({ type: Date, required: true })
+  resolvedAt: Date;
 }

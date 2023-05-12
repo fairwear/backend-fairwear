@@ -62,6 +62,7 @@ export class BrandPostService {
         },
         reports: {
           include: {
+            post: true,
             author: {
               include: {
                 roles: true,
@@ -116,6 +117,7 @@ export class BrandPostService {
         },
         reports: {
           include: {
+            post: true,
             author: {
               include: {
                 roles: true,
@@ -150,6 +152,7 @@ export class BrandPostService {
         brand: true,
         reports: {
           include: {
+            post: true,
             author: {
               include: {
                 roles: true,
@@ -188,6 +191,7 @@ export class BrandPostService {
         brand: true,
         reports: {
           include: {
+            post: true,
             author: {
               include: {
                 roles: true,
@@ -242,6 +246,7 @@ export class BrandPostService {
         brand: true,
         reports: {
           include: {
+            post: true,
             author: {
               include: {
                 roles: true,
@@ -363,6 +368,7 @@ export class BrandPostService {
         brand: true,
         reports: {
           include: {
+            post: true,
             author: {
               include: {
                 roles: true,
@@ -438,6 +444,7 @@ export class BrandPostService {
         },
         reports: {
           include: {
+            post: true,
             author: {
               include: {
                 roles: true,
