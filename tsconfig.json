@@ -18,12 +18,7 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": true
   },
-  "include": [
-    "src/**/*.ts",
-    "prisma",
-    //TODO: should upload be included in build?
-    "uploads"
-  ],
+  "include": ["src/**/*.ts", "prisma/"],
   "exclude": [
     "dist",
     "tests",

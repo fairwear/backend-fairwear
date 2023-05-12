@@ -20,7 +20,8 @@ services:
       ports:
          - "8080:8080"
       volumes:
-         - uploads:/usr/src/app/uploads
+         - uploads:/dist/src/uploads
+         - logs:/dist/src/logs
       depends_on:
          - db-fairwear
       env_file:
@@ -38,3 +39,4 @@ services:
 
 volumes:
    uploads:
+   logs:
