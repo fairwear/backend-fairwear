@@ -12,9 +12,8 @@ export class FileService {
         path: file.path,
       };
       response.push(fileResponse);
-
-      return response;
     });
+    return response;
   }
 
   uploadFile(file: Express.Multer.File, host: string) {
