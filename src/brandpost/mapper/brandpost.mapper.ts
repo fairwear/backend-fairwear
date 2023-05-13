@@ -1,8 +1,10 @@
 import { UserMapper } from '../../user/mapper/user.mapper';
 import { CreateBrandPostDto } from '../dto/request/create-brandpost.dto';
 import { ResponseBrandPostDto } from '../dto/response/response-brandpost.dto';
+import { UserVoteResponse } from '../dto/response/user-vote.reponse.dto';
 import { BrandPostToItemEntity } from '../entities/brandpost-to-item.entity';
 import { BrandPostToTopicEntity } from '../entities/brandpost-to-topic.entity';
+import { BrandPostVoteEntity } from '../entities/brandpost-vote.entity';
 import { BrandPostEntity } from '../entities/brandpost.entity';
 
 export class BrandPostMapper {
@@ -41,8 +43,7 @@ export class BrandPostMapper {
     response.brandId = entity.brandId;
     response.postScore = entity.postScore;
     response.references = entity.references;
-    //TODO: Create and map votes to response
-    response.votes = entity.votes;
+    response.votes = this.toUserVoteResponseList(entity.votes);
     response.topics = entity.topics;
     response.relatedItems = entity.relatedItems;
     response.brand = entity.brand;
@@ -51,6 +52,22 @@ export class BrandPostMapper {
     response.author = UserMapper.toUserInfoResponse(entity.author);
 
     return response;
+  }
+
+  public static toUserVoteResponse(vote: BrandPostVoteEntity) {
+    const response = new UserVoteResponse();
+
+    response.vote = vote.vote;
+    response.createdAt = vote.createdAt;
+    response.postId = vote.postId;
+    response.userId = vote.userId;
+    response.user = UserMapper.toUserInfoResponse(vote.user);
+
+    return response;
+  }
+
+  public static toUserVoteResponseList(votes: BrandPostVoteEntity[]) {
+    return votes.map((vote) => this.toUserVoteResponse(vote));
   }
 
   public static toResponseList(entities: BrandPostEntity[]) {

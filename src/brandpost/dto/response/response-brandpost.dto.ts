@@ -6,9 +6,9 @@ import {
   VoteEnum,
 } from '@prisma/client';
 import { BrandResponse } from '../../../brand/dto/response/response-brand.dto';
-import { BrandPostReferenceEntity } from '../../entities/brandpost-reference.entity.ts';
-import { BrandPostVoteEntity } from '../../entities/brandpost-vote.entity';
 import UserInfoResponse from '../../../user/dto/response/user-info.response.dto';
+import { BrandPostReferenceEntity } from '../../entities/brandpost-reference.entity.ts';
+import { UserVoteResponse } from './user-vote.reponse.dto';
 
 export class ResponseBrandPostDto {
   @ApiProperty({ type: Number, description: 'BrandPost ID' })
@@ -42,7 +42,7 @@ export class ResponseBrandPostDto {
   brandId: number;
 
   @ApiProperty({ type: () => Array<VoteEnum>, description: 'BrandPost Votes' })
-  votes: BrandPostVoteEntity[];
+  votes: UserVoteResponse[];
 
   @ApiProperty({
     type: Array<BrandPostToTopic>,
