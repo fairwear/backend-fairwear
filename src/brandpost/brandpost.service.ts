@@ -273,7 +273,6 @@ export class BrandPostService {
     isVoted: boolean;
     vote: VoteEnum | undefined;
   }> {
-    console.log(id, userId);
     const entity = await this.prisma.brandPost.findFirstOrThrow({
       where: {
         AND: [{ id }, { deletedAt: null }],
@@ -286,8 +285,6 @@ export class BrandPostService {
         },
       },
     });
-
-    console.log(entity);
 
     const existingVote = entity.votes.find((vote) => vote.userId === userId);
     const res = {
