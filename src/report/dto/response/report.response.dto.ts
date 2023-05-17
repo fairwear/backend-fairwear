@@ -1,15 +1,10 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { ReportStatusEnum } from '@prisma/client';
+import { BrandPost, ReportResultEnum, ReportStatusEnum } from '@prisma/client';
+import UserInfoResponse from '../../../user/dto/response/user-info.response.dto';
 
 export class ReportResponse {
   @ApiProperty({ type: Number })
   id: number;
-
-  @ApiProperty({ type: Date })
-  createdAt: Date;
-
-  @ApiProperty({ type: Number })
-  authorId: number;
 
   @ApiProperty({ type: String })
   reportReason: string;
@@ -19,4 +14,19 @@ export class ReportResponse {
 
   @ApiProperty({})
   status: ReportStatusEnum;
+
+  @ApiProperty({})
+  reportResult: ReportResultEnum;
+
+  @ApiProperty({ type: () => UserInfoResponse })
+  author: UserInfoResponse;
+
+  @ApiProperty({})
+  post: BrandPost;
+
+  @ApiProperty({ type: Date })
+  createdAt: Date;
+
+  @ApiProperty({ type: Date, nullable: true, required: false })
+  resolvedAt: Date | null;
 }

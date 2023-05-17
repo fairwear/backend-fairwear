@@ -51,7 +51,7 @@ export class ReportController {
     @GetCurrentUserId() userId: number,
     @Body() request: UpdateReportRequest,
   ) {
-    const entity = ReportMapper.toEntity(request);
+    const entity = ReportMapper.toAdminEntity(request, userId);
     const report = await this.reportService.update(+id, entity, userId);
     return ReportMapper.toResponse(report);
   }

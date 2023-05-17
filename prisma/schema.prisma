@@ -54,6 +54,14 @@ enum ReportStatusEnum {
   @@map("report_status_enum")
 }
 
+enum ReportResultEnum {
+  DELETED
+  EDITED
+  DISREGARDED
+
+  @@map("report_result_enum")
+}
+
 enum VoteEnum {
   UPVOTE
   DOWNVOTE
@@ -163,21 +171,23 @@ model Brand {
 
 model Report {
   // ------ Fields ------
-  id           Int              @unique @default(autoincrement()) @db.Integer
-  reportReason String           @map("report_reason")
-  status       ReportStatusEnum @default(SUBMITTED)
+  id           Int               @unique @default(autoincrement()) @db.Integer
+  reportReason String            @map("report_reason")
+  status       ReportStatusEnum  @default(SUBMITTED)
   comment      String?
-  postId       Int              @unique @map("post_id")
-  resolvedById Int?             @map("resolved_by_id")
-  authorId     Int              @unique @map("author_id")
+  reportResult ReportResultEnum? @map("report_result")
+  postId       Int               @map("post_id")
+  resolvedById Int?              @map("resolved_by_id")
+  authorId     Int               @map("author_id")
   // ------ Timestamps  ------
-  createdAt    DateTime         @default(now()) @map("created_at")
-  resolvedAt   DateTime?        @map("resolved_at")
+  createdAt    DateTime          @default(now()) @map("created_at")
+  resolvedAt   DateTime?         @map("resolved_at")
   // ------ Relationships ------
-  author       User             @relation(name: "author", fields: [authorId], references: [id])
-  post         BrandPost        @relation(fields: [postId], references: [id])
-  resolvedBy   User?            @relation(name: "resolved_by", fields: [resolvedById], references: [id])
+  author       User              @relation(name: "author", fields: [authorId], references: [id])
+  post         BrandPost         @relation(fields: [postId], references: [id])
+  resolvedBy   User?             @relation(name: "resolved_by", fields: [resolvedById], references: [id])
 
+  @@unique([postId, authorId])
   @@map("report")
 }
 

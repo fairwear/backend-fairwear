@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { ReportStatusEnum } from '@prisma/client';
+import { BrandPost, ReportResultEnum, ReportStatusEnum } from '@prisma/client';
 import { UserEntity } from '../../user/entities/user.entity';
 export class ReportEntity {
   @ApiProperty({ type: Number })
@@ -14,6 +14,9 @@ export class ReportEntity {
   @ApiPropertyOptional({ type: String })
   comment: string | null;
 
+  @ApiProperty({})
+  reportResult: ReportResultEnum | null;
+
   @ApiProperty({ type: Number })
   authorId: number;
 
@@ -22,6 +25,9 @@ export class ReportEntity {
 
   @ApiProperty({ type: Number })
   postId: number;
+
+  @ApiProperty({})
+  post: BrandPost;
 
   @ApiProperty({ type: Date })
   createdAt: Date;

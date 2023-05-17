@@ -84,7 +84,7 @@ export class BrandPostController {
   @UseGuards(JwtAuthGuard)
   async getIsVoted(
     @GetCurrentUserId() userId: number,
-    @Param() id: string,
+    @Param('id') id: string,
   ): Promise<{
     isVoted: boolean;
     vote: VoteEnum | undefined;

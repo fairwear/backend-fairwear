@@ -1,24 +1,24 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { ReportEntity } from './entities/report.entity';
-import { PrismaService } from '../prisma/prisma.service';
 import { AuthService } from '../auth/auth.service';
+import { PrismaService } from '../prisma/prisma.service';
+import { ReportEntity } from './entities/report.entity';
+import { ReportStatusEnum } from '@prisma/client';
 @Injectable()
 export class ReportService {
   constructor(
     private prisma: PrismaService,
     private authService: AuthService,
   ) {}
+
   async create(entity: ReportEntity): Promise<ReportEntity> {
     const response = await this.prisma.report.create({
       data: {
-        authorId: entity.authorId,
         reportReason: entity.reportReason,
-        createdAt: entity.createdAt,
+        status: ReportStatusEnum.PENDING,
         comment: entity.comment,
-        status: entity.status,
-        resolvedById: entity.resolvedById,
-        resolvedAt: entity.resolvedAt,
+        authorId: entity.authorId,
         postId: entity.postId,
+        createdAt: entity.createdAt,
       },
       include: {
         author: {
@@ -26,6 +26,7 @@ export class ReportService {
             roles: true,
           },
         },
+        post: true,
       },
     });
 
@@ -40,6 +41,7 @@ export class ReportService {
             roles: true,
           },
         },
+        post: true,
       },
     });
     return reports;
@@ -56,6 +58,7 @@ export class ReportService {
             roles: true,
           },
         },
+        post: true,
       },
     });
     return report;
@@ -79,9 +82,10 @@ export class ReportService {
         id: id,
       },
       data: {
-        reportReason: entity.reportReason,
-        comment: entity.comment,
         status: entity.status,
+        reportResult: entity.reportResult,
+        resolvedById: entity.resolvedById,
+        resolvedAt: entity.resolvedAt,
       },
       include: {
         author: {
@@ -89,6 +93,7 @@ export class ReportService {
             roles: true,
           },
         },
+        post: true,
       },
     });
     return updatedReport;
