@@ -13,12 +13,12 @@ export class MyLogger implements LoggerService {
       ),
       defaultMeta: { service: 'LoggerService' },
       transports: [
-        new winston.transports.Console({
-          format: winston.format.combine(
-            winston.format.colorize(),
-            winston.format.simple(),
-          ),
-        }),
+        // new winston.transports.Console({
+        //   format: winston.format.combine(
+        //     winston.format.colorize(),
+        //     winston.format.simple(),
+        //   ),
+        // }),
         new winston.transports.File({
           filename: 'src/logs/app.log',
           level: 'info',
