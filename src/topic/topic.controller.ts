@@ -45,6 +45,12 @@ export class TopicController {
     return TopicMapper.toResponse(entity);
   }
 
+  @Get('item/:id')
+  async findTopicsFromBrandByItemId(@Param('id') id: string) {
+    const entities = await this.topicService.findTopicsByItemIdFromBrand(+id);
+    return TopicMapper.toCustomResponseList(entities);
+  }
+
   @Put(':id')
   @UseGuards(JwtAuthGuard)
   async update(

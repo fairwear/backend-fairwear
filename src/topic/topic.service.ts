@@ -43,6 +43,47 @@ export class TopicService {
     return topic;
   }
 
+  async findTopicsByItemIdFromBrand(itemId: number) {
+    const relatedBrand = await this.prisma.brand.findFirstOrThrow({
+      where: {
+        deletedAt: null,
+        items: {
+          some: {
+            id: itemId,
+          },
+        },
+      },
+      include: {
+        topics: true,
+      },
+    });
+
+    console.log(relatedBrand);
+
+    const sortedTopics = relatedBrand.topics.sort((a, b) => {
+      return a.score - b.score;
+    });
+
+    console.log(sortedTopics);
+
+    const topics = sortedTopics.map(async (topic) => {
+      return await this.prisma.topic.findFirstOrThrow({
+        where: {
+          id: topic.topicId,
+        },
+        include: {
+          brands: true,
+        },
+      });
+    });
+
+    return await Promise.all(topics);
+  }
+
+  // async findNewestTopicByItemIdFromBrandPosts(itemId: number) {
+  //   //TODO: find newest topic by item id from brand posts
+  // }
+
   async update(id: number, entity: UpdateTopicDto, userId: number) {
     const isUserAdmin = this.authService.isUserAdmin(userId);
 

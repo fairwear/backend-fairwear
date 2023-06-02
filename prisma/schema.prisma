@@ -275,6 +275,7 @@ model UserToBrand {
 }
 
 model TopicToBrand {
+  score   Int   @default(0) 
   topic   Topic @relation(fields: [topicId], references: [id])
   topicId Int   @map("topic_id")
   brand   Brand @relation(fields: [brandId], references: [id])
