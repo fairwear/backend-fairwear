@@ -16,7 +16,7 @@ export class BrandPostMapper {
     entity.deletedAt = null;
     entity.brandId = request.brandId;
     entity.authorId = authorId;
-    entity.references = request.references;
+    entity.sourceUrls = request.sourceUrls;
     entity.votes = [];
     entity.topics = request.topics.map((topic) => {
       const brandPostToTopic = new BrandPostToTopicEntity();
@@ -42,7 +42,7 @@ export class BrandPostMapper {
     response.body = entity.body;
     response.brandId = entity.brandId;
     response.postScore = entity.postScore;
-    response.references = entity.references;
+    response.sourceUrls = entity.sourceUrls;
     response.votes = this.toUserVoteResponseList(entity.votes);
     response.topics = entity.topics;
     response.relatedItems = entity.relatedItems;

@@ -21,7 +21,6 @@ export class BrandService {
         items: true,
         posts: {
           include: {
-            references: true,
             brand: true,
             relatedItems: true,
             reports: {
@@ -75,7 +74,6 @@ export class BrandService {
 
         posts: {
           include: {
-            references: true,
             brand: true,
             relatedItems: true,
             reports: {
@@ -137,7 +135,6 @@ export class BrandService {
         items: true,
         posts: {
           include: {
-            references: true,
             brand: true,
             relatedItems: true,
             reports: {
@@ -192,7 +189,6 @@ export class BrandService {
         items: true,
         posts: {
           include: {
-            references: true,
             brand: true,
             relatedItems: true,
             reports: {
@@ -245,7 +241,6 @@ export class BrandService {
         items: true,
         posts: {
           include: {
-            references: true,
             brand: true,
             relatedItems: true,
             reports: {
@@ -310,7 +305,6 @@ export class BrandService {
         items: true,
         posts: {
           include: {
-            references: true,
             brand: true,
             relatedItems: true,
             reports: {
@@ -374,7 +368,6 @@ export class BrandService {
         items: true,
         posts: {
           include: {
-            references: true,
             brand: true,
             relatedItems: true,
             reports: {

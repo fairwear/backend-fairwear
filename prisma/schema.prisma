@@ -17,26 +17,6 @@ generator docs {
   provider = "node node_modules/prisma-docs-generator"
 }
 
-// generator erd {
-//   provider = "prisma-erd-generator"
-//   output   = "./generated/erd/graffinity_erd.pdf"
-//   theme    = "forest"
-// }
-
-// generator nestjsDto {
-//   provider                        = "prisma-generator-nestjs-dto"
-//   output                          = "./generated/dto/nestjs-dto"
-//   outputToNestJsResourceStructure = "false"
-//   exportRelationModifierClasses   = "true"
-//   reExport                        = "false"
-//   createDtoPrefix                 = "Create"
-//   updateDtoPrefix                 = "Update"
-//   dtoSuffix                       = "Dto"
-//   entityPrefix                    = ""
-//   entitySuffix                    = ""
-//   fileNamingStyle                 = "camel"
-// }
-
 // ------------------------------------ ENUMS ------------------------------------
 
 enum RoleEnum {
@@ -89,9 +69,7 @@ model User {
   roles           UserRoleToUser[]
   filedReports    Report[]         @relation("author")
   resolvedReports Report[]         @relation("resolved_by")
-  prefferedTopics UserToTopic[]
   items           Item[]
-  savedBrands     UserToBrand[]
   posts           BrandPost[]
   votes           BrandPostVote[]
   createdBrands   Brand[]
@@ -102,19 +80,18 @@ model User {
 
 model Topic {
   // ------ Fields ------
-  id              Int                @id @default(autoincrement()) @db.Integer
-  name            String             @unique
-  topicId         Int?               @unique @map("topic_id")
+  id        Int                @id @default(autoincrement()) @db.Integer
+  name      String             @unique
+  topicId   Int?               @unique @map("topic_id")
   // ------ Timestamps ------
-  createdAt       DateTime           @default(now()) @map("created_at")
-  updatedAt       DateTime?          @updatedAt @map("updated_at")
-  deletedAt       DateTime?          @map("deleted_at")
+  createdAt DateTime           @default(now()) @map("created_at")
+  updatedAt DateTime?          @updatedAt @map("updated_at")
+  deletedAt DateTime?          @map("deleted_at")
   // ------ Relationships ------
-  topic           Topic?             @relation("TopicSubtopic", fields: [topicId], references: [id])
-  subtopic        Topic[]            @relation("TopicSubtopic")
-  posts           BrandPostToTopic[]
-  brands          TopicToBrand[]
-  userPreferences UserToTopic[]
+  topic     Topic?             @relation("TopicSubtopic", fields: [topicId], references: [id])
+  subtopic  Topic[]            @relation("TopicSubtopic")
+  posts     BrandPostToTopic[]
+  brands    TopicToBrand[]
 
   @@map("topic")
 }
@@ -151,20 +128,20 @@ model Item {
 
 model Brand {
   // ------ Fields ------
-  id           Int            @id @default(autoincrement()) @db.Integer
-  name         String         @unique
-  userId       Int            @map("user_id")
-  imageUrl     String?        @map("image_url")
+  id        Int            @id @default(autoincrement()) @db.Integer
+  name      String         @unique
+  userId    Int            @map("user_id")
+  imageUrl  String?        @map("image_url")
   // ------ Timestamps ------
-  createdAt    DateTime       @default(now()) @map("created_at")
-  updatedAt    DateTime?      @updatedAt @map("updated_at")
-  deletedAt    DateTime?      @map("deleted_at")
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime?      @updatedAt @map("updated_at")
+  deletedAt DateTime?      @map("deleted_at")
   // ------ Relationships ------
-  items        Item[]
-  savedByUsers UserToBrand[]
-  posts        BrandPost[]
-  topics       TopicToBrand[]
-  createdBy    User           @relation(fields: [userId], references: [id])
+  items     Item[]
+  posts     BrandPost[]
+  // TODO: Check if we will use this relationship
+  topics    TopicToBrand[]
+  createdBy User           @relation(fields: [userId], references: [id])
 
   @@map("brand")
 }
@@ -193,44 +170,28 @@ model Report {
 
 model BrandPost {
   // ------ Fields ------
-  id           Int                  @id @default(autoincrement()) @db.Integer
+  id           Int                @id @default(autoincrement()) @db.Integer
   title        String
-  body         String               @unique
-  brandId      Int                  @map("brand_id")
-  authorId     Int                  @map("author_id")
-  postScore    Float                @default(0) @map("post_score")
+  body         String             @unique
+  brandId      Int                @map("brand_id")
+  authorId     Int                @map("author_id")
+  postScore    Float              @default(0) @map("post_score")
+  sourceUrls   String[]           @map("source_urls")
   // ------ Timestamps ------
-  createdAt    DateTime             @default(now()) @map("created_at")
-  deletedAt    DateTime?            @map("deleted_at")
+  createdAt    DateTime           @default(now()) @map("created_at")
+  deletedAt    DateTime?          @map("deleted_at")
   // ------ Relationships ------
-  brand        Brand                @relation(fields: [brandId], references: [id])
-  author       User                 @relation(fields: [authorId], references: [id])
+  brand        Brand              @relation(fields: [brandId], references: [id])
+  author       User               @relation(fields: [authorId], references: [id])
   votes        BrandPostVote[]
   topics       BrandPostToTopic[]
   relatedItems BrandPostToItem[]
   reports      Report[]
-  references   BrandPostReference[]
 
   @@map("brand_post")
 }
 
-model BrandPostReference {
-  // ------ Fields ------
-  id        Int       @id @default(autoincrement()) @db.Integer
-  title     String
-  postId    Int       @map("post_id")
-  body      String?
-  sourceUrl String?   @map("source_url")
-  // ------ Timestamps ------
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime? @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at")
-  // ------ Relationships ------
-  post      BrandPost @relation(fields: [postId], references: [id])
-
-  @@map("brand_post_reference")
-}
-
+// --- UNUSED | Leave for now ---
 model EmailTemplate {
   // ------ Fields ------
   id        Int       @id @default(autoincrement()) @db.Integer
@@ -245,6 +206,7 @@ model EmailTemplate {
   @@map("email_template")
 }
 
+// --- UNUSED | Leave for now ---
 model Email {
   // ------ Fields ------
   id        Int       @id @default(autoincrement()) @db.Integer
@@ -263,19 +225,8 @@ model Email {
 
 // ------------------------------------ MANY TO MANY RELATIONS ------------------------------------
 
-model UserToBrand {
-  listName String @unique @map("list_name")
-  user     User   @relation(fields: [userId], references: [id])
-  userId   Int    @map("user_id")
-  brand    Brand  @relation(fields: [brandId], references: [id])
-  brandId  Int    @map("brand_id")
-
-  @@unique([userId, brandId])
-  @@map("user_to_brand")
-}
-
 model TopicToBrand {
-  score   Int   @default(0) 
+  score   Int   @default(0)
   topic   Topic @relation(fields: [topicId], references: [id])
   topicId Int   @map("topic_id")
   brand   Brand @relation(fields: [brandId], references: [id])
@@ -283,16 +234,6 @@ model TopicToBrand {
 
   @@unique([topicId, brandId])
   @@map("topic_to_brand")
-}
-
-model UserToTopic {
-  user    User  @relation(fields: [userId], references: [id])
-  userId  Int   @map("user_id")
-  topic   Topic @relation(fields: [topicId], references: [id])
-  topicId Int   @map("topic_id")
-
-  @@unique([userId, topicId])
-  @@map("user_to_topic")
 }
 
 model UserRoleToUser {
@@ -338,4 +279,26 @@ model BrandPostToItem {
   @@map("brand_post_to_item")
 }
 
-// ------------------------------------ END ------------------------------------
+// ------------------------------------ SCHEMA END ------------------------------------
+
+// --------------------------------- PLUGIN TEMPLATES ---------------------------------
+
+// generator erd {
+//   provider = "prisma-erd-generator"
+//   output   = "./generated/erd/graffinity_erd.pdf"
+//   theme    = "forest"
+// }
+
+// generator nestjsDto {
+//   provider                        = "prisma-generator-nestjs-dto"
+//   output                          = "./generated/dto/nestjs-dto"
+//   outputToNestJsResourceStructure = "false"
+//   exportRelationModifierClasses   = "true"
+//   reExport                        = "false"
+//   createDtoPrefix                 = "Create"
+//   updateDtoPrefix                 = "Update"
+//   dtoSuffix                       = "Dto"
+//   entityPrefix                    = ""
+//   entitySuffix                    = ""
+//   fileNamingStyle                 = "camel"
+// }

@@ -870,7 +870,7 @@ export class DataFactory {
     brandPost.relatedItems = [this.getValidBrandPostToItem()];
     brandPost.votes = [this.getValidBrandPostUpvote()];
     brandPost.postScore = 1;
-    brandPost.references = [];
+    brandPost.sourceUrls = [];
     brandPost.reports = [];
     brandPost.relatedItems = [];
 
@@ -948,7 +948,7 @@ export class DataFactory {
     brandPost2.topics = [this.getValidBrandPostToTopic()];
     brandPost2.relatedItems = [];
     brandPost2.postScore = -1;
-    brandPost2.references = [];
+    brandPost2.sourceUrls = [];
     brandPost2.reports = [];
     brandPost2.relatedItems = [];
 
@@ -963,7 +963,7 @@ export class DataFactory {
     brandPost3.topics = [];
     brandPost3.relatedItems = [];
     brandPost3.postScore = 0;
-    brandPost3.references = [];
+    brandPost3.sourceUrls = [];
     brandPost3.reports = [];
     brandPost3.relatedItems = [];
 
@@ -988,7 +988,7 @@ export class DataFactory {
     brandPost1.relatedItems = [this.getValidBrandPostToItem()];
     brandPost1.votes = [this.getValidBrandPostUpvote()];
     brandPost1.postScore = 2;
-    brandPost1.references = [];
+    brandPost1.sourceUrls = [];
     brandPost1.reports = [];
     brandPost1.relatedItems = [];
 
@@ -1003,7 +1003,7 @@ export class DataFactory {
     brandPost2.relatedItems = [this.getValidBrandPostToItem()];
     brandPost2.votes = [this.getValidBrandPostUpvote()];
     brandPost2.postScore = 1;
-    brandPost2.references = [];
+    brandPost2.sourceUrls = [];
     brandPost2.reports = [];
     brandPost2.relatedItems = [];
 
@@ -1018,7 +1018,7 @@ export class DataFactory {
     brandPost3.relatedItems = [this.getValidBrandPostToItem()];
     brandPost3.votes = [this.getValidBrandPostUpvote()];
     brandPost3.postScore = 1;
-    brandPost3.references = [];
+    brandPost3.sourceUrls = [];
     brandPost3.reports = [];
     brandPost3.relatedItems = [];
 
@@ -1033,7 +1033,7 @@ export class DataFactory {
     brandPost4.relatedItems = [this.getValidBrandPostToItem()];
     brandPost4.votes = [this.getValidBrandPostUpvote()];
     brandPost4.postScore = 1;
-    brandPost4.references = [];
+    brandPost4.sourceUrls = [];
     brandPost4.reports = [];
     brandPost4.relatedItems = [];
 

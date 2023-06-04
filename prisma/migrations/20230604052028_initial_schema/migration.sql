@@ -5,6 +5,9 @@ CREATE TYPE "role_enum" AS ENUM ('USER', 'ADMIN');
 CREATE TYPE "report_status_enum" AS ENUM ('SUBMITTED', 'PENDING', 'RESOLVED');
 
 -- CreateEnum
+CREATE TYPE "report_result_enum" AS ENUM ('DELETED', 'EDITED', 'DISREGARDED');
+
+-- CreateEnum
 CREATE TYPE "vote_enum" AS ENUM ('UPVOTE', 'DOWNVOTE');
 
 -- CreateTable
@@ -16,6 +19,7 @@ CREATE TABLE "user" (
     "name" TEXT NOT NULL,
     "surname" TEXT NOT NULL,
     "refresh_token" TEXT,
+    "user_trust_score" DOUBLE PRECISION NOT NULL DEFAULT 0.5,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),
     "deleted_at" TIMESTAMP(3)
@@ -26,6 +30,9 @@ CREATE TABLE "topic" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "topic_id" INTEGER,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3),
+    "deleted_at" TIMESTAMP(3),
 
     CONSTRAINT "topic_pkey" PRIMARY KEY ("id")
 );
@@ -42,9 +49,11 @@ CREATE TABLE "user_to_role" (
 CREATE TABLE "item" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "brand_id" INTEGER NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "user_id" INTEGER NOT NULL,
+    "brand_id" INTEGER NOT NULL,
+    "image_url" TEXT,
+    "barcode" TEXT,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),
     "deleted_at" TIMESTAMP(3),
 
@@ -56,6 +65,7 @@ CREATE TABLE "brand" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "user_id" INTEGER NOT NULL,
+    "image_url" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3),
     "deleted_at" TIMESTAMP(3),
@@ -69,6 +79,7 @@ CREATE TABLE "report" (
     "report_reason" TEXT NOT NULL,
     "status" "report_status_enum" NOT NULL DEFAULT 'SUBMITTED',
     "comment" TEXT,
+    "report_result" "report_result_enum",
     "post_id" INTEGER NOT NULL,
     "resolved_by_id" INTEGER,
     "author_id" INTEGER NOT NULL,
@@ -79,11 +90,14 @@ CREATE TABLE "report" (
 -- CreateTable
 CREATE TABLE "brand_post" (
     "id" SERIAL NOT NULL,
+    "title" TEXT NOT NULL,
     "body" TEXT NOT NULL,
     "brand_id" INTEGER NOT NULL,
     "author_id" INTEGER NOT NULL,
+    "post_score" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "deleted_at" TIMESTAMP(3),
+    "source_urls" TEXT[],
 
     CONSTRAINT "brand_post_pkey" PRIMARY KEY ("id")
 );
@@ -115,22 +129,10 @@ CREATE TABLE "email" (
 );
 
 -- CreateTable
-CREATE TABLE "user_to_brand" (
-    "list_name" TEXT NOT NULL,
-    "user_id" INTEGER NOT NULL,
-    "brand_id" INTEGER NOT NULL
-);
-
--- CreateTable
 CREATE TABLE "topic_to_brand" (
+    "score" INTEGER NOT NULL DEFAULT 0,
     "topic_id" INTEGER NOT NULL,
     "brand_id" INTEGER NOT NULL
-);
-
--- CreateTable
-CREATE TABLE "user_to_topic" (
-    "user_id" INTEGER NOT NULL,
-    "topic_id" INTEGER NOT NULL
 );
 
 -- CreateTable
@@ -182,31 +184,25 @@ CREATE UNIQUE INDEX "user_to_role_name_key" ON "user_to_role"("name");
 CREATE UNIQUE INDEX "item_name_key" ON "item"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "item_barcode_key" ON "item"("barcode");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "brand_name_key" ON "brand"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "report_id_key" ON "report"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "report_post_id_key" ON "report"("post_id");
+CREATE UNIQUE INDEX "report_post_id_author_id_key" ON "report"("post_id", "author_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "report_author_id_key" ON "report"("author_id");
+CREATE UNIQUE INDEX "brand_post_body_key" ON "brand_post"("body");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "email_template_name_key" ON "email_template"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "user_to_brand_list_name_key" ON "user_to_brand"("list_name");
-
--- CreateIndex
-CREATE UNIQUE INDEX "user_to_brand_user_id_brand_id_key" ON "user_to_brand"("user_id", "brand_id");
-
--- CreateIndex
 CREATE UNIQUE INDEX "topic_to_brand_topic_id_brand_id_key" ON "topic_to_brand"("topic_id", "brand_id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "user_to_topic_user_id_topic_id_key" ON "user_to_topic"("user_id", "topic_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "role_to_user_user_id_role_id_key" ON "role_to_user"("user_id", "role_id");
@@ -251,22 +247,10 @@ ALTER TABLE "brand_post" ADD CONSTRAINT "brand_post_author_id_fkey" FOREIGN KEY 
 ALTER TABLE "email" ADD CONSTRAINT "email_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "user_to_brand" ADD CONSTRAINT "user_to_brand_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "user_to_brand" ADD CONSTRAINT "user_to_brand_brand_id_fkey" FOREIGN KEY ("brand_id") REFERENCES "brand"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "topic_to_brand" ADD CONSTRAINT "topic_to_brand_topic_id_fkey" FOREIGN KEY ("topic_id") REFERENCES "topic"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "topic_to_brand" ADD CONSTRAINT "topic_to_brand_brand_id_fkey" FOREIGN KEY ("brand_id") REFERENCES "brand"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "user_to_topic" ADD CONSTRAINT "user_to_topic_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "user_to_topic" ADD CONSTRAINT "user_to_topic_topic_id_fkey" FOREIGN KEY ("topic_id") REFERENCES "topic"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "role_to_user" ADD CONSTRAINT "role_to_user_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

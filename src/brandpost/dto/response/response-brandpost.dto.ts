@@ -27,7 +27,7 @@ export class ResponseBrandPostDto {
     type: Array<BrandPostReferenceEntity>,
     description: 'BrandPost References',
   })
-  references: BrandPostReferenceEntity[];
+  sourceUrls: string[];
 
   @ApiProperty({ type: Date, description: 'BrandPost Creation Date' })
   createdAt: Date;
