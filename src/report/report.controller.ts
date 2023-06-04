@@ -46,7 +46,6 @@ export class ReportController {
     @Query('result')
     result?: ReportResultEnum,
   ) {
-    console.log(status, result);
     const entities = await this.reportService.findAllFilteredBy(status, result);
     return ReportMapper.toResponseList(entities);
   }
