@@ -17,6 +17,7 @@ import { jwtConstants } from './constants';
 import { LoginRequestDto } from './dto/request/login-request.dto';
 import { JwtPayload } from './types/jwt-payload.types';
 import { Tokens } from './types/tokens.types';
+import UserInfoResponse from '../user/dto/response/user-info.response.dto';
 
 dotenv.config();
 @Injectable()
@@ -82,6 +83,22 @@ export class AuthService {
       },
     });
     return true;
+  }
+
+  async getUserInfo(userId: number) {
+    const user = await this.userService.findById(userId);
+    if (!user) {
+      throw new NotFoundException('User was not found');
+    }
+    let res = new UserInfoResponse();
+    res.name = user.name;
+    res.surname = user.surname;
+    res.username = user.username;
+    res.email = user.email;
+    res.userTrustScore = user.userTrustScore;
+    res.isAdmin = await this.isUserAdmin(userId);
+
+    return res;
   }
 
   async isUserAdmin(userId: number) {
@@ -223,7 +240,7 @@ export class AuthService {
       userId: user.id,
       username: user.username,
       email: user.email,
-      isAdmin: isAdmin ? true : false,
+      isAdmin: isAdmin,
       isLoggedIn: isLoggedIn,
     };
     return payload;
