@@ -24,6 +24,9 @@ export class TopicMapper {
     response.id = entity.id;
     response.name = entity.name;
     response.topicId = entity.topicId;
+    response.createdAt = entity.createdAt;
+    response.updatedAt = entity.updatedAt;
+    response.deletedAt = entity.deletedAt;
 
     return response;
   }
