@@ -176,6 +176,7 @@ model BrandPost {
   brandId      Int                @map("brand_id")
   authorId     Int                @map("author_id")
   postScore    Float              @default(0) @map("post_score")
+  sourceUrls   String[]           @map("source_urls")
   // ------ Timestamps ------
   createdAt    DateTime           @default(now()) @map("created_at")
   deletedAt    DateTime?          @map("deleted_at")
@@ -186,7 +187,6 @@ model BrandPost {
   topics       BrandPostToTopic[]
   relatedItems BrandPostToItem[]
   reports      Report[]
-  sourceUrls   String[]           @map("source_urls")
 
   @@map("brand_post")
 }

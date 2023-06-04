@@ -31,7 +31,7 @@ export class BrandPostReferenceEntity {
     description: 'The source url of the brand post reference',
     nullable: true,
   })
-  sourceUrl: string | null;
+  sourceUrls: string[];
 
   @ApiProperty({
     type: Date,
