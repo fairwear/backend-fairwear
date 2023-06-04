@@ -22,14 +22,7 @@ export class BrandPostService {
         createdAt: entity.createdAt,
         brandId: entity.brandId,
         authorId: entity.authorId,
-        references: {
-          createMany: {
-            data: entity.references.map((reference) => ({
-              ...reference,
-            })),
-          },
-        },
-
+        sourceUrls: entity.sourceUrls,
         topics: {
           create: entity.topics.map((topic) => ({
             topicId: topic.topicId,
@@ -70,7 +63,6 @@ export class BrandPostService {
             },
           },
         },
-        references: true,
       },
     });
 
@@ -125,7 +117,6 @@ export class BrandPostService {
             },
           },
         },
-        references: true,
       },
     });
 
@@ -165,7 +156,6 @@ export class BrandPostService {
             roles: true,
           },
         },
-        references: true,
       },
     });
     return this.sortPostsByScore(brandPosts);
@@ -204,7 +194,6 @@ export class BrandPostService {
             roles: true,
           },
         },
-        references: true,
       },
     });
 
@@ -259,7 +248,6 @@ export class BrandPostService {
             roles: true,
           },
         },
-        references: true,
       },
     });
 
@@ -381,7 +369,6 @@ export class BrandPostService {
             roles: true,
           },
         },
-        references: true,
       },
     });
 
@@ -455,7 +442,6 @@ export class BrandPostService {
         brand: true,
         topics: true,
         relatedItems: true,
-        references: true,
       },
     });
 

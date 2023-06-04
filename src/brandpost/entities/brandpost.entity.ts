@@ -1,16 +1,15 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  BrandPostToTopic,
-  BrandPostVote,
+  Brand,
   BrandPost,
   BrandPostToItem,
-  Brand,
+  BrandPostToTopic,
+  BrandPostVote,
 } from '@prisma/client';
 import { BrandEntity } from '../../brand/entities/brand.entity';
+import { ReportEntity } from '../../report/entities/report.entity';
 import { UserEntity } from '../../user/entities/user.entity';
 import { BrandPostVoteEntity } from './brandpost-vote.entity';
-import { ReportEntity } from '../../report/entities/report.entity';
-import { BrandPostReferenceEntity } from './brandpost-reference.entity.ts';
 
 export class BrandPostEntity {
   @ApiProperty({ type: Number, description: 'BrandPost ID' })
@@ -38,10 +37,10 @@ export class BrandPostEntity {
   postScore: number;
 
   @ApiProperty({
-    type: Array<BrandPostReferenceEntity>,
-    description: 'BrandPost References',
+    type: Array<string>,
+    description: 'BrandPost Reference source urls',
   })
-  references: BrandPostReferenceEntity[];
+  sourceUrls: string[];
 
   @ApiProperty({ type: BrandEntity, description: 'Brand Entity' })
   brand: BrandEntity | Brand;
