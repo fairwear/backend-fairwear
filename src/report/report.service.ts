@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { ReportEntity } from './entities/report.entity';
-import { ReportStatusEnum } from '@prisma/client';
+import { ReportResultEnum, ReportStatusEnum } from '@prisma/client';
 @Injectable()
 export class ReportService {
   constructor(
@@ -45,6 +45,27 @@ export class ReportService {
       },
     });
     return reports;
+  }
+
+  async findAllFilteredBy(
+    status?: ReportStatusEnum,
+    result?: ReportResultEnum,
+  ): Promise<ReportEntity[]> {
+    const filteredReports = await this.prisma.report.findMany({
+      where: {
+        AND: [{ status: status }, { reportResult: result }],
+      },
+      include: {
+        author: {
+          include: {
+            roles: true,
+          },
+        },
+        post: true,
+      },
+    });
+
+    return filteredReports;
   }
 
   async findById(id: number): Promise<ReportEntity> {
