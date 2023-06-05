@@ -646,7 +646,7 @@ export class DataFactory {
 
   public getValidBrand() {
     const brand: BrandEntity = new BrandEntity();
-    brand.name = 'Test name 1';
+    brand.name = 'Prada';
     brand.userId = 1;
     brand.createdAt = new Date('2021-01-01T00:00:00.000Z');
     brand.updatedAt = null;
@@ -654,6 +654,7 @@ export class DataFactory {
     brand.topics = [];
     brand.items = [];
     brand.posts = [];
+    brand.imageUrl = `http://${host}/api/v1/file/pradaLogo.png`;
 
     return brand;
   }
@@ -664,18 +665,20 @@ export class DataFactory {
     const brand1: BrandEntity = this.getValidBrand();
 
     const brand2: BrandEntity = new BrandEntity();
-    brand2.name = 'Test name 2';
+    brand2.name = 'Dior';
     brand2.userId = 2;
     brand2.createdAt = new Date('2021-02-01T00:00:00.000Z');
     brand2.updatedAt = new Date('2021-02-04T00:00:00.000Z');
     brand2.deletedAt = null;
+    brand2.imageUrl = `http://${host}/api/v1/file/diorLogo.jpg`;
 
     const brand3: BrandEntity = new BrandEntity();
-    brand3.name = 'Test name 3';
+    brand3.name = 'Givenchy';
     brand3.userId = 3;
     brand3.createdAt = new Date('2021-03-01T00:00:00.000Z');
     brand3.updatedAt = new Date('2021-03-04T00:00:00.000Z');
     brand3.deletedAt = new Date('2021-03-05T00:00:00.000Z');
+    brand3.imageUrl = `http://${host}/api/v1/file/givenchyLogo.png`;
 
     brandList.push(brand1);
     brandList.push(brand2);
@@ -690,32 +693,36 @@ export class DataFactory {
     const brand1: BrandEntity = this.getValidBrand();
 
     const brand2: BrandEntity = new BrandEntity();
-    brand2.name = 'Test name 2';
+    brand2.name = 'Jean-Paul Gaultier';
     brand2.userId = 2;
     brand2.createdAt = new Date('2021-02-01T00:00:00.000Z');
     brand2.updatedAt = new Date('2021-02-04T00:00:00.000Z');
     brand2.deletedAt = null;
+    brand2.imageUrl = `http://${host}/api/v1/file/jpGaultierLogo.jpg`;
 
     const brand3: BrandEntity = new BrandEntity();
-    brand3.name = 'Test name 3';
+    brand3.name = 'Uniqlo';
     brand3.userId = 3;
     brand3.createdAt = new Date('2021-03-01T00:00:00.000Z');
     brand3.updatedAt = new Date('2021-03-04T00:00:00.000Z');
     brand3.deletedAt = new Date('2021-03-05T00:00:00.000Z');
+    brand3.imageUrl = `http://${host}/api/v1/file/uniqloLogo.jpg`;
 
     const brand4: BrandEntity = new BrandEntity();
-    brand4.name = 'Test name 4';
+    brand4.name = 'Versace';
     brand4.userId = 4;
     brand4.createdAt = new Date('2021-04-01T00:00:00.000Z');
     brand4.updatedAt = new Date('2021-04-04T00:00:00.000Z');
     brand4.deletedAt = new Date('2021-04-05T00:00:00.000Z');
+    brand4.imageUrl = `http://${host}/api/v1/file/versaceLogo.jpg`;
 
     const brand5: BrandEntity = new BrandEntity();
-    brand5.name = 'Test name 5';
+    brand5.name = 'Profound';
     brand5.userId = 5;
     brand5.createdAt = new Date('2021-05-01T00:00:00.000Z');
     brand5.updatedAt = new Date('2021-05-04T00:00:00.000Z');
-    brand5.deletedAt = new Date('2021-05-05T00:00:00.000Z');
+    brand5.deletedAt = null;
+    brand5.imageUrl = `http://${host}/api/v1/file/profoundLogo.jpg`;
 
     const brand6: BrandEntity = new BrandEntity();
     brand6.name = 'H&M';
@@ -723,6 +730,7 @@ export class DataFactory {
     brand6.createdAt = new Date('2021-06-01T00:00:00.000Z');
     brand6.updatedAt = null;
     brand6.deletedAt = null;
+    brand6.imageUrl = `http://${host}/api/v1/file/hmLogo.jpg`;
 
     const brand7: BrandEntity = new BrandEntity();
     brand7.name = 'Zara';
@@ -730,6 +738,7 @@ export class DataFactory {
     brand7.createdAt = new Date('2021-07-01T00:00:00.000Z');
     brand7.updatedAt = null;
     brand7.deletedAt = new Date('2021-07-05T00:00:00.000Z');
+    brand7.imageUrl = `http://${host}/api/v1/file/zaraLogo.png`;
 
     const brand8: BrandEntity = new BrandEntity();
     brand8.name = 'Adidas';
@@ -737,6 +746,7 @@ export class DataFactory {
     brand8.createdAt = new Date('2021-08-01T00:00:00.000Z');
     brand8.updatedAt = new Date('2021-08-04T00:00:00.000Z');
     brand8.deletedAt = null;
+    brand8.imageUrl = `http://${host}/api/v1/file/adidasLogo.jpeg`;
 
     const brand9: BrandEntity = new BrandEntity();
     brand9.name = 'Nike';
@@ -744,6 +754,7 @@ export class DataFactory {
     brand9.createdAt = new Date('2021-09-01T00:00:00.000Z');
     brand9.updatedAt = null;
     brand9.deletedAt = null;
+    brand9.imageUrl = `http://${host}/api/v1/file/nikeLogo.jpg`;
 
     const brand10: BrandEntity = new BrandEntity();
     brand10.name = 'Puma';
@@ -751,6 +762,7 @@ export class DataFactory {
     brand10.createdAt = new Date('2021-10-01T00:00:00.000Z');
     brand10.updatedAt = null;
     brand10.deletedAt = null;
+    brand10.imageUrl = `http://${host}/api/v1/file/pumaLogo.jpg`;
 
     const brand11: BrandEntity = new BrandEntity();
     brand11.name = 'Reebok';
@@ -758,6 +770,7 @@ export class DataFactory {
     brand11.createdAt = new Date('2021-11-01T00:00:00.000Z');
     brand11.updatedAt = null;
     brand11.deletedAt = null;
+    brand11.imageUrl = `http://${host}/api/v1/file/reebokLogo.png`;
 
     brandList.push(brand1);
     brandList.push(brand2);
