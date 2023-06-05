@@ -44,6 +44,9 @@ COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modul
 # Copy the source code
 COPY --chown=node:node . .
 
+# Copy the uploads folder
+COPY --chown=node:node --from=development /usr/src/app/src/uploads ./src/uploads/
+
 # Generate the prisma client
 RUN npx prisma generate
 
@@ -64,6 +67,8 @@ FROM node:18-alpine As production
 
 # Copy the bundled code from the build stage to the production image
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
+COPY --chown=node:node --from=build /usr/src/app/src/uploads ./
+COPY --chown=node:node --from=build /usr/src/app/src/uploads ./src/uploads/
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/package*.json ./
 COPY --chown=node:node --from=build /usr/src/app/prisma ./prisma
