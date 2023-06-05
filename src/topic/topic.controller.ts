@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -35,6 +36,20 @@ export class TopicController {
   @Get()
   async findAll() {
     const entities = await this.topicService.findAll();
+    return TopicMapper.toResponseList(entities);
+  }
+
+  @Get('filter')
+  async findAllFilteredBy(
+    @Query('search') search?: string,
+    @Query('isSubtopic') isSubtopic?: boolean,
+    @Query('isDeleted') isDeleted?: boolean,
+  ) {
+    const entities = await this.topicService.findAllFilteredBy(
+      search,
+      isSubtopic,
+      isDeleted,
+    );
     return TopicMapper.toResponseList(entities);
   }
 

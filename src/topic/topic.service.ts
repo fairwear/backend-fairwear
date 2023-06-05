@@ -3,6 +3,7 @@ import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTopicDto } from './dto/request/create-topic.dto';
 import { UpdateTopicDto } from './dto/request/update-topic.dto';
+import { TopicResponse } from './dto/response/response-topic.dto';
 
 @Injectable()
 export class TopicService {
@@ -31,6 +32,43 @@ export class TopicService {
 
   async findAll() {
     const topics = await this.prisma.topic.findMany();
+    return topics;
+  }
+
+  async findAllFilteredBy(
+    search?: string,
+    isSubtopic?: boolean,
+    isDeleted?: boolean,
+  ): Promise<TopicResponse[]> {
+    const topics = await this.prisma.topic.findMany({
+      where: {
+        AND: [
+          {
+            name: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+          {
+            topicId: isSubtopic
+              ? {
+                  not: null,
+                }
+              : null,
+          },
+          {
+            deletedAt: isDeleted
+              ? {
+                  not: null,
+                }
+              : null,
+          },
+        ],
+      },
+      include: {
+        brands: true,
+      },
+    });
     return topics;
   }
 
