@@ -14,10 +14,12 @@ import { UserEntity } from '../../src/user/entities/user.entity';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
-const host =
-  process.env.NODE_ENV === 'production'
-    ? '193.219.91.103:5249'
-    : 'localhost:8080';
+
+// Development
+// const host = 'localhost:8080';
+
+// Production
+const host = '193.219.91.103:5249';
 
 export class DataFactory {
   public static instance: DataFactory;
@@ -411,6 +413,7 @@ export class DataFactory {
     item2.brandId = 2;
     item2.userId = 2;
     item2.imageUrl = `http://${host}/api/v1/file/tshirt-2.jpg`;
+    // item2.imageUrl = `http://${host}/api/v1/file/tshirt-2.jpg`;
     item2.barcode = '146332402866';
     item2.createdAt = new Date('2021-02-01T00:00:00.000Z');
     item2.updatedAt = new Date('2021-02-04T00:00:00.000Z');
@@ -422,6 +425,7 @@ export class DataFactory {
     item3.userId = 3;
     item3.barcode = '232439373613';
     item3.imageUrl = `http://${host}/api/v1/file/jeans-3.jpg`;
+    // item3.imageUrl = `http://${host}/api/v1/file/jeans-3.jpg`;
     item3.createdAt = new Date('2021-03-01T00:00:00.000Z');
     item3.updatedAt = new Date('2021-03-04T00:00:00.000Z');
     item3.deletedAt = new Date('2021-03-05T00:00:00.000Z');
@@ -432,6 +436,7 @@ export class DataFactory {
     item4.userId = 4;
     item4.barcode = '203889834741';
     item4.imageUrl = `http://${host}/api/v1/file/long-sleeve-shirt-4.jpg`;
+    // item4.imageUrl = `http://${host}/api/v1/file/long-sleeve-shirt-4.jpg`;
     item4.createdAt = new Date('2021-04-01T00:00:00.000Z');
     item4.updatedAt = new Date('2021-04-04T00:00:00.000Z');
     item4.deletedAt = null;
@@ -442,9 +447,10 @@ export class DataFactory {
     item5.userId = 5;
     item5.barcode = '566629454850';
     item5.imageUrl = `http://${host}/api/v1/file/short-sleeve-shirt-5.jpg`;
+    // item5.imageUrl = `http://${host}/api/v1/file/short-sleeve-shirt-5.jpg`;
     item5.createdAt = new Date('2021-05-01T00:00:00.000Z');
     item5.updatedAt = new Date('2021-05-04T00:00:00.000Z');
-    item5.deletedAt = new Date('2021-05-05T00:00:00.000Z');
+    item4.deletedAt = null;
 
     const item6: ItemEntity = new ItemEntity();
     item6.name = 'Sweater';
@@ -452,6 +458,7 @@ export class DataFactory {
     item6.userId = 6;
     item6.barcode = '350535488552';
     item6.imageUrl = `http://${host}/api/v1/file/sweater-6.jpg`;
+    // item6.imageUrl = `http://${host}/api/v1/file/sweater-6.jpg`;
     item6.createdAt = new Date('2021-06-01T00:00:00.000Z');
     item6.updatedAt = new Date('2021-06-04T00:00:00.000Z');
     item6.deletedAt = null;
@@ -462,6 +469,7 @@ export class DataFactory {
     item7.userId = 7;
     item7.barcode = '725591414537';
     item7.imageUrl = `http://${host}/api/v1/file/hoodie-7.jpg`;
+    // item7.imageUrl = `http://${host}/api/v1/file/hoodie-7.jpg`;
     item7.createdAt = new Date('2021-07-01T00:00:00.000Z');
     item7.updatedAt = null;
     item7.deletedAt = null;
@@ -472,6 +480,7 @@ export class DataFactory {
     item8.userId = 8;
     item8.barcode = '847972154645';
     item8.imageUrl = `http://${host}/api/v1/file/jacket-8.jpg`;
+    // item8.imageUrl = `http://${host}/api/v1/file/jacket-8.jpg`;
     item8.createdAt = new Date('2021-08-01T00:00:00.000Z');
     item8.updatedAt = null;
     item8.deletedAt = new Date('2021-08-05T00:00:00.000Z');
@@ -482,6 +491,7 @@ export class DataFactory {
     item9.userId = 7;
     item9.barcode = '828639082163';
     item9.imageUrl = `http://${host}/api/v1/file/coat-9.jpg`;
+    // item9.imageUrl = `http://${host}/api/v1/file/coat-9.jpg`;
     item9.createdAt = new Date('2021-09-01T00:00:00.000Z');
     item9.updatedAt = null;
     item9.deletedAt = null;
@@ -492,9 +502,10 @@ export class DataFactory {
     item10.userId = 8;
     item10.barcode = '371315668986';
     item10.imageUrl = `http://${host}/api/v1/file/sweatpants-10.jpg`;
+    // item10.imageUrl = `http://${host}/api/v1/file/sweatpants-10.jpg`;
     item10.createdAt = new Date('2021-10-01T00:00:00.000Z');
     item10.updatedAt = null;
-    item10.deletedAt = new Date('2021-10-05T00:00:00.000Z');
+    item10.deletedAt = null;
 
     const item11: ItemEntity = new ItemEntity();
     item11.name = 'Shorts';
@@ -502,6 +513,7 @@ export class DataFactory {
     item11.userId = 9;
     item11.barcode = '481516514648';
     item11.imageUrl = `http://${host}/api/v1/file/shorts-11.jpg`;
+    // item11.imageUrl = `http://${host}/api/v1/file/shorts-11.jpg`;
     item11.createdAt = new Date('2021-11-01T00:00:00.000Z');
     item11.updatedAt = new Date('2021-11-04T00:00:00.000Z');
     item11.deletedAt = null;
@@ -512,9 +524,10 @@ export class DataFactory {
     item12.userId = 10;
     item12.barcode = '242566868966';
     item12.imageUrl = `http://${host}/api/v1/file/midi-skirt-12.jpg`;
+    // item12.imageUrl = `http://${host}/api/v1/file/midi-skirt-12.jpg`;
     item12.createdAt = new Date('2021-12-01T00:00:00.000Z');
     item12.updatedAt = new Date('2021-12-04T00:00:00.000Z');
-    item12.deletedAt = new Date('2021-12-05T00:00:00.000Z');
+    item12.deletedAt = null;
 
     const item13: ItemEntity = new ItemEntity();
     item13.name = 'Mini Dress';
@@ -522,6 +535,7 @@ export class DataFactory {
     item13.userId = 5;
     item13.barcode = '145601646873';
     item13.imageUrl = `http://${host}/api/v1/file/mini-dress-13.jpg`;
+    // item13.imageUrl = `http://${host}/api/v1/file/mini-dress-13.jpg`;
     item13.createdAt = new Date('2022-01-01T00:00:00.000Z');
     item13.updatedAt = new Date('2022-01-04T00:00:00.000Z');
     item13.deletedAt = null;
@@ -532,6 +546,7 @@ export class DataFactory {
     item14.userId = 6;
     item14.barcode = '027032219222';
     item14.imageUrl = `http://${host}/api/v1/file/maxi-dress-14.jpg`;
+    // item14.imageUrl = `http://${host}/api/v1/file/maxi-dress-14.jpg`;
     item14.createdAt = new Date('2022-02-01T00:00:00.000Z');
     item14.updatedAt = null;
     item14.deletedAt = null;
@@ -542,6 +557,7 @@ export class DataFactory {
     item15.userId = 7;
     item15.barcode = '512640585674';
     item15.imageUrl = `http://${host}/api/v1/file/polo-shirt-15.jpg`;
+    // item15.imageUrl = `http://${host}/api/v1/file/polo-shirt-15.jpg`;
     item15.createdAt = new Date('2022-03-01T00:00:00.000Z');
     item15.updatedAt = null;
     item15.deletedAt = new Date('2022-03-05T00:00:00.000Z');
@@ -552,6 +568,7 @@ export class DataFactory {
     item16.userId = 8;
     item16.barcode = '557829049366';
     item16.imageUrl = `http://${host}/api/v1/file/t-shirt-16.jpg`;
+    // item16.imageUrl = `http://${host}/api/v1/file/t-shirt-16.jpg`;
     item16.createdAt = new Date('2022-04-01T00:00:00.000Z');
     item16.updatedAt = null;
     item16.deletedAt = null;
@@ -562,6 +579,7 @@ export class DataFactory {
     item17.userId = 9;
     item17.barcode = '538063722540';
     item17.imageUrl = `http://${host}/api/v1/file/pleated-pants-17.avif`;
+    // item17.imageUrl = `http://${host}/api/v1/file/pleated-pants-17.avif`;
     item17.createdAt = new Date('2022-05-01T00:00:00.000Z');
     item17.updatedAt = new Date('2022-05-04T00:00:00.000Z');
     item17.deletedAt = null;
@@ -572,6 +590,7 @@ export class DataFactory {
     item18.userId = 10;
     item18.barcode = '543779105184';
     item18.imageUrl = `http://${host}/api/v1/file/puffer-jacket-18.webp`;
+    // item18.imageUrl = `http://${host}/api/v1/file/puffer-jacket-18.webp`;
     item18.createdAt = new Date('2022-06-01T00:00:00.000Z');
     item18.updatedAt = new Date('2022-06-04T00:00:00.000Z');
     item18.deletedAt = new Date('2022-06-05T00:00:00.000Z');
@@ -582,6 +601,7 @@ export class DataFactory {
     item19.userId = 5;
     item19.barcode = '199088571753';
     item19.imageUrl = `http://${host}/api/v1/file/bomber-jacket-19.jpg`;
+    // item19.imageUrl = `http://${host}/api/v1/file/bomber-jacket-19.jpg`;
     item19.createdAt = new Date('2022-07-01T00:00:00.000Z');
     item19.updatedAt = null;
     item19.deletedAt = null;
@@ -592,6 +612,7 @@ export class DataFactory {
     item20.userId = 6;
     item20.barcode = '706057714514';
     item20.imageUrl = `http://${host}/api/v1/file/mock-neck-sweater-20.webp`;
+    // item20.imageUrl = `http://${host}/api/v1/file/mock-neck-sweater-20.webp`;
     item20.createdAt = new Date('2022-08-01T00:00:00.000Z');
     item20.updatedAt = null;
     item20.deletedAt = new Date('2022-08-05T00:00:00.000Z');
@@ -602,6 +623,7 @@ export class DataFactory {
     item21.userId = 4;
     item21.barcode = '211827623985';
     item21.imageUrl = `http://${host}/api/v1/file/crew-neck-sweater-21.jpg`;
+    // item21.imageUrl = `http://${host}/api/v1/file/crew-neck-sweater-21.jpg`;
     item21.createdAt = new Date('2022-09-01T00:00:00.000Z');
     item21.updatedAt = new Date('2022-09-04T00:00:00.000Z');
     item21.deletedAt = null;
@@ -612,6 +634,7 @@ export class DataFactory {
     item22.userId = 5;
     item22.barcode = '302797356106';
     item22.imageUrl = `http://${host}/api/v1/file/turtleneck-sweater-22.jpg`;
+    // item22.imageUrl = `http://${host}/api/v1/file/turtleneck-sweater-22.jpg`;
     item22.createdAt = new Date('2022-10-01T00:00:00.000Z');
     item22.updatedAt = null;
     item22.deletedAt = null;

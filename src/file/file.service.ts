@@ -19,6 +19,7 @@ export class FileService {
   uploadFile(file: Express.Multer.File, host: string) {
     const protocol = process.env.SECURE ? 'https' : 'http';
     console.log(file);
+    console.log(host);
     const response = {
       filename: file.filename,
       url: `${protocol}://${host}/api/v1/file/${file.filename}`,

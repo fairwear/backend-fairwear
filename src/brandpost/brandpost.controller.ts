@@ -9,14 +9,14 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import GetCurrentUserId from '../auth/decorators/get-current-user-id.decorator';
+import Public from '../auth/decorators/public.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { BrandPostService } from './brandpost.service';
 import { CreateBrandPostDto } from './dto/request/create-brandpost.dto';
 import { BrandPostVoteEntry } from './dto/request/entry/brandpost-vote.dto';
-import { BrandPostMapper } from './mapper/brandpost.mapper';
 import { BrandPostVoteResponseDto } from './dto/response/brandpost-vote-response.dto';
 import { ResponseBrandPostDto } from './dto/response/response-brandpost.dto';
-import { VoteEnum } from '@prisma/client';
+import { BrandPostMapper } from './mapper/brandpost.mapper';
 
 @ApiTags('BrandPost')
 @Controller('api/v1/brandpost')
@@ -53,6 +53,16 @@ export class BrandPostController {
     return BrandPostMapper.toResponse(entity);
   }
 
+  @Public()
+  @Get('brand/:brandId')
+  async findAllByBrandId(
+    @Param('brandId')
+    brandId: number,
+  ): Promise<ResponseBrandPostDto[]> {
+    const entities = await this.brandpostService.findAllByBrandId(brandId);
+    return BrandPostMapper.toResponseList(entities);
+  }
+
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   async delete(
@@ -85,11 +95,17 @@ export class BrandPostController {
   async getIsVoted(
     @GetCurrentUserId() userId: number,
     @Param('id') id: string,
-  ): Promise<{
-    isVoted: boolean;
-    vote: VoteEnum | undefined;
-  }> {
-    const isVoted = await this.brandpostService.getIsVoted(+id, userId);
-    return isVoted;
+  ) {
+    try {
+      const isVoted = await this.brandpostService.getIsVoted(+id, userId);
+      return isVoted;
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
+
+// : Promise<{
+//   isVoted: boolean;
+//   vote: VoteEnum | undefined;
+// }>

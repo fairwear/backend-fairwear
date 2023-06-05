@@ -42,7 +42,10 @@ export class FileController {
     @Headers() headers: any,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const response = this.fileService.uploadFile(file, headers.host);
+    const prodHost = '193.219.91.103:5249';
+    // this is for development
+    // const response = this.fileService.uploadFile(file, headers.host);
+    const response = this.fileService.uploadFile(file, prodHost);
     return response;
   }
 
