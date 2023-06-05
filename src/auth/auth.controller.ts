@@ -13,6 +13,7 @@ import { AuthService } from './auth.service';
 import GetCurrentUserId from './decorators/get-current-user-id.decorator';
 import GetCurrentUser from './decorators/get-current-user.decorator';
 import Public from './decorators/public.decorator';
+import { JwtAuthGuard } from './guards/jwt.guard';
 import { LocalAuthGuard } from './guards/local.guard';
 import RefreshTokenGuard from './guards/refresh-token.guard';
 import { SignUpGuard } from './guards/signup.guard';
@@ -37,9 +38,12 @@ export class AuthController {
   }
 
   @Get('profile')
+  @Public()
+  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
-  async getProfile(@Req() request: Request) {
-    return request.user;
+  async getProfile(@GetCurrentUserId() userId: number) {
+    const userInfoResponse = await this.authService.getUserInfo(userId);
+    return userInfoResponse;
   }
 
   @Post('logout')

@@ -107,7 +107,12 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "brandpost/**/*.service.(t|j)s",
+      "topic/**/*.service.(t|j)s",
+      "user/**/*.service.(t|j)s",
+      "user-role/**/*.service.(t|j)s",
+      "item/**/*.service.(t|j)s",
+      "report/**/*.service.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"

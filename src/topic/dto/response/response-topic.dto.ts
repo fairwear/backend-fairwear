@@ -13,4 +13,13 @@ export class TopicResponse {
 
   @ApiProperty({ nullable: true })
   brands: TopicToBrand[];
+
+  @ApiProperty({ type: Date })
+  createdAt: Date;
+
+  @ApiPropertyOptional({ type: Date })
+  updatedAt: Date | null;
+
+  @ApiPropertyOptional({ type: Date })
+  deletedAt: Date | null;
 }

@@ -37,7 +37,8 @@ enum ReportStatusEnum {
 enum ReportResultEnum {
   DELETED
   EDITED
-  DISREGARDED
+  NO_ACTION
+  REOPENED
 
   @@map("report_result_enum")
 }
