@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { VoteEnum } from '@prisma/client';
 import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { BrandPostVoteEntry } from './dto/request/entry/brandpost-vote.dto';
 import { BrandPostEntity } from './entities/brandpost.entity';
-import { VoteEnum } from '@prisma/client';
 
 const REPORT_PENALTY_WEIGHT = 0.2;
 const CONFIDENCE_LEVEL = 1.96;
@@ -198,6 +198,50 @@ export class BrandPostService {
     });
 
     return entity;
+  }
+
+  async findAllByBrandId(brandId: number): Promise<BrandPostEntity[]> {
+    const brandPosts = await this.prisma.brandPost.findMany({
+      include: {
+        topics: true,
+        relatedItems: true,
+        votes: {
+          include: {
+            user: {
+              include: {
+                roles: true,
+              },
+            },
+          },
+        },
+        brand: true,
+        reports: {
+          include: {
+            post: true,
+            author: {
+              include: {
+                roles: true,
+              },
+            },
+          },
+        },
+        author: {
+          include: {
+            roles: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      where: {
+        brand: {
+          id: +brandId,
+        },
+      },
+    });
+
+    return this.sortPostsByScore(brandPosts);
   }
 
   async softDelete(id: number, userId: number): Promise<BrandPostEntity> {
