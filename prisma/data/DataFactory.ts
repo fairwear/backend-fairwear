@@ -14,15 +14,12 @@ import { UserEntity } from '../../src/user/entities/user.entity';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
-const host =
-  process.env.NODE_ENV === 'production'
-    ? '193.219.91.103:5249'
-    : 'localhost:8080';
 
-const local = 'localhost:8080';
-const dockerContainer = 'db-fairwear:5432';
-const backend = 'fairwear-backend:8080';
-const production = '193.219.91.103:5249';
+// Development
+// const host = 'localhost:8080';
+
+// Production
+const host = '193.219.91.103:5249';
 
 export class DataFactory {
   public static instance: DataFactory;
@@ -415,7 +412,7 @@ export class DataFactory {
     item2.name = 'T-shirt';
     item2.brandId = 2;
     item2.userId = 2;
-    item2.imageUrl = `http://${local}/api/v1/file/tshirt-2.jpg`;
+    item2.imageUrl = `http://${host}/api/v1/file/tshirt-2.jpg`;
     // item2.imageUrl = `http://${host}/api/v1/file/tshirt-2.jpg`;
     item2.barcode = '146332402866';
     item2.createdAt = new Date('2021-02-01T00:00:00.000Z');
@@ -424,10 +421,10 @@ export class DataFactory {
 
     const item3: ItemEntity = new ItemEntity();
     item3.name = 'Jeans';
-    item3.brandId = 2;
+    item3.brandId = 3;
     item3.userId = 3;
     item3.barcode = '232439373613';
-    item3.imageUrl = `http://${dockerContainer}/api/v1/file/jeans-3.jpg`;
+    item3.imageUrl = `http://${host}/api/v1/file/jeans-3.jpg`;
     // item3.imageUrl = `http://${host}/api/v1/file/jeans-3.jpg`;
     item3.createdAt = new Date('2021-03-01T00:00:00.000Z');
     item3.updatedAt = new Date('2021-03-04T00:00:00.000Z');
@@ -435,10 +432,10 @@ export class DataFactory {
 
     const item4: ItemEntity = new ItemEntity();
     item4.name = 'Long sleeve shirt';
-    item4.brandId = 2;
+    item4.brandId = 4;
     item4.userId = 4;
     item4.barcode = '203889834741';
-    item4.imageUrl = `http://${production}/api/v1/file/long-sleeve-shirt-4.jpg`;
+    item4.imageUrl = `http://${host}/api/v1/file/long-sleeve-shirt-4.jpg`;
     // item4.imageUrl = `http://${host}/api/v1/file/long-sleeve-shirt-4.jpg`;
     item4.createdAt = new Date('2021-04-01T00:00:00.000Z');
     item4.updatedAt = new Date('2021-04-04T00:00:00.000Z');
@@ -446,14 +443,14 @@ export class DataFactory {
 
     const item5: ItemEntity = new ItemEntity();
     item5.name = 'Short sleeve shirt';
-    item5.brandId = 2;
+    item5.brandId = 5;
     item5.userId = 5;
     item5.barcode = '566629454850';
-    item5.imageUrl = `http://${backend}/api/v1/file/short-sleeve-shirt-5.jpg`;
+    item5.imageUrl = `http://${host}/api/v1/file/short-sleeve-shirt-5.jpg`;
     // item5.imageUrl = `http://${host}/api/v1/file/short-sleeve-shirt-5.jpg`;
     item5.createdAt = new Date('2021-05-01T00:00:00.000Z');
     item5.updatedAt = new Date('2021-05-04T00:00:00.000Z');
-    item5.deletedAt = new Date('2021-05-05T00:00:00.000Z');
+    item4.deletedAt = null;
 
     const item6: ItemEntity = new ItemEntity();
     item6.name = 'Sweater';
@@ -508,7 +505,7 @@ export class DataFactory {
     // item10.imageUrl = `http://${host}/api/v1/file/sweatpants-10.jpg`;
     item10.createdAt = new Date('2021-10-01T00:00:00.000Z');
     item10.updatedAt = null;
-    item10.deletedAt = new Date('2021-10-05T00:00:00.000Z');
+    item10.deletedAt = null;
 
     const item11: ItemEntity = new ItemEntity();
     item11.name = 'Shorts';
@@ -530,7 +527,7 @@ export class DataFactory {
     // item12.imageUrl = `http://${host}/api/v1/file/midi-skirt-12.jpg`;
     item12.createdAt = new Date('2021-12-01T00:00:00.000Z');
     item12.updatedAt = new Date('2021-12-04T00:00:00.000Z');
-    item12.deletedAt = new Date('2021-12-05T00:00:00.000Z');
+    item12.deletedAt = null;
 
     const item13: ItemEntity = new ItemEntity();
     item13.name = 'Mini Dress';
