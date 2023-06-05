@@ -3,6 +3,7 @@ import { UserEntity } from 'src/user/entities/user.entity';
 import { DataFactory } from './data/DataFactory';
 import { BrandPostEntity } from '../src/brandpost/entities/brandpost.entity';
 import { ItemEntity } from '../src/item/entity/item-entity';
+import { BrandEntity } from '../src/brand/entities/brand.entity';
 
 export const prisma = new PrismaClient();
 const dataFactory: DataFactory = DataFactory.getInstance();
@@ -186,12 +187,13 @@ export const main = async () => {
 
   await Promise.all(res1);
   const brands = dataFactory.getBrandsSeed();
-  brands.forEach(async (brand: { name: any; userId: any; createdAt: any }) => {
+  brands.forEach(async (brand: BrandEntity) => {
     await prisma.brand.upsert({
       where: { name: brand.name },
       update: {},
       create: {
         name: brand.name,
+        imageUrl: brand.imageUrl,
         createdBy: {
           connect: {
             id: brand.userId,

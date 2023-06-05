@@ -63,6 +63,15 @@ export class BrandPostController {
     return BrandPostMapper.toResponseList(entities);
   }
 
+  @Get('owner/:postId')
+  @UseGuards(JwtAuthGuard)
+  async isTheUserPostOwner(
+    @Param('postId') postId: string,
+    @GetCurrentUserId() userId: number,
+  ): Promise<boolean> {
+    return this.brandpostService.isTheUserPostOwner(+postId, userId);
+  }
+
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   async delete(

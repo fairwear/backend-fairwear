@@ -5,8 +5,8 @@ import { PrismaService } from '../prisma/prisma.service';
 import { BrandPostVoteEntry } from './dto/request/entry/brandpost-vote.dto';
 import { BrandPostEntity } from './entities/brandpost.entity';
 
-const REPORT_PENALTY_WEIGHT = 0.2;
-const CONFIDENCE_LEVEL = 1.96;
+const REPORT_PENALTY_WEIGHT = 0.5;
+const CONFIDENCE_LEVEL = 1.95;
 
 @Injectable()
 export class BrandPostService {
@@ -198,6 +198,17 @@ export class BrandPostService {
     });
 
     return entity;
+  }
+
+  async isTheUserPostOwner(postId: number, userId: number): Promise<boolean> {
+    console.log(postId, userId);
+    const entity = await this.prisma.brandPost.findFirst({
+      where: {
+        AND: [{ id: postId }, { authorId: userId }],
+      },
+    });
+
+    return !!entity;
   }
 
   async findAllByBrandId(brandId: number): Promise<BrandPostEntity[]> {
